@@ -1,10 +1,10 @@
 /**
  * ThreeScene.js - Plus X 15th Anniversary WebGL Engine
  * Single unified 3D OBJ model with:
- * - Proper Box3 collective center alignment (keeps all sub-parts intact as one unified piece)
- * - Balanced, proportional viewport scaling
+ * - Proper Box3 collective center alignment
+ * - Accurate theme detection on init (platinum white on dark theme, sculpted charcoal on light)
  * - 3-Point Studio Lighting (Key, Fill, Rim & Ambient)
- * - Scroll-tied momentum lerp physics & mouse parallax
+ * - Real-time scroll momentum lerp physics & mouse parallax
  */
 
 class PlusX3DScene {
@@ -33,7 +33,10 @@ class PlusX3DScene {
 
     this.isMobile = window.innerWidth < 1025;
     this.isPlaying = true;
-    this.currentTheme = 'light';
+
+    // Detect initial theme from document body
+    const bodyTheme = document.body.getAttribute('data-theme') || 'dark';
+    this.currentTheme = bodyTheme;
 
     this.modelRot = { currentX: 0, currentY: 0, currentZ: 0, targetX: 0, targetY: 0, targetZ: 0, autoY: 0 };
 
@@ -44,8 +47,10 @@ class PlusX3DScene {
     // 1. Scene setup
     this.scene = new THREE.Scene();
 
-    // 2. Depth Fog
-    this.fog = new THREE.Fog(0xffffff, 70, 110);
+    // 2. Depth Fog based on initial theme
+    const isDark = this.currentTheme === 'dark';
+    const initialFogColor = isDark ? 0x000000 : 0xffffff;
+    this.fog = new THREE.Fog(initialFogColor, 60, 110);
     this.scene.fog = this.fog;
 
     // 3. Perspective Camera
@@ -59,18 +64,18 @@ class PlusX3DScene {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = isDark ? 1.25 : 1.15;
     this.renderer.domElement.style.position = 'fixed';
     this.renderer.domElement.style.top = '0';
     this.renderer.domElement.style.left = '0';
     this.renderer.domElement.style.width = '100vw';
     this.renderer.domElement.style.height = '100vh';
     this.renderer.domElement.style.pointerEvents = 'none';
-    this.renderer.domElement.style.zIndex = '0';
+    this.renderer.domElement.style.zIndex = '1';
     this.container.appendChild(this.renderer.domElement);
 
     // 5. Studio Multi-Point Lighting System
-    this.setupLighting();
+    this.setupLighting(isDark);
 
     // 6. Create Pivot Group for 3D Model
     this.modelGroup = new THREE.Group();
@@ -78,7 +83,7 @@ class PlusX3DScene {
     this.scene.add(this.modelGroup);
 
     // 7. Load Custom OBJ Model
-    this.loadObjModel();
+    this.loadObjModel(isDark);
 
     // 8. Event Listeners
     window.addEventListener('resize', this.onResize.bind(this));
@@ -89,31 +94,35 @@ class PlusX3DScene {
     this.render();
   }
 
-  setupLighting() {
-    // Ambient light for base illumination
-    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+  setupLighting(isDark) {
+    // Ambient light
+    this.ambientLight = new THREE.AmbientLight(0xffffff, isDark ? 0.55 : 0.7);
     this.scene.add(this.ambientLight);
 
     // Key Light (Main top-right highlight)
-    this.keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
+    this.keyLight = new THREE.DirectionalLight(0xffffff, isDark ? 2.2 : 1.6);
     this.keyLight.position.set(25, 35, 40);
     this.scene.add(this.keyLight);
 
     // Fill Light (Soft bottom-left fill)
-    this.fillLight = new THREE.DirectionalLight(0xffffff, 0.75);
+    this.fillLight = new THREE.DirectionalLight(0xffffff, isDark ? 1.0 : 0.75);
     this.fillLight.position.set(-25, -20, 25);
     this.scene.add(this.fillLight);
 
     // Rim Light (Contour backlight from behind)
-    this.rimLight = new THREE.DirectionalLight(0xffffff, 1.3);
+    this.rimLight = new THREE.DirectionalLight(0xffffff, isDark ? 1.8 : 1.3);
     this.rimLight.position.set(0, 25, -35);
     this.scene.add(this.rimLight);
   }
 
-  loadObjModel() {
+  loadObjModel(isDark) {
+    const initialMatColor = isDark ? 0xf0f0f0 : 0x141414;
+    const initialRoughness = isDark ? 0.25 : 0.38;
+    const initialMetalness = isDark ? 0.3 : 0.15;
+
     if (typeof THREE.OBJLoader === 'undefined') {
       console.warn('THREE.OBJLoader not available, creating fallback geometry');
-      this.createFallbackModel();
+      this.createFallbackModel(initialMatColor, initialRoughness, initialMetalness);
       return;
     }
 
@@ -121,15 +130,14 @@ class PlusX3DScene {
     loader.load(
       './3d/imgi_1_default.obj',
       (object) => {
-        // Material definition
         const mat = new THREE.MeshStandardMaterial({
-          color: 0x141414,
-          roughness: 0.38,
-          metalness: 0.15,
+          color: initialMatColor,
+          roughness: initialRoughness,
+          metalness: initialMetalness,
           side: THREE.DoubleSide
         });
 
-        // Compute vertex normals for smooth specular reflections without moving individual meshes
+        // Compute vertex normals for smooth specular reflections
         object.traverse((child) => {
           if (child.isMesh) {
             if (child.geometry) {
@@ -141,7 +149,7 @@ class PlusX3DScene {
           }
         });
 
-        // Compute collective bounding box of the entire combined object
+        // Collective bounding box of the entire combined object
         const box = new THREE.Box3().setFromObject(object);
         const center = new THREE.Vector3();
         box.getCenter(center);
@@ -153,7 +161,7 @@ class PlusX3DScene {
         object.position.y = -center.y;
         object.position.z = -center.z;
 
-        // Proportional scale: target diameter ~ 6.5 to 7.2 units
+        // Proportional scale: target diameter ~ 6.8 units
         const maxDim = Math.max(size.x, size.y, size.z);
         const targetSize = this.isMobile ? 5.2 : 6.8;
         const scale = targetSize / maxDim;
@@ -162,24 +170,22 @@ class PlusX3DScene {
         this.loadedObject = object;
         this.modelGroup.add(object);
 
-        console.log('✅ 3D OBJ model loaded as a single piece with correct scale & center!');
+        console.log('✅ 3D OBJ model loaded successfully behind hero!');
       },
-      (xhr) => {
-        // Progress
-      },
+      (xhr) => {},
       (error) => {
         console.error('Error loading OBJ:', error);
-        this.createFallbackModel();
+        this.createFallbackModel(initialMatColor, initialRoughness, initialMetalness);
       }
     );
   }
 
-  createFallbackModel() {
+  createFallbackModel(col, rough, met) {
     const boxGeo = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshStandardMaterial({
-      color: 0x141414,
-      roughness: 0.38,
-      metalness: 0.15
+      color: col || 0xf0f0f0,
+      roughness: rough || 0.25,
+      metalness: met || 0.3
     });
 
     const length = 8;
@@ -260,8 +266,9 @@ class PlusX3DScene {
 
   setTheme(theme) {
     this.currentTheme = theme;
-    const targetColor = theme === 'dark' ? new THREE.Color(0xf0f0f0) : new THREE.Color(0x141414);
-    const fogColor = theme === 'dark' ? new THREE.Color(0x0a0a0a) : new THREE.Color(0xffffff);
+    const isDark = theme === 'dark';
+    const targetColor = isDark ? new THREE.Color(0xf0f0f0) : new THREE.Color(0x141414);
+    const fogColor = isDark ? new THREE.Color(0x000000) : new THREE.Color(0xffffff);
 
     // Fog tween
     gsap.to(this.fog.color, { r: fogColor.r, g: fogColor.g, b: fogColor.b, duration: 0.8, ease: 'power2.out' });
@@ -277,18 +284,18 @@ class PlusX3DScene {
             duration: 0.8,
             ease: 'power2.out'
           });
-          child.material.roughness = theme === 'dark' ? 0.25 : 0.38;
-          child.material.metalness = theme === 'dark' ? 0.25 : 0.15;
+          child.material.roughness = isDark ? 0.25 : 0.38;
+          child.material.metalness = isDark ? 0.3 : 0.15;
         }
       });
     }
 
     // Lights
-    if (theme === 'dark') {
-      gsap.to(this.keyLight, { intensity: 2.0, duration: 0.8 });
-      gsap.to(this.fillLight, { intensity: 0.9, duration: 0.8 });
-      gsap.to(this.rimLight, { intensity: 1.6, duration: 0.8 });
-      gsap.to(this.ambientLight, { intensity: 0.45, duration: 0.8 });
+    if (isDark) {
+      gsap.to(this.keyLight, { intensity: 2.2, duration: 0.8 });
+      gsap.to(this.fillLight, { intensity: 1.0, duration: 0.8 });
+      gsap.to(this.rimLight, { intensity: 1.8, duration: 0.8 });
+      gsap.to(this.ambientLight, { intensity: 0.55, duration: 0.8 });
     } else {
       gsap.to(this.keyLight, { intensity: 1.6, duration: 0.8 });
       gsap.to(this.fillLight, { intensity: 0.75, duration: 0.8 });

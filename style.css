@@ -300,8 +300,8 @@ body {
   padding: 100px var(--gap32) var(--gap32);
   position: relative;
   overflow: hidden;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: transparent !important;
+  color: inherit;
 }
 
 .hero-meta-top {
