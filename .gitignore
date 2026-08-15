@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+brain_js.js
+trionn_*.js
+extracted_strings.json
+full_extracted_details.json
+parsed_site_content.json
+animation_details.json

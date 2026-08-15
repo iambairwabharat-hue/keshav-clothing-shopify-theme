@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Plus X — 15th Anniversary</title>
+  <meta name="description" content="플러스엑스의 15주년 — BEYOND DESIGN INTO EXPERIENCE">
+  <link rel="icon" type="image/png" href="./favicon_512.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Plus X — 15th Anniversary">
+  <meta property="og:description" content="플러스엑스의 15주년 — BEYOND DESIGN INTO EXPERIENCE">
+  <meta property="og:image" content="./OG.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- External Libraries: Three.js, OBJLoader, GSAP, ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="./OBJLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+</head>
+<body data-theme="light">
+
+  <!-- 1. Preloader -->
+  <div id="preloader">
+    <div class="loader-top">
+      <div>PLUS X CREATIVE®</div>
+      <div>15TH ANNIVERSARY</div>
+    </div>
+    <div class="loader-center">
+      <div class="loader-title">BEYOND DESIGN<br>INTO EXPERIENCE</div>
+      <div class="loader-progress-wrap">
+        <div class="loader-progress-bar"></div>
+      </div>
+    </div>
+    <div class="loader-bottom">
+      <div class="caption-small">LOADING ASSETS & 3D ENGINE</div>
+      <button class="loader-skip-btn">SKIP INTRO</button>
+    </div>
+  </div>
+
+  <!-- 2. WebGL 3D Background Canvas -->
+  <div id="webgl-container"></div>
+
+  <!-- 3. Floating Navigation & Header -->
+  <header class="site-header">
+    <div class="logo-wrap">
+      <a href="#hero">
+        <span>PLUS X</span>
+        <span class="logo-badge">15TH</span>
+      </a>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#chapter-bx" class="nav-link">01 BX</a></li>
+        <li><a href="#chapter-ux" class="nav-link">02 UX</a></li>
+        <li><a href="#chapter-sharex" class="nav-link">03 SHAREX</a></li>
+        <li><a href="#chapter-works" class="nav-link">04 WORKS</a></li>
+        <li><a href="#chapter-awards" class="nav-link">05 AWARDS</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <button class="theme-toggle">DARK MODE</button>
+    </div>
+  </header>
+
+  <!-- 4. Main Scroll Stream -->
+  <main class="main-content">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section section-full" data-theme-trigger="light">
+      <div class="hero-meta-top">
+        <div class="caption-small">EST. 2010 — 2025</div>
+        <div class="caption-small">SEOUL, KOREA</div>
+      </div>
+
+      <div class="hero-center">
+        <div class="hero-title-wrap">
+          <div class="hero-line-block">
+            <div class="parallax-text-line hero-line-1" data-speed="-0.5">
+              <h1 class="hero-title">BE UNREAL.</h1>
+            </div>
+          </div>
+          <div class="hero-line-block">
+            <div class="parallax-text-line hero-line-2" data-speed="0.5">
+              <h1 class="hero-title">BE UNREASONABLE.</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-sub-text">
+          <div class="line-mask is-active">
+            <p class="body-large line-inner">
+              Plus X Creative® pioneered the integration of brand experience. We have been introducing design solutions that unify fragmented brand elements into one continuous experience.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-meta-bottom">
+        <div class="scroll-indicator">
+          <span class="dot"></span>
+          <span>SCROLL TO EXPLORE</span>
+        </div>
+        <div class="caption-small">BRAND & USER EXPERIENCE CONSULTANCY</div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 1: BX (BRAND EXPERIENCE) -->
+    <section id="chapter-bx" class="section-block" data-theme-trigger="light">
+      <div class="chapter-opener">
+        <div class="chapter-number">CHAPTER 01 / BRAND EXPERIENCE</div>
+        <div class="opener-grid">
+          <div class="opener-left">
+            <div class="parallax-text-line opener-line-1" data-speed="-0.8">
+              <h2 class="section-opener-title">REDEFINE</h2>
+            </div>
+            <div class="parallax-text-line opener-line-2" data-speed="0.8">
+              <h2 class="section-opener-title">THE BRAND</h2>
+            </div>
+            <div class="parallax-text-line opener-line-3" data-speed="-0.8">
+              <h2 class="section-opener-title">EXPERIENCE</h2>
+            </div>
+          </div>
+          <div class="opener-right">
+            <div class="line-mask">
+              <p class="body-medium line-inner">
+                A brand lives in systems, and breathes through behavior. We don't believe in forcing experience — JUST reveal it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUAL DIRECTION MANIFESTO -->
+      <div class="dual-manifesto-container" data-scrub-manifesto="bx">
+        <div class="manifesto-track-left">
+          <h3 class="manifesto-title">EXPERIENCE ISN'T ADDED TO A BRAND</h3>
+        </div>
+        <div class="manifesto-track-right">
+          <h3 class="manifesto-title">BRAND IS BUILT WITH DISCIPLINE & CURIOSITY</h3>
+        </div>
+      </div>
+
+      <!-- SVG DRAWING ACCENT -->
+      <div class="svg-unit-container">
+        <div class="svg-unit-wrap">
+          <svg viewBox="0 0 594 732" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="297" cy="366" r="280" opacity="0.3"></circle>
+            <path d="M50 366 L544 366 M297 50 L297 682 M100 150 L494 582 M100 582 L494 150"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- FEATURE PIN 1: KOLON MALL -->
+      <div class="feature-showcase-pin">
+        <div class="line-mask">
+          <span class="caption-small line-inner">FEATURED CASE / 2024</span>
+        </div>
+        <div class="parallax-text-line" data-speed="-0.5">
+          <h3 class="section-opener-title">KOLON MALL</h3>
+        </div>
+        <div class="feature-media-wrap parallax-media mask-reveal" data-speed="0.2">
+          <img src="./assets/bx/kolon.png" alt="Kolon Mall Brand Experience">
+        </div>
+      </div>
+
+      <!-- FEATURE PIN 2: DORCO -->
+      <div class="feature-showcase-pin">
+        <div class="line-mask">
+          <span class="caption-small line-inner">GLOBAL IDENTITY / 2024</span>
+        </div>
+        <div class="parallax-text-line" data-speed="0.5">
+          <h3 class="section-opener-title">DORCO®</h3>
+        </div>
+        <div class="feature-media-wrap parallax-media mask-reveal" data-speed="-0.2">
+          <img src="./assets/bx/bx_Dorco_FullImage.jpg" alt="Dorco Global Identity">
+        </div>
+      </div>
+
+      <!-- FEATURE PIN 3: H FASHION -->
+      <div class="feature-showcase-pin">
+        <div class="line-mask">
+          <span class="caption-small line-inner">LUXURY E-COMMERCE / 2024</span>
+        </div>
+        <div class="parallax-text-line" data-speed="-0.5">
+          <h3 class="section-opener-title">H FASHION</h3>
+        </div>
+        <div class="feature-media-wrap parallax-media mask-reveal" data-speed="0.2">
+          <img src="./assets/bx/bx_HFashion_FullScreen_pc.png" alt="H Fashion Brand Experience">
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTINUOUS CURVED OSCILLATING BX PIN STREAM -->
+    <section class="oscillating-stream-section" data-theme-trigger="dark">
+      <div class="stream-header">
+        <div class="chapter-number">BRAND IDENTITY ARTIFACTS</div>
+        <h3 class="manifesto-title">SYSTEMS IN CONTINUOUS MOTION</h3>
+      </div>
+      <div class="curve-oscillator-track">
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_1.png" alt="SYSTEM Identity">
+          </div>
+          <div class="card-badge">SYSTEM / 2021</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_2.png" alt="Beauty of Joseon">
+          </div>
+          <div class="card-badge">BEAUTY OF JOSEON / 2024</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_3.png" alt="SLL Identity">
+          </div>
+          <div class="card-badge">SLL / 2023</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_4.png" alt="PARS Identity">
+          </div>
+          <div class="card-badge">PARS / 2024</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_5.png" alt="Samsung Fire">
+          </div>
+          <div class="card-badge">SAMSUNG FIRE & MARINE / 2023</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_6.png" alt="Cleanlab">
+          </div>
+          <div class="card-badge">CLEANLAB / 2021</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_7.png" alt="Episode">
+          </div>
+          <div class="card-badge">EPISODE / 2022</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/bx/bx_pin_8.png" alt="Plus X Showroom">
+          </div>
+          <div class="card-badge">PLUS X SHOWROOM / 2021</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HORIZONTAL PINNED BX CAROUSEL -->
+    <section class="horizontal-section-pin" data-theme-trigger="dark">
+      <div class="horizontal-track">
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_01.png" alt="Brand Identity 01">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Brand Identity System</div>
+            <div class="card-client">Design Guidelines</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_02.png" alt="Brand Identity 02">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Color & Typography Architecture</div>
+            <div class="card-client">Visual Matrix</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_03.png" alt="Brand Identity 03">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Packaging & Tangible Touchpoints</div>
+            <div class="card-client">Material Craft</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_04.png" alt="Brand Identity 04">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Spatial Brand Environment</div>
+            <div class="card-client">Experience Space</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_5.png" alt="Brand Identity 05">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Digital Touchpoint Scaling</div>
+            <div class="card-client">Responsive System</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_6.png" alt="Brand Identity 06">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Motion Guidelines</div>
+            <div class="card-client">Dynamic Principles</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/bx/bx_image_07.png" alt="Brand Identity 07">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Brand Tone & Voice</div>
+            <div class="card-client">Verbal Identity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: UX (USER EXPERIENCE) -->
+    <section id="chapter-ux" class="section-block" data-theme-trigger="light">
+      <div class="chapter-opener">
+        <div class="chapter-number">CHAPTER 02 / USER EXPERIENCE</div>
+        <div class="opener-grid">
+          <div class="opener-left">
+            <div class="parallax-text-line opener-line-1" data-speed="-0.8">
+              <h2 class="section-opener-title">REFRAME</h2>
+            </div>
+            <div class="parallax-text-line opener-line-2" data-speed="0.8">
+              <h2 class="section-opener-title">BEAUTY AS</h2>
+            </div>
+            <div class="parallax-text-line opener-line-3" data-speed="-0.8">
+              <h2 class="section-opener-title">FUNCTION</h2>
+            </div>
+          </div>
+          <div class="opener-right">
+            <div class="line-mask">
+              <p class="body-medium line-inner">
+                We don't just aim for what seems great. We strive to create what truly is. We solve for clarity, not just looks — turning insight into intent.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUAL DIRECTION MANIFESTO -->
+      <div class="dual-manifesto-container" data-scrub-manifesto="ux">
+        <div class="manifesto-track-left">
+          <h3 class="manifesto-title">WE DON'T AIM FOR WHAT SEEMS GREAT</h3>
+        </div>
+        <div class="manifesto-track-right">
+          <h3 class="manifesto-title">WE STRIVE TO CREATE WHAT TRULY IS</h3>
+        </div>
+      </div>
+
+      <!-- UX SVG DRAWING -->
+      <div class="svg-unit-container">
+        <div class="svg-unit-wrap">
+          <svg viewBox="0 0 594 732" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="50" y="50" width="494" height="632" rx="40" opacity="0.4"></rect>
+            <line x1="50" y1="200" x2="544" y2="200"></line>
+            <line x1="50" y1="400" x2="544" y2="400"></line>
+            <circle cx="297" cy="540" r="60"></circle>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTINUOUS CURVED OSCILLATING UX PIN STREAM -->
+    <section class="oscillating-stream-section" data-theme-trigger="light">
+      <div class="stream-header">
+        <div class="chapter-number">INTERACTION PROTOTYPES</div>
+        <h3 class="manifesto-title">INTENTIONAL ARCHITECTURE</h3>
+      </div>
+      <div class="curve-oscillator-track">
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_1.png" alt="ZERO UX">
+          </div>
+          <div class="card-badge">ZERO™ / SK BIOPHARMACEUTICALS</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_2.png" alt="Kolon Mall UX">
+          </div>
+          <div class="card-badge">KOLON MALL / 2024</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_3.png" alt="Lazy Night UX">
+          </div>
+          <div class="card-badge">LAZY NIGHT / 2022</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_4.png" alt="Cashnote UX">
+          </div>
+          <div class="card-badge">CASHNOTE / 2023</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_5.png" alt="Musinsa Virtual Showroom">
+          </div>
+          <div class="card-badge">MUSINSA SHOWROOM / 2022</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_6.png" alt="Konny Care UX">
+          </div>
+          <div class="card-badge">KONNY / 2022</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_7.png" alt="Archiveat UX">
+          </div>
+          <div class="card-badge">ARCHIVEAT / 2022</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/ux/ux_pin_8.png" alt="Lightroom Seoul">
+          </div>
+          <div class="card-badge">LIGHTROOM SEOUL / 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HORIZONTAL PINNED UX CAROUSEL -->
+    <section class="horizontal-section-pin" data-theme-trigger="dark">
+      <div class="horizontal-track">
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_1.png" alt="UX Architecture 01">
+          </div>
+          <div class="card-info">
+            <div class="card-title">EQL® Mobile Fashion App</div>
+            <div class="card-client">HANSOME</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_2.png" alt="UX Architecture 02">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Samsung Fire & Marine Insurance</div>
+            <div class="card-client">Fintech Ecosystem</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_3.png" alt="UX Architecture 03">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Cashnote Finance Management</div>
+            <div class="card-client">SME Platform</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_4.png" alt="UX Architecture 04">
+          </div>
+          <div class="card-info">
+            <div class="card-title">ZERO™ Healthcare Wearable</div>
+            <div class="card-client">SK Biopharmaceuticals</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_5.png" alt="UX Architecture 05">
+          </div>
+          <div class="card-info">
+            <div class="card-title">MUSINSA Virtual Showroom</div>
+            <div class="card-client">3D Metaverse Commerce</div>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="card-media mask-reveal">
+            <img src="./assets/ux/ux_image_6.png" alt="UX Architecture 06">
+          </div>
+          <div class="card-info">
+            <div class="card-title">Konny Lifestyle & Care</div>
+            <div class="card-client">Global Direct-to-Consumer</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: SHAREX & GENERATIVE AI -->
+    <section id="chapter-sharex" class="section-block" data-theme-trigger="light">
+      <div class="chapter-opener">
+        <div class="chapter-number">CHAPTER 03 / SHAREX & FUTURE</div>
+        <div class="opener-grid">
+          <div class="opener-left">
+            <div class="parallax-text-line opener-line-1" data-speed="-0.8">
+              <h2 class="section-opener-title">RESHARE</h2>
+            </div>
+            <div class="parallax-text-line opener-line-2" data-speed="0.8">
+              <h2 class="section-opener-title">IDEAS FOR</h2>
+            </div>
+            <div class="parallax-text-line opener-line-3" data-speed="-0.8">
+              <h2 class="section-opener-title">PROGRESS</h2>
+            </div>
+          </div>
+          <div class="opener-right">
+            <div class="line-mask">
+              <p class="body-medium line-inner">
+                Design no longer happens in secret. It evolves through shared experience. We grow stronger and faster when we share together.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FULLSCREEN AI SHOWCASE -->
+      <div class="feature-showcase-pin">
+        <div class="line-mask">
+          <span class="caption-small line-inner">GENERATIVE AI & LABS / 2025</span>
+        </div>
+        <div class="parallax-text-line" data-speed="-0.6">
+          <h3 class="section-opener-title">AI WORKFLOWS</h3>
+        </div>
+        <div class="feature-media-wrap parallax-media mask-reveal" data-speed="0.25">
+          <img src="./assets/sharex/sharex-geni.jpg" alt="Generative AI Design Integration">
+        </div>
+      </div>
+
+      <!-- SHAREX COMMUNITY FULL BLEED -->
+      <div class="feature-showcase-pin">
+        <div class="line-mask">
+          <span class="caption-small line-inner">OPEN KNOWLEDGE / SHAREX</span>
+        </div>
+        <div class="parallax-text-line" data-speed="0.6">
+          <h3 class="section-opener-title">SHARE HOW, NOT JUST WHAT</h3>
+        </div>
+        <div class="feature-media-wrap parallax-media mask-reveal" data-speed="-0.25">
+          <img src="./assets/sharex/share_FullImage_2_pc.jpg" alt="ShareX Design Ecosystem">
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTINUOUS CURVED OSCILLATING SHAREX PIN STREAM -->
+    <section class="oscillating-stream-section" data-theme-trigger="dark">
+      <div class="stream-header">
+        <div class="chapter-number">SHAREX ECOSYSTEM</div>
+        <h3 class="manifesto-title">EXPANDING THE DESIGN HORIZON</h3>
+      </div>
+      <div class="curve-oscillator-track">
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_1.png" alt="ShareX 01">
+          </div>
+          <div class="card-badge">SHAREX WORKSHOP / 01</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_2.png" alt="ShareX 02">
+          </div>
+          <div class="card-badge">OPEN METHODOLOGY / 02</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_3.png" alt="ShareX 03">
+          </div>
+          <div class="card-badge">DESIGN SPRINT / 03</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_4.png" alt="ShareX 04">
+          </div>
+          <div class="card-badge">CROSS DISCIPLINE / 04</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_5.png" alt="ShareX 05">
+          </div>
+          <div class="card-badge">COMMUNITY LABS / 05</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_6.png" alt="ShareX 06">
+          </div>
+          <div class="card-badge">CREATIVE CODING / 06</div>
+        </div>
+
+        <div class="curve-card" data-align="left">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_7.png" alt="ShareX 07">
+          </div>
+          <div class="card-badge">SPATIAL COMPUTING / 07</div>
+        </div>
+
+        <div class="curve-card" data-align="right">
+          <div class="card-inner mask-reveal">
+            <img src="./assets/sharex/share_pin_8_1.png" alt="ShareX 08">
+          </div>
+          <div class="card-badge">FUTURE HORIZON / 08</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: WORKS & PROJECT ARCHIVE -->
+    <section id="chapter-works" class="project-archive-section" data-theme-trigger="dark">
+      <div class="archive-header">
+        <div>
+          <div class="chapter-number">CHAPTER 04 / SELECTED WORKS</div>
+          <h2 class="section-opener-title">PROJECT ARCHIVE</h2>
+        </div>
+        <div class="caption-small">56 PROJECTS / 20 INDUSTRIES</div>
+      </div>
+
+      <!-- Category Filter Bar -->
+      <div class="category-filter-bar">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="ecommerce">E-COMMERCE</button>
+        <button class="filter-btn" data-filter="fashion">FASHION</button>
+        <button class="filter-btn" data-filter="cosmetic">COSMETIC</button>
+        <button class="filter-btn" data-filter="finance">FINANCE</button>
+        <button class="filter-btn" data-filter="lifestyle">LIFESTYLE</button>
+        <button class="filter-btn" data-filter="entertainment">ENTERTAINMENT</button>
+        <button class="filter-btn" data-filter="spatial">SPATIAL</button>
+        <button class="filter-btn" data-filter="tech">TECHNOLOGY</button>
+      </div>
+
+      <!-- Project List Table -->
+      <div class="project-table">
+        <div class="project-row" data-cat="ecommerce" data-img="./assets/portfolio/project_Hfashion.jpg">
+          <div class="row-cat">E-Commerce</div>
+          <div class="row-title">H Fashion</div>
+          <div class="row-client">H FASHION by HANSOME</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="ecommerce" data-img="./assets/portfolio/project_Lge.jpg">
+          <div class="row-cat">E-Commerce</div>
+          <div class="row-title">LGE</div>
+          <div class="row-client">LG Electronics</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="ecommerce" data-img="./assets/portfolio/project_Eql.jpg">
+          <div class="row-cat">E-Commerce</div>
+          <div class="row-title">EQL®</div>
+          <div class="row-client">HANSOME</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="ecommerce" data-img="./assets/portfolio/project_KolonMall.jpg">
+          <div class="row-cat">E-Commerce</div>
+          <div class="row-title">Kolon Mall®</div>
+          <div class="row-client">Kolon Industries, Inc.</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="fashion" data-img="./assets/portfolio/project_5KgJeans.jpg">
+          <div class="row-cat">Fashion</div>
+          <div class="row-title">-5KG JEANS</div>
+          <div class="row-client">-5KG JEANS</div>
+          <div class="row-year">2021</div>
+        </div>
+
+        <div class="project-row" data-cat="fashion" data-img="./assets/portfolio/project_System.jpg">
+          <div class="row-cat">Fashion</div>
+          <div class="row-title">SYSTEM</div>
+          <div class="row-client">HANSOME</div>
+          <div class="row-year">2020</div>
+        </div>
+
+        <div class="project-row" data-cat="cosmetic" data-img="./assets/portfolio/project_BeautyOfJoseon.jpg">
+          <div class="row-cat">Cosmetic</div>
+          <div class="row-title">Beauty of Joseon</div>
+          <div class="row-client">GOODAI Global Inc.</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="cosmetic" data-img="./assets/portfolio/project_Urg.jpg">
+          <div class="row-cat">Cosmetic</div>
+          <div class="row-title">URG</div>
+          <div class="row-client">URG Corporation</div>
+          <div class="row-year">2021</div>
+        </div>
+
+        <div class="project-row" data-cat="finance" data-img="./assets/portfolio/project_Cashnote.jpg">
+          <div class="row-cat">Finance</div>
+          <div class="row-title">Cashnote</div>
+          <div class="row-client">Cashnote Co.</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="finance" data-img="./assets/portfolio/project_SamsungFireMarines.jpg">
+          <div class="row-cat">Finance</div>
+          <div class="row-title">Samsung Fire & Marine</div>
+          <div class="row-client">Samsung Group</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="lifestyle" data-img="./assets/portfolio/project_Zero.jpg">
+          <div class="row-cat">Lifestyle</div>
+          <div class="row-title">ZERO™</div>
+          <div class="row-client">SK Biopharmaceuticals</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="lifestyle" data-img="./assets/portfolio/project_Konny.jpg">
+          <div class="row-cat">Lifestyle</div>
+          <div class="row-title">Konny®</div>
+          <div class="row-client">Konny by Erin</div>
+          <div class="row-year">2022</div>
+        </div>
+
+        <div class="project-row" data-cat="entertainment" data-img="./assets/portfolio/project_ChannelA.jpg">
+          <div class="row-cat">Entertainment</div>
+          <div class="row-title">Channel A</div>
+          <div class="row-client">Channel A Broadcast</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="entertainment" data-img="./assets/portfolio/project_Sll.jpg">
+          <div class="row-cat">Entertainment</div>
+          <div class="row-title">SLL</div>
+          <div class="row-client">SLL Joongang</div>
+          <div class="row-year">2023</div>
+        </div>
+
+        <div class="project-row" data-cat="spatial" data-img="./assets/portfolio/project_Pars.jpg">
+          <div class="row-cat">Spatial</div>
+          <div class="row-title">PARS®</div>
+          <div class="row-client">Duomo&Co.</div>
+          <div class="row-year">2025</div>
+        </div>
+
+        <div class="project-row" data-cat="spatial" data-img="./assets/portfolio/project_LightRoom.jpg">
+          <div class="row-cat">Spatial</div>
+          <div class="row-title">Lightroom® Seoul</div>
+          <div class="row-client">Lightroom London</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="tech" data-img="./assets/portfolio/project_Dorco.jpg">
+          <div class="row-cat">Technology</div>
+          <div class="row-title">DORCO®</div>
+          <div class="row-client">DORCO Co, LTD.</div>
+          <div class="row-year">2024</div>
+        </div>
+
+        <div class="project-row" data-cat="tech" data-img="./assets/portfolio/project_Unix.jpg">
+          <div class="row-cat">Technology</div>
+          <div class="row-title">UNIX®</div>
+          <div class="row-client">UNIX Electronics</div>
+          <div class="row-year">2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLOATING HOVER PREVIEW -->
+    <div id="floating-preview">
+      <img src="./assets/portfolio/project_Hfashion.jpg" alt="Preview">
+    </div>
+
+    <!-- CHAPTER 5: AWARDS -->
+    <section id="chapter-awards" class="awards-section" data-theme-trigger="light">
+      <div class="awards-hero-box">
+        <div>
+          <div class="chapter-number">CHAPTER 05 / GLOBAL RECOGNITION</div>
+          <h2 class="section-opener-title">AWARDS</h2>
+        </div>
+        <div class="awards-stat-number" id="award-counter">97+</div>
+      </div>
+
+      <div class="awards-grid">
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">iF DESIGN AWARD</div>
+            <div class="award-org-count">23</div>
+          </div>
+          <p class="body-medium">Recognized for international excellence across Brand Identity, UI/UX, and Digital Media design disciplines.</p>
+          <div class="award-project-chips">
+            <span class="chip">Kolon Mall</span>
+            <span class="chip">H Fashion</span>
+            <span class="chip">Samsung Fire</span>
+            <span class="chip">ZERO™</span>
+            <span class="chip">Plus X Showroom</span>
+          </div>
+        </div>
+
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">RED DOT DESIGN AWARD</div>
+            <div class="award-org-count">7</div>
+          </div>
+          <p class="body-medium">Awarded for high design quality and creative innovation in brand communication and interactive systems.</p>
+          <div class="award-project-chips">
+            <span class="chip">Konny</span>
+            <span class="chip">UT</span>
+            <span class="chip">Cleanlab</span>
+            <span class="chip">ANDMARQ</span>
+            <span class="chip">Wyd</span>
+          </div>
+        </div>
+
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">IDEA AWARDS (USA)</div>
+            <div class="award-org-count">15</div>
+          </div>
+          <p class="body-medium">Honored by the Industrial Designers Society of America for groundbreaking brand strategy and execution.</p>
+          <div class="award-project-chips">
+            <span class="chip">SLL</span>
+            <span class="chip">COM2US</span>
+            <span class="chip">Archiveat</span>
+            <span class="chip">Cashnote</span>
+            <span class="chip">Object By 3</span>
+          </div>
+        </div>
+
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">GOOD DESIGN AWARD (GDA)</div>
+            <div class="award-org-count">31</div>
+          </div>
+          <p class="body-medium">Distinguished for enriching lives and driving commercial and cultural impact through continuous design leadership.</p>
+          <div class="award-project-chips">
+            <span class="chip">Kolon Mall</span>
+            <span class="chip">Deeponde</span>
+            <span class="chip">Dual Frame</span>
+            <span class="chip">Episode</span>
+            <span class="chip">BlackYak</span>
+          </div>
+        </div>
+
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">KOREA DESIGN AWARD (KDA)</div>
+            <div class="award-org-count">17</div>
+          </div>
+          <p class="body-medium">Acknowledged by South Korea's highest design authorities for shaping contemporary Korean brand culture.</p>
+          <div class="award-project-chips">
+            <span class="chip">Plus X 15th</span>
+            <span class="chip">Kolon Mall</span>
+            <span class="chip">SYSTEM</span>
+            <span class="chip">KRAFTON</span>
+          </div>
+        </div>
+
+        <div class="award-org-card">
+          <div class="award-org-header">
+            <div class="award-org-name">GDA TOKYO</div>
+            <div class="award-org-count">4</div>
+          </div>
+          <p class="body-medium">Celebrated for precision, typographic refinement, and human-centric digital interfaces.</p>
+          <div class="award-project-chips">
+            <span class="chip">Episode</span>
+            <span class="chip">ANDMARQ</span>
+            <span class="chip">SYSTEM</span>
+            <span class="chip">KRAFTON</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 5. Footer -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-col-main">
+        <h3 class="hero-title" style="font-size: clamp(2rem, 4.5vw, 4.5rem); margin-bottom: 24px;">PLUS X</h3>
+        <p class="body-medium" style="max-width: 480px; color: #aaa;">
+          Plus X Creative® is a creative partner for brand experience and user experience design, connecting strategy, identity, digital products, and spaces into one seamless continuum.
+        </p>
+      </div>
+
+      <div class="footer-col-nav">
+        <div class="footer-heading">NAVIGATION</div>
+        <a href="#hero" class="footer-link">Top / Hero</a>
+        <a href="#chapter-bx" class="footer-link">01 Brand Experience</a>
+        <a href="#chapter-ux" class="footer-link">02 User Experience</a>
+        <a href="#chapter-sharex" class="footer-link">03 ShareX & AI</a>
+        <a href="#chapter-works" class="footer-link">04 Works Archive</a>
+        <a href="#chapter-awards" class="footer-link">05 Global Awards</a>
+      </div>
+
+      <div class="footer-col-contact">
+        <div class="footer-heading">CONTACT & INQUIRIES</div>
+        <a href="mailto:contact@plus-ex.com" class="footer-link">contact@plus-ex.com</a>
+        <a href="tel:+82-2-518-7717" class="footer-link">+82-2-518-7717</a>
+        <p class="caption-small" style="margin-top: 12px; color: #888;">
+          Gangnam-gu, Seoul, Republic of Korea
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2010 — 2025 Plus X Creative Inc. All Rights Reserved.</div>
+      <div class="social-icons">
+        <a href="https://kr.linkedin.com/company/plus-ex" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="https://www.instagram.com/plusx_creative" target="_blank" rel="noopener">INSTAGRAM</a>
+        <a href="https://www.facebook.com/plusxcreative" target="_blank" rel="noopener">FACEBOOK</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./three-scene.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
