@@ -1,0 +1,9 @@
+{
+  "name": "plus-x-15th-experience",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plus X 15th Anniversary 1:1 Interactive Web Experience",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
