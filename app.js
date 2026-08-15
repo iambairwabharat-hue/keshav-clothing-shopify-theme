@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. Parallax Headlines (Left / Right scrubbed text sliding)
   function initParallaxHeadlines() {
     gsap.to('.hero-line-1', {
-      x: -90,
+      x: -60,
       ease: 'none',
       scrollTrigger: {
         trigger: '#hero',
@@ -113,6 +113,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     gsap.to('.hero-line-2', {
+      x: -100,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    gsap.to('.hero-line-3', {
+      x: 70,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    gsap.to('.hero-line-4', {
       x: 90,
       ease: 'none',
       scrollTrigger: {
