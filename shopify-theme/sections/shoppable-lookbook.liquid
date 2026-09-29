@@ -1,0 +1,173 @@
+{%- style -%}
+  #lookbook-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FBFBFB' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #lookbook-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  {%- case section.settings.desktop_height -%}
+    {%- when 'small' -%}
+      #lookbook-{{ section.id }} .lookbook-stage { min-height: 500px; }
+    {%- when 'medium' -%}
+      #lookbook-{{ section.id }} .lookbook-stage { min-height: 650px; }
+    {%- when 'large' -%}
+      #lookbook-{{ section.id }} .lookbook-stage { min-height: 800px; }
+    {%- when '80vh' -%}
+      #lookbook-{{ section.id }} .lookbook-stage { min-height: 80vh; }
+  {%- endcase -%}
+{%- endstyle -%}
+
+<section class="shoppable-lookbook{% if section.settings.layout == 'image_second' %} shoppable-lookbook--reversed{% endif %}{% if section.settings.full_width %} shoppable-lookbook--full-width{% else %} container{% endif %}" id="lookbook-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="lookbook-inner">
+    <div class="lookbook-stage">
+      {%- if section.settings.image != blank -%}
+        {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.title | escape }}" class="lookbook-stage__img" loading="lazy">
+    {%- else -%}
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1400&h=800&fit=crop" alt="Lookbook Editorial" class="lookbook-stage__img" loading="lazy">
+    {%- endif -%}
+      {%- else -%}
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=1500&fit=crop&q=80" alt="Editorial lookbook" class="lookbook-stage__img" loading="lazy">
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        <button
+          class="hotspot-pin"
+          style="top: {{ block.settings.pos_top }}%; left: {{ block.settings.pos_left }}%; background: {{ section.settings.pin_color | default: '#000000' }}; color: #ffffff;"
+          data-target="card-look-{{ block.id }}"
+          aria-label="Hotspot {{ forloop.index }}"
+          {{ block.shopify_attributes }}
+        >+</button>
+
+        <div class="hotspot-card" id="card-look-{{ block.id }}">
+          {%- if product != blank and product.featured_media != blank -%}
+            {%- if product.featured_media != blank -%}
+                    <img src="{{ product.featured_media | image_url: width: 150 }}" alt="{{ product.title | escape }}" class="hotspot-card__img">
+                  {%- else -%}
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=150" alt="Product" class="hotspot-card__img">
+                  {%- endif -%}
+            <div class="hotspot-card__info">
+              <h4 class="hotspot-card__title">{{ product.title }}</h4>
+              <div class="hotspot-card__price">{{ product.price | money }}</div>
+            </div>
+            <a href="{{ product.url }}" class="hotspot-card__btn">Shop Piece →</a>
+          {%- else -%}
+            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=150&h=180&fit=crop&q=80" alt="Sample piece" class="hotspot-card__img">
+            <div class="hotspot-card__info">
+              <h4 class="hotspot-card__title">Essential Streetwear Piece</h4>
+              <div class="hotspot-card__price">Rs. 5999</div>
+            </div>
+            <a href="{{ routes.all_products_collection_url }}" class="hotspot-card__btn">Shop Piece →</a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="lookbook-text scroll-reveal">
+      <span class="lookbook-text__label">{{ section.settings.subtitle | default: 'Interactive Lookbook' }}</span>
+      <h2 class="lookbook-text__title">{{ section.settings.title | default: 'Shop The Autumn / Winter Editorial' }}</h2>
+      <p class="lookbook-text__desc">{{ section.settings.desc | default: 'Tap the pulsating pins on the lookbook model to explore each tailored piece in real-time. Engineered with oversized dropped shoulders and structured heavyweight drape.' }}</p>
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="hero-btn hero-btn--{{ section.settings.button_style | default: 'solid_black' }}">
+          <span>{{ section.settings.button_label | escape }}</span>
+          <span>→</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shoppable Lookbook",
+  "settings": [
+    { "type": "header", "content": "Media & Sizing" },
+    { "type": "image_picker", "id": "image", "label": "Lookbook Image" },
+    {
+      "type": "select",
+      "id": "desktop_height",
+      "label": "Desktop Stage Height",
+      "options": [
+        { "value": "auto", "label": "Adapt to Image" },
+        { "value": "small", "label": "Compact (500px)" },
+        { "value": "medium", "label": "Medium (650px)" },
+        { "value": "large", "label": "Large (800px)" },
+        { "value": "80vh", "label": "80% Screen Height (80vh)" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "image_first", "label": "Image Left / Text Right" },
+        { "value": "image_second", "label": "Text Left / Image Right" }
+      ],
+      "default": "image_first",
+      "label": "Desktop Layout"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width (Edge-to-edge)", "default": false },
+    { "type": "header", "content": "Lookbook Text & Content" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Interactive Lookbook" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Shop The Autumn / Winter Editorial" },
+    { "type": "textarea", "id": "desc", "label": "Description", "default": "Tap the pulsating pins on the lookbook model to explore each tailored piece in real-time." },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "Explore Complete Lookbook" },
+    { "type": "url", "id": "button_link", "label": "Button Link" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        { "value": "solid_black", "label": "Solid Black" },
+        { "value": "solid_white", "label": "Solid White" },
+        { "value": "outline_black", "label": "Outline Black" },
+        { "value": "outline_white", "label": "Outline White" }
+      ],
+      "default": "solid_black",
+      "label": "Button Style"
+    },
+    { "type": "header", "content": "Pin & Color Settings" },
+    { "type": "color", "id": "pin_color", "label": "Hotspot Pin Color", "default": "#000000" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FBFBFB" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot Pin",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "range", "id": "pos_top", "min": 5, "max": 95, "step": 1, "default": 40, "unit": "%", "label": "Vertical Position (%)" },
+        { "type": "range", "id": "pos_left", "min": 5, "max": 95, "step": 1, "default": 50, "unit": "%", "label": "Horizontal Position (%)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shoppable Lookbook",
+      "blocks": [
+        { "type": "hotspot", "settings": { "pos_top": 38, "pos_left": 46 } },
+        { "type": "hotspot", "settings": { "pos_top": 32, "pos_left": 78 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

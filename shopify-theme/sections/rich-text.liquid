@@ -1,0 +1,99 @@
+{%- style -%}
+  #rich-text-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #rich-text-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #rich-text-{{ section.id }} .rich-text__content {
+    max-width: {{ section.settings.content_max_width | default: 800 }}px;
+    text-align: {{ section.settings.text_alignment | default: 'center' }};
+  }
+{%- endstyle -%}
+
+<section class="rich-text{% if section.settings.full_width %} rich-text--full-width{% else %} container{% endif %}" id="rich-text-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="rich-text__content scroll-reveal" style="margin: 0 auto;">
+    {%- if section.settings.subheading != blank -%}
+      <span class="section-subtitle" style="color: {{ section.settings.subheading_color | default: '#a3a3a3' }};">{{ section.settings.subheading | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="rich-text__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <div class="rich-text__body rte">{{ section.settings.text }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="hero-btn hero-btn--{{ section.settings.button_style | default: 'solid_white' }}" style="margin-top: 24px; display: inline-flex;">
+        <span>{{ section.settings.button_label | escape }}</span>
+        <span>→</span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Text",
+  "settings": [
+    { "type": "header", "content": "Content & Typography" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "MANIFESTO" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "DESIGNED TO DISRUPT" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Luxury staples for the modern disruptor. Precision-tailored pieces that break convention and redefine presence. This isn't just fashion — it's a statement.</p>" },
+    { "type": "range", "id": "content_max_width", "min": 400, "max": 1200, "step": 50, "unit": "px", "label": "Max Width", "default": 800 },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "label": "Text Alignment"
+    },
+    { "type": "header", "content": "Button CTA" },
+    { "type": "text", "id": "button_label", "label": "Button Label" },
+    { "type": "url", "id": "button_link", "label": "Button Link" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        { "value": "solid_white", "label": "Solid White" },
+        { "value": "solid_black", "label": "Solid Black" },
+        { "value": "outline_white", "label": "Outline White" },
+        { "value": "outline_black", "label": "Outline Black" }
+      ],
+      "default": "solid_white",
+      "label": "Button Style"
+    },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#0a0a0a" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "presets": [
+    { "name": "Editorial Text" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,534 @@
+{% doc %}
+  @prompt
+    i want a image slider with link of each image for mobile only with 2 images and then it slieds too other , image size shoud be free and adjesteable  with transparant background, i want4 image total and 2 in front not 1  
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-mobile-slider-{{ ai_gen_id }} {
+    display: none;
+    width: 100%;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-mobile-slider-{{ ai_gen_id }} {
+      display: block;
+    }
+  }
+
+  .ai-mobile-slider__track-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    width: 200%;
+  }
+
+  .ai-mobile-slider__slide-group-{{ ai_gen_id }} {
+    flex: 0 0 100%;
+    width: 100%;
+    display: flex;
+    gap: {{ block.settings.gap_between_images }}px;
+    padding: {{ block.settings.slide_padding }}px;
+  }
+
+  .ai-mobile-slider__slide-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-mobile-slider__link-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-mobile-slider__image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    position: relative;
+  }
+
+  .ai-mobile-slider__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ block.settings.image_fit }};
+  }
+
+  .ai-mobile-slider__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-mobile-slider__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  .ai-mobile-slider__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-mobile-slider__dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0;
+  }
+
+  .ai-mobile-slider__dot-{{ ai_gen_id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.3;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-mobile-slider__dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  .ai-mobile-slider__arrows-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    padding: 0 {{ block.settings.slide_padding }}px;
+  }
+
+  .ai-mobile-slider__arrow-{{ ai_gen_id }} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: {{ block.settings.arrow_bg_color }};
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    color: {{ block.settings.arrow_color }};
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-mobile-slider__arrow-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.arrow_hover_bg_color }};
+  }
+
+  .ai-mobile-slider__arrow-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+{% endstyle %}
+
+<mobile-image-slider-{{ ai_gen_id }}
+  class="ai-mobile-slider-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-mobile-slider__track-{{ ai_gen_id }}">
+    {% for group in (1..2) %}
+      <div class="ai-mobile-slider__slide-group-{{ ai_gen_id }}" data-group="{{ forloop.index0 }}">
+        {% for i in (1..2) %}
+          {% liquid
+            assign image_index = forloop.index | plus: forloop.parentloop.index0 | times: 2
+            assign image_key = 'image_' | append: image_index
+            assign link_key = 'link_' | append: image_index
+            assign image = block.settings[image_key]
+            assign link = block.settings[link_key]
+          %}
+          
+          <div class="ai-mobile-slider__slide-{{ ai_gen_id }}">
+            {% if link != blank %}
+              <a href="{{ link }}" class="ai-mobile-slider__link-{{ ai_gen_id }}">
+            {% else %}
+              <div class="ai-mobile-slider__link-{{ ai_gen_id }}">
+            {% endif %}
+              <div class="ai-mobile-slider__image-wrapper-{{ ai_gen_id }}">
+                {% if image %}
+                  <img
+                    src="{{ image | image_url: width: 800 }}"
+                    alt="{{ image.alt | escape }}"
+                    loading="lazy"
+                    width="{{ image.width }}"
+                    height="{{ image.height }}"
+                    class="ai-mobile-slider__image-{{ ai_gen_id }}"
+                  >
+                {% else %}
+                  <div class="ai-mobile-slider__placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                    <div class="ai-mobile-slider__empty-state-{{ ai_gen_id }}">
+                      Add image {{ image_index }}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% if link != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if block.settings.show_arrows %}
+    <div class="ai-mobile-slider__arrows-{{ ai_gen_id }}">
+      <button
+        class="ai-mobile-slider__arrow-{{ ai_gen_id }} ai-mobile-slider__arrow-prev-{{ ai_gen_id }}"
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button
+        class="ai-mobile-slider__arrow-{{ ai_gen_id }} ai-mobile-slider__arrow-next-{{ ai_gen_id }}"
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+
+  {% if block.settings.show_dots %}
+    <div class="ai-mobile-slider__dots-{{ ai_gen_id }}">
+      <button class="ai-mobile-slider__dot-{{ ai_gen_id }} active" data-slide="0" aria-label="Go to slide 1"></button>
+      <button class="ai-mobile-slider__dot-{{ ai_gen_id }}" data-slide="1" aria-label="Go to slide 2"></button>
+    </div>
+  {% endif %}
+</mobile-image-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MobileImageSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.totalSlides = 2;
+        this.autoplayInterval = null;
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('.ai-mobile-slider__track-{{ ai_gen_id }}');
+        this.dots = this.querySelectorAll('.ai-mobile-slider__dot-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-mobile-slider__arrow-prev-{{ ai_gen_id }}');
+        this.nextButton = this.querySelector('.ai-mobile-slider__arrow-next-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+        
+        {% if block.settings.autoplay %}
+          this.startAutoplay();
+        {% endif %}
+      }
+
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => this.prevSlide());
+        }
+
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => this.nextSlide());
+        }
+
+        this.dots.forEach((dot) => {
+          dot.addEventListener('click', (e) => {
+            const slideIndex = parseInt(e.target.dataset.slide);
+            this.goToSlide(slideIndex);
+            this.resetAutoplay();
+          });
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        this.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+
+        this.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe(touchStartX, touchEndX);
+        });
+      }
+
+      handleSwipe(startX, endX) {
+        const swipeThreshold = 50;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            this.nextSlide();
+          } else {
+            this.prevSlide();
+          }
+          this.resetAutoplay();
+        }
+      }
+
+      goToSlide(index) {
+        this.currentSlide = index;
+        const offset = -index * 100;
+        this.track.style.transform = `translateX(${offset}%)`;
+        this.updateDots();
+      }
+
+      nextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        this.goToSlide(this.currentSlide);
+      }
+
+      prevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.goToSlide(this.currentSlide);
+      }
+
+      updateDots() {
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentSlide) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      startAutoplay() {
+        this.autoplayInterval = setInterval(() => {
+          this.nextSlide();
+        }, {{ block.settings.autoplay_speed }} * 1000);
+      }
+
+      resetAutoplay() {
+        {% if block.settings.autoplay %}
+          if (this.autoplayInterval) {
+            clearInterval(this.autoplayInterval);
+            this.startAutoplay();
+          }
+        {% endif %}
+      }
+
+      disconnectedCallback() {
+        if (this.autoplayInterval) {
+          clearInterval(this.autoplayInterval);
+        }
+      }
+    }
+
+    customElements.define('mobile-image-slider-{{ ai_gen_id }}', MobileImageSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mobile image slider",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_4",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Image settings"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image height",
+      "min": 100,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "fill",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "gap_between_images",
+      "label": "Gap between images",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "slide_padding",
+      "label": "Slide padding",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Slider settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Arrow style"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Dot style"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile image slider"
+    }
+  ]
+}
+{% endschema %}

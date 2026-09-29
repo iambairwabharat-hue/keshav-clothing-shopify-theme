@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KCCLOTHING - WTFlex Official Store</title>
+  
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="template-index">
+
+  <!-- 1. Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-bar__marquee">
+      <div class="marquee-track">
+        <div class="marquee-item">USE CODE: FLEX10 FOR 10% OFF YOUR FIRST DROP</div>
+        <div class="marquee-item">&bull;</div>
+        <div class="marquee-item">FREE EXPRESS SHIPPING WORLDWIDE OVER $99</div>
+        <div class="marquee-item">&bull;</div>
+        <div class="marquee-item">HEAVYWEIGHT 450GSM FLEECE &bull; 100% ORGANIC COTTON</div>
+        <div class="marquee-item">&bull;</div>
+        <div class="marquee-item">USE CODE: FLEX10 FOR 10% OFF YOUR FIRST DROP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Sticky Header -->
+  <header class="header">
+    <div class="header__inner">
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <a href="index.html" class="header__logo">KCCLOTHING</a>
+
+      <nav class="header__nav">
+        <a href="collection.html" class="header__link">Shop All</a>
+        <a href="collection.html?category=hoodies" class="header__link">Oversized Hoodies</a>
+        <a href="collection.html?category=tees" class="header__link">Boxy Tees</a>
+        <a href="collection.html?category=bottoms" class="header__link">Cargo Pants</a>
+        <a href="product.html" class="header__link">Product Spotlight</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="product.html" class="header-icon" title="View Product Page" style="font-size: 11px; font-weight: 700; color: #fff; background: #171717; padding: 6px 12px; border-radius: 20px; text-decoration: none;">
+          Product View
+        </a>
+        <button type="button" class="header-icon header-icon--cart" aria-label="Cart" data-cart-trigger>
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. WTFlex Streetwear Hero Banner -->
+  <section class="hero hero--full-width" style="min-height: 80vh; position: relative; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden;">
+    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=2000&h=1200&fit=crop&q=85" alt="WTFlex Campaign" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);"></div>
+    <div class="hero__content" style="position: relative; z-index: 3; text-align: center; max-width: 900px; padding: 40px 20px;">
+      <span class="hero__badge" style="display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #fff;">NEW VAULT DROP 004 IS LIVE</span>
+      <h1 class="hero__title" style="font-size: clamp(48px, 9vw, 110px); line-height: 0.95; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; color: #fff;">WHAT THE FLEX</h1>
+      <p class="hero__subtitle" style="font-size: clamp(14px, 1.8vw, 18px); color: rgba(255,255,255,0.85); max-width: 650px; margin: 0 auto 28px; line-height: 1.6;">Heavyweight 450GSM loopback fleece & dropped shoulder architectural fits engineered for the modern generation.</p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="collection.html" class="hero-btn hero-btn--solid_white">
+          <span>SHOP ALL DROPS</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="collection.html?category=hoodies" class="hero-btn hero-btn--outline_white">
+          <span>HOODIES & TEES</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Story Category Explorer (WTFlex Circles) -->
+  <section class="category-circles-section container container--wide" style="padding: 36px var(--container-padding);">
+    <div class="section-header text-center" style="margin-bottom: 20px;">
+      <span class="section-subtitle">EXPLORE STREETWEAR SILHOUETTES</span>
+      <h2 class="section-title">SHOP BY CATEGORY</h2>
+    </div>
+    <div class="category-story-track" style="display: flex; align-items: flex-start; justify-content: center; gap: 28px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px;">
+      <a href="collection.html?category=hoodies" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=250&h=250&fit=crop" alt="Hoodies" class="category-story-img"><span style="position: absolute; bottom: -4px; background: #e53e3e; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 8px;">HOT</span></div>
+        <span class="category-story-title">Oversized Hoodies</span>
+      </a>
+      <a href="collection.html?category=tees" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=250&h=250&fit=crop" alt="Boxy Tees" class="category-story-img"><span style="position: absolute; bottom: -4px; background: #171717; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 8px;">NEW</span></div>
+        <span class="category-story-title">Boxy Tees</span>
+      </a>
+      <a href="collection.html?category=shirts" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=250&h=250&fit=crop" alt="Bowling Shirts" class="category-story-img"></div>
+        <span class="category-story-title">Bowling Shirts</span>
+      </a>
+      <a href="collection.html?category=bottoms" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=250&h=250&fit=crop" alt="Cargo Pants" class="category-story-img"></div>
+        <span class="category-story-title">Cargo Pants</span>
+      </a>
+      <a href="collection.html?category=bottoms" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=250&h=250&fit=crop" alt="Denim Jorts" class="category-story-img"></div>
+        <span class="category-story-title">Denim Jorts</span>
+      </a>
+      <a href="collection.html" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=250&h=250&fit=crop" alt="Caps" class="category-story-img"></div>
+        <span class="category-story-title">Caps & Hats</span>
+      </a>
+      <a href="collection.html" class="category-story-item">
+        <div class="category-story-ring"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=250&h=250&fit=crop" alt="Vault" class="category-story-img"><span style="position: absolute; bottom: -4px; background: #e53e3e; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 8px;">SALE</span></div>
+        <span class="category-story-title">Archive Vault</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. 4-Column Editorial Lookbook Strip (Image 1) -->
+  <section class="editorial-strip-section editorial-strip--full-width" style="padding: 16px 0; background: #fff;">
+    <div class="editorial-strip-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">
+      <a href="collection.html?category=bottoms" class="editorial-strip-card editorial-strip-card--pos-top_right">
+        <div class="editorial-strip-img-wrap"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800&h=1100&fit=crop" alt="Cotton Pants" class="editorial-strip-img"></div>
+        <div class="editorial-strip-overlay" style="color: #000;">
+          <div class="editorial-strip-label">
+            <span class="editorial-strip-line-1">ESSENTIAL <span class="editorial-strip-arrow">&rarr;</span></span>
+            <span class="editorial-strip-line-2">COTTON PANTS</span>
+          </div>
+        </div>
+      </a>
+      <a href="collection.html?category=hoodies" class="editorial-strip-card editorial-strip-card--pos-top_right">
+        <div class="editorial-strip-img-wrap"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=1100&fit=crop" alt="Winter Collection" class="editorial-strip-img"></div>
+        <div class="editorial-strip-overlay" style="color: #000;">
+          <div class="editorial-strip-label">
+            <span class="editorial-strip-line-1">WINTER <span class="editorial-strip-arrow">&rarr;</span></span>
+            <span class="editorial-strip-line-2">COLLECTION</span>
+          </div>
+        </div>
+      </a>
+      <a href="collection.html?category=shirts" class="editorial-strip-card editorial-strip-card--pos-top_right">
+        <div class="editorial-strip-img-wrap"><img src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=800&h=1100&fit=crop" alt="The Shirt Line" class="editorial-strip-img"></div>
+        <div class="editorial-strip-overlay" style="color: #000;">
+          <div class="editorial-strip-label">
+            <span class="editorial-strip-line-1">THE <span class="editorial-strip-arrow">&rarr;</span></span>
+            <span class="editorial-strip-line-2">SHIRT LINE</span>
+          </div>
+        </div>
+      </a>
+      <a href="collection.html?category=bottoms" class="editorial-strip-card editorial-strip-card--pos-top_right">
+        <div class="editorial-strip-img-wrap"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=1100&fit=crop" alt="Parachute Pants" class="editorial-strip-img"></div>
+        <div class="editorial-strip-overlay" style="color: #000;">
+          <div class="editorial-strip-label">
+            <span class="editorial-strip-line-1">PARACHUTE <span class="editorial-strip-arrow">&rarr;</span></span>
+            <span class="editorial-strip-line-2">PANTS COLLECTION</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. Brand Perks Trust Bar -->
+  <section class="brand-perks-section" style="background: #fbfbfb; padding: 24px var(--container-padding); border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0;">
+    <div class="brand-perks-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: var(--container-max); margin: 0 auto; text-align: center;">
+      <div class="brand-perk-item">
+        <div style="font-size: 24px; margin-bottom: 6px;">🚚</div>
+        <div class="brand-perk__title" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Complimentary Dispatch</div>
+        <div style="font-size: 12px; color: #737373;">Free express shipping over $99</div>
+      </div>
+      <div class="brand-perk-item">
+        <div style="font-size: 24px; margin-bottom: 6px;">🔄</div>
+        <div class="brand-perk__title" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">7-Day Easy Returns</div>
+        <div style="font-size: 12px; color: #737373;">Hassle-free size exchanges</div>
+      </div>
+      <div class="brand-perk-item">
+        <div style="font-size: 24px; margin-bottom: 6px;">🧵</div>
+        <div class="brand-perk__title" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">450GSM Organic Cotton</div>
+        <div style="font-size: 12px; color: #737373;">Double-combed loopback fleece</div>
+      </div>
+      <div class="brand-perk-item">
+        <div style="font-size: 24px; margin-bottom: 6px;">🔒</div>
+        <div class="brand-perk__title" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Guaranteed Security</div>
+        <div style="font-size: 12px; color: #737373;">100% Encrypted UPI & Checkout</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Dynamic Collection Tabs Switcher -->
+  <section class="collection-tabs-section container container--wide" style="padding: 72px var(--container-padding);">
+    <div class="section-header text-center" style="margin-bottom: 24px;">
+      <span class="section-subtitle">LATEST DROPS & SILHOUETTES</span>
+      <h2 class="section-title">CURATED COLLECTIONS</h2>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid" id="homepage-featured-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+      <!-- Populated dynamically by StoreData with 2nd image hover -->
+    </div>
+  </section>
+
+  <!-- 8. WTFlex Signature Category Billboard Banner (Boxed Title + Sub-Fit Bullets) -->
+  <section class="category-billboard category-billboard--full-width" style="position: relative; min-height: 65vh; display: flex; align-items: center; background: #000; overflow: hidden; margin: 32px 0;">
+    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1800&h=1000&fit=crop" alt="T-Shirts Billboard" class="billboard__bg-img" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+    <div class="billboard__overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.3);"></div>
+    <div class="billboard__content-grid" style="position: relative; z-index: 3; width: 100%; max-width: var(--container-max); margin: 0 auto; padding: 60px 48px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="billboard__title-wrap">
+        <a href="collection.html?category=tees" class="billboard__boxed-title">TSHIRTS</a>
+      </div>
+      <div class="billboard__bottom-row" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-top: 80px;">
+        <ul class="billboard__bullet-list">
+          <li><a href="collection.html?category=tees" class="billboard__bullet-link">OVERSIZED</a></li>
+          <li><a href="collection.html?category=tees" class="billboard__bullet-link">BOXY FITS</a></li>
+          <li><a href="collection.html?category=tees" class="billboard__bullet-link">FULL SLEEVES</a></li>
+          <li><a href="collection.html?category=tees" class="billboard__bullet-link">SLIM FITS</a></li>
+          <li><a href="collection.html?category=tees" class="billboard__bullet-link">ACID WASHED</a></li>
+        </ul>
+        <div class="billboard__cta-wrap">
+          <a href="collection.html?category=tees" class="billboard__explore-btn">
+            <span>EXPLORE NOW</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. TikTok / Reels 9:16 Video Showcase (Image 2 Fix) -->
+  <section class="video-reels-section container container--wide" style="padding: 72px var(--container-padding); background: #0a0a0a; color: #fff;">
+    <div class="section-header-row" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px;">
+      <div>
+        <span class="section-subtitle" style="color: rgba(255,255,255,0.7);">MOTION ARCHIVE</span>
+        <h2 class="section-title" style="color: #fff; margin: 0;">KCCLOTHING IN MOTION</h2>
+      </div>
+      
+    </div>
+
+    <div class="video-reels-track-wrap">
+      <div class="video-reels-track" style="display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none;">
+        <div class="video-reel-card">
+          <div class="video-reel-media">
+            <img src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=600&h=1067&fit=crop" alt="Reel 1" class="video-reel-poster">
+            <button type="button" class="video-reel-sound-btn" aria-label="Toggle Sound"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg></button>
+            <div class="video-reel-product-card">
+              <a href="product.html?id=1" class="video-reel-prod-thumb"><img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=120" alt="Hoodie"></a>
+              <div class="video-reel-prod-info">
+                <a href="product.html?id=1" style="text-decoration:none; color:inherit;"><div class="video-reel-prod-title">Essential Heavyweight Hoodie</div></a>
+                <div class="video-reel-prod-price">$59.99</div>
+              </div>
+              <button type="button" class="video-reel-prod-add" data-variant-id="1" data-product-title="Essential Heavyweight Hoodie" data-price="59.99">+ ADD</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-reel-card">
+          <div class="video-reel-media">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=1067&fit=crop" alt="Reel 2" class="video-reel-poster">
+            <button type="button" class="video-reel-sound-btn" aria-label="Toggle Sound"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg></button>
+            <div class="video-reel-product-card">
+              <a href="product.html?id=2" class="video-reel-prod-thumb"><img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=120" alt="T-shirt"></a>
+              <div class="video-reel-prod-info">
+                <a href="product.html?id=2" style="text-decoration:none; color:inherit;"><div class="video-reel-prod-title">Persistence of Time Boxy Tee</div></a>
+                <div class="video-reel-prod-price">$34.99</div>
+              </div>
+              <button type="button" class="video-reel-prod-add" data-variant-id="2" data-product-title="Persistence of Time Boxy Tee" data-price="34.99">+ ADD</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-reel-card">
+          <div class="video-reel-media">
+            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=1067&fit=crop" alt="Reel 3" class="video-reel-poster">
+            <button type="button" class="video-reel-sound-btn" aria-label="Toggle Sound"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg></button>
+            <div class="video-reel-product-card">
+              <a href="product.html?id=3" class="video-reel-prod-thumb"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=120" alt="Cargo"></a>
+              <div class="video-reel-prod-info">
+                <a href="product.html?id=3" style="text-decoration:none; color:inherit;"><div class="video-reel-prod-title">Tactical Double-Pleat Cargo</div></a>
+                <div class="video-reel-prod-price">$64.99</div>
+              </div>
+              <button type="button" class="video-reel-prod-add" data-variant-id="3" data-product-title="Tactical Double-Pleat Cargo" data-price="64.99">+ ADD</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-reel-card">
+          <div class="video-reel-media">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=1067&fit=crop" alt="Reel 4" class="video-reel-poster">
+            <button type="button" class="video-reel-sound-btn" aria-label="Toggle Sound"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg></button>
+            <div class="video-reel-product-card">
+              <a href="product.html?id=4" class="video-reel-prod-thumb"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=120" alt="Jersey"></a>
+              <div class="video-reel-prod-info">
+                <a href="product.html?id=4" style="text-decoration:none; color:inherit;"><div class="video-reel-prod-title">Surreal Heritage Streetwear Jersey</div></a>
+                <div class="video-reel-prod-price">$48.00</div>
+              </div>
+              <button type="button" class="video-reel-prod-add" data-variant-id="4" data-product-title="Surreal Heritage Streetwear Jersey" data-price="48.00">+ ADD</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky 90-Degree Rotated Black Box Size Guide Tab -->
+  <button type="button" class="sticky-size-guide-tab" id="sticky-size-guide-btn" data-size-guide aria-label="Open Size Guide">
+    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    <span>SIZE GUIDE</span>
+  </button>
+
+  <!-- Footer -->
+  <footer class="footer" style="background: #171717; color: #fff; padding: 60px var(--container-padding) 30px;">
+    <div class="footer__inner container container--wide" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 24px; font-weight: 900; margin-bottom: 12px;">KCCLOTHING</div>
+        <p style="font-size: 13px; color: #a3a3a3; max-width: 320px; line-height: 1.6;">High-end streetwear silhouettes crafted with 450GSM heavyweight loopback fleece and artisan handcraft.</p>
+      </div>
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase;">Collections</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #a3a3a3;">
+          <a href="collection.html?category=hoodies" style="color: inherit; text-decoration: none;">Oversized Hoodies</a>
+          <a href="collection.html?category=tees" style="color: inherit; text-decoration: none;">Boxy Graphic Tees</a>
+          <a href="collection.html?category=bottoms" style="color: inherit; text-decoration: none;">Cargo Pants & Jorts</a>
+          <a href="collection.html" style="color: inherit; text-decoration: none;">Archive Vault</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase;">Customer Care</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #a3a3a3;">
+          <a href="shipping-policy.html" style="color: inherit; text-decoration: none;">Shipping Policy</a>
+          <a href="returns-policy.html" style="color: inherit; text-decoration: none;">Returns & Exchanges</a>
+          <a href="size-guide.html" style="color: inherit; text-decoration: none;">Size & Fit Guide</a>
+          <a href="faq.html" style="color: inherit; text-decoration: none;">FAQs</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase;">VIP Drop Club</div>
+        <p style="font-size: 12px; color: #a3a3a3; margin-bottom: 12px;">Sign up for 1-hour early access on all limited drops.</p>
+        <input type="email" placeholder="Enter your email" style="width: 100%; padding: 10px 14px; background: #262626; border: 1px solid #404040; border-radius: 4px; color: #fff; font-size: 12px; margin-bottom: 8px;">
+        <button type="button" class="hero-btn hero-btn--solid_white" style="width: 100%; justify-content: center; padding: 10px;"><span>Join Waitlist</span></button>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #262626; padding-top: 20px; text-align: center; font-size: 12px; color: #737373;">
+      &copy; 2026 KCCLOTHING. All rights reserved. Built for modern disruptors.
+    </div>
+  </footer>
+
+  <script src="assets/store-data.js"></script>
+  <script src="assets/theme.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('homepage-featured-grid');
+      if (grid && window.StoreData) {
+        const prods = StoreData.getProducts().slice(0, 8);
+        grid.innerHTML = '';
+        prods.forEach(p => {
+          const item = document.createElement('div');
+          item.className = 'product-card scroll-reveal';
+          const pMedia = (p.media && p.media.length > 0) ? p.media : [p.image];
+          const secImg = pMedia.length > 1 ? `<img src="${pMedia[1]}" alt="${p.title}" class="product-card__image product-card__image--secondary" loading="lazy">` : '';
+          item.innerHTML = `
+            <div class="product-card__image-wrap">
+              <a href="product.html?id=${p.id}" class="product-card__image-link">
+                <img src="${pMedia[0]}" alt="${p.title}" class="product-card__image product-card__image--primary" loading="lazy">
+                ${secImg}
+              </a>
+              <button type="button" class="product-card__wishlist" data-wishlist-toggle="${p.id}" aria-label="Add to wishlist" onclick="if(window.Wishlist){Wishlist.toggle('${p.id}');}event.preventDefault();event.stopPropagation();">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            <div class="product-card__info">
+              <a href="product.html?id=${p.id}" class="product-card__title-link">
+                <h3 class="product-card__title">${p.title}</h3>
+              </a>
+              <div class="product-card__price"><span class="price-current">$${Number(p.price).toFixed(2)}</span></div>
+            </div>
+          `;
+          grid.appendChild(item);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<footer class="footer" id="footer">
+  <div class="footer__grid">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'brand' -%}
+          <!-- Brand Info -->
+          <div class="footer__brand-col" {{ block.shopify_attributes }}>
+            <a href="{{ routes.root_url }}" class="footer__brand-name">{{ block.settings.brand_title | default: shop.name }}</a>
+            <p class="footer__brand-desc">{{ block.settings.brand_desc }}</p>
+            <div class="footer__social">
+              {%- if settings.social_instagram_link != blank -%}
+                <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+              {%- endif -%}
+              {%- if settings.social_twitter_link != blank -%}
+                <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" class="footer__social-link" aria-label="Twitter / X">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- when 'menu' -%}
+          <!-- Menu Linklist -->
+          <div class="footer__col" {{ block.shopify_attributes }}>
+            <h4 class="footer__col-title">{{ block.settings.title }}</h4>
+            <div class="footer__links">
+              {%- for link in block.settings.menu.links -%}
+                <a href="{{ link.url }}" class="footer__link">{{ link.title | escape }}</a>
+              {%- else -%}
+                <a href="#" class="footer__link">Sample Link</a>
+                <a href="#" class="footer__link">Sample Link</a>
+                <a href="#" class="footer__link">Sample Link</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- when 'newsletter' -%}
+          <!-- Newsletter -->
+          <div class="footer__col footer__newsletter-col" {{ block.shopify_attributes }}>
+            <h4 class="footer__col-title">{{ block.settings.title }}</h4>
+            <p class="footer__newsletter-text">{{ block.settings.text }}</p>
+            {%- form 'customer', class: 'footer__newsletter-form' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input
+                type="email"
+                name="contact[email]"
+                class="footer__newsletter-input"
+                value="{{ form.email }}"
+                aria-required="true"
+                placeholder="Enter your email"
+                required
+              >
+              <button type="submit" class="footer__newsletter-btn" aria-label="Subscribe">
+                <span>Join</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            {%- endform -%}
+            <div class="footer__security-badge">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Guaranteed Safe & 256-Bit SSL Encrypted</span>
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="footer__bottom">
+    <div class="footer__bottom-left">
+      <p class="footer__copyright">
+        &copy; {{ 'now' | date: "%Y" }} {{ section.settings.copyright_text | default: shop.name | append: '. All Rights Reserved.' }}
+      </p>
+      {%- if section.settings.show_legal_menu -%}
+        <div class="footer__legal-links">
+          {%- if section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
+            {%- for link in section.settings.legal_menu.links -%}
+              {%- unless forloop.first -%}<span class="footer__legal-dot">•</span>{%- endunless -%}
+              <a href="{{ link.url }}" class="footer__legal-link">{{ link.title | escape }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ shop.privacy_policy.url | default: '/pages/privacy-policy' }}" class="footer__legal-link">Privacy Policy</a>
+            <span class="footer__legal-dot">•</span>
+            <a href="{{ shop.terms_of_service.url | default: '/pages/terms' }}" class="footer__legal-link">Terms of Service</a>
+            <span class="footer__legal-dot">•</span>
+            <a href="{{ shop.shipping_policy.url | default: '/pages/shipping-policy' }}" class="footer__legal-link">Shipping Policy</a>
+            <span class="footer__legal-dot">•</span>
+            <a href="{{ shop.refund_policy.url | default: '/pages/returns-policy' }}" class="footer__legal-link">Returns Policy</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
+      <div class="footer__pay-icons">
+        {%- for type in shop.enabled_payment_types -%}
+          <span class="footer__pay-icon">{{ type | payment_type_svg_tag }}</span>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="footer__pay-icons">
+        <span class="footer__pay-icon">VISA</span>
+        <span class="footer__pay-icon">MC</span>
+        <span class="footer__pay-icon">AMEX</span>
+        <span class="footer__pay-icon">PAYPAL</span>
+        <span class="footer__pay-icon">APPLE PAY</span>
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Custom Copyright Text",
+      "default": "Keshav Clothing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_legal_menu",
+      "label": "Show Policy Links",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal Policy Menu",
+      "info": "Select a menu to customize the policy links displayed in the footer."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand Info",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "brand_title", "label": "Brand Title", "default": "KCCLOTHING" },
+        { "type": "textarea", "id": "brand_desc", "label": "Brand Description", "default": "Luxury streetwear and architectural silhouettes." }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Quick Links" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Inner Circle Access" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Subscribe for private drop notifications and VIP access." }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "brand" },
+      { "type": "menu", "settings": { "title": "Collections" } },
+      { "type": "menu", "settings": { "title": "Client Concierge" } },
+      { "type": "newsletter" }
+    ]
+  }
+}
+{% endschema %}

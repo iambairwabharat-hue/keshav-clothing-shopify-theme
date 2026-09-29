@@ -1,0 +1,88 @@
+{%- comment -%}
+  Renders facets (filtering & sorting) for Collection and Search pages
+  Accepts:
+  - results: {Object} Collection or Search object
+{%- endcomment -%}
+
+<form id="FacetFiltersForm" class="facets__form" method="get" action="{{ results.url | default: collection.url }}">
+  <!-- Preserve sort order when filtering -->
+  {%- if results.sort_by != blank -%}
+    <input type="hidden" name="sort_by" value="{{ results.sort_by }}">
+  {%- endif -%}
+
+  <!-- Drawer Header (Visible on Mobile & Slide-Out Drawer) -->
+  <div class="filter-drawer-header">
+    <span class="filter-drawer-title">FILTERS</span>
+    <button type="button" class="filter-drawer-close" id="filter-drawer-close" aria-label="Close filters">&times;</button>
+  </div>
+
+  <div class="filter-drawer-body">
+    {%- for filter in results.filters -%}
+      <div class="filter-group">
+        <div class="filter-group__header" onclick="this.parentElement.classList.toggle('filter-group--collapsed')">
+          <span class="filter-group__title">{{ filter.label | escape }}</span>
+          <svg class="icon-chevron-down" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        <div class="filter-group__content">
+          {%- case filter.type -%}
+            {%- when 'boolean', 'list' -%}
+              {%- for value in filter.values -%}
+                <label class="filter-checkbox-label" for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
+                  <div class="filter-checkbox-left">
+                    <input
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                      onchange="this.form.submit()"
+                    >
+                    <span>{{ value.label | escape }}</span>
+                  </div>
+                  <span class="filter-count">({{ value.count }})</span>
+                </label>
+              {%- endfor -%}
+
+            {%- when 'price_range' -%}
+              <div class="price-range-inputs">
+                <div class="price-field">
+                  <span class="currency-symbol">Rs.</span>
+                  <input
+                    type="number"
+                    name="{{ filter.min_value.param_name }}"
+                    class="price-range-input"
+                    placeholder="0"
+                    {% if filter.min_value.value %}value="{{ filter.min_value.value | divided_by: 100.0 }}"{% endif %}
+                    min="0"
+                    step="1"
+                  >
+                </div>
+                <span class="price-dash">—</span>
+                <div class="price-field">
+                  <span class="currency-symbol">Rs.</span>
+                  <input
+                    type="number"
+                    name="{{ filter.max_value.param_name }}"
+                    class="price-range-input"
+                    placeholder="{{ filter.range_max | divided_by: 100.0 | default: 9999 }}"
+                    {% if filter.max_value.value %}value="{{ filter.max_value.value | divided_by: 100.0 }}"{% endif %}
+                    min="0"
+                    step="1"
+                  >
+                </div>
+              </div>
+              <button type="submit" class="btn-apply-price">Apply Price</button>
+          {%- endcase -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- Drawer Footer Actions -->
+  <div class="filter-drawer-footer">
+    <a href="{{ results.url | default: collection.url }}" class="btn-clear-filters">Clear All</a>
+    <button type="submit" class="btn-apply-filters">Apply Filters</button>
+  </div>
+</form>

@@ -1,0 +1,89 @@
+{%- style -%}
+  #press-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #press-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #press-{{ section.id }} .press-quote__text {
+    font-size: {{ section.settings.quote_font_size | default: 26 }}px;
+  }
+{%- endstyle -%}
+
+<section class="press-quotes{% if section.settings.full_width %} press-quotes--full-width{% else %} container{% endif %}" id="press-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="press-logos">
+    {%- for block in section.blocks -%}
+      <div class="press-logo" {{ block.shopify_attributes }}>
+        {%- if block.settings.logo_image != blank -%}
+          {%- if block.settings.logo_image != blank -%}
+            <img src="{{ block.settings.logo_image | image_url: width: 200 }}" alt="{{ block.settings.logo_text | escape }}">
+          {%- else -%}
+            <span class="press-logo-text">{{ block.settings.logo_text | default: 'VOGUE' }}</span>
+          {%- endif -%}
+        {%- else -%}
+          <span>{{ block.settings.logo_text | default: 'GQ' }}</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="press-quote">
+    <p class="press-quote__text">“{{ section.settings.quote | default: 'KCCLOTHING has quietly perfected the heavy oversized silhouette. Their pieces have the weight and construction of four-figure luxury houses at an honest price point.' }}”</p>
+    <span class="press-quote__author">— {{ section.settings.author | default: 'GQ STYLE EDITORIAL, 2026' }}</span>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Press & Reviews",
+  "settings": [
+    { "type": "header", "content": "Featured Editorial Quote" },
+    { "type": "textarea", "id": "quote", "label": "Quote Text", "default": "KCCLOTHING has quietly perfected the heavy oversized silhouette. Their pieces have the weight and construction of four-figure luxury houses at an honest price point." },
+    { "type": "text", "id": "author", "label": "Publication / Author", "default": "GQ STYLE EDITORIAL, 2026" },
+    { "type": "range", "id": "quote_font_size", "min": 18, "max": 40, "step": 1, "unit": "px", "label": "Quote Font Size", "default": 26 },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#0a0a0a" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "publication",
+      "name": "Publication Logo",
+      "settings": [
+        { "type": "text", "id": "logo_text", "label": "Publication Name", "default": "GQ" },
+        { "type": "image_picker", "id": "logo_image", "label": "Logo Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press & Reviews",
+      "blocks": [
+        { "type": "publication", "settings": { "logo_text": "GQ" } },
+        { "type": "publication", "settings": { "logo_text": "HYPEBEAST" } },
+        { "type": "publication", "settings": { "logo_text": "VOGUE" } },
+        { "type": "publication", "settings": { "logo_text": "COMPLEX" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

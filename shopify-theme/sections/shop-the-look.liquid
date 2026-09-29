@@ -1,0 +1,223 @@
+{%- style -%}
+  #shop-the-look-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #shop-the-look-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #shop-the-look-{{ section.id }} .look-canvas {
+    aspect-ratio: {{ section.settings.canvas_aspect_ratio | default: '4/5' }};
+  }
+{%- endstyle -%}
+
+<!-- Interactive Shop The Look Hotspot Builder -->
+<section class="shop-the-look-section{% if section.settings.full_width %} shop-the-look--full-width{% else %} container container--wide{% endif %}" id="shop-the-look-{{ section.id }}" data-section-id="{{ section.id }}">
+  
+  {%- if section.settings.heading != blank -%}
+    <div class="section-header text-center">
+      <span class="section-subtitle">{{ section.settings.subtitle | default: 'CURATED LOOKBOOK' }}</span>
+      <h2 class="section-title">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.description != blank -%}
+        <p class="section-desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="shop-the-look-grid{% if section.settings.mobile_layout == 'stacked' %} shop-the-look-grid--mob-stacked{% endif %}">
+    <!-- Main Editorial Visual with Hotspot Pins -->
+    <div class="look-canvas-wrap">
+      <div class="look-canvas">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1400 }}"
+            alt="{{ section.settings.heading | escape }}"
+            class="look-canvas__image"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&q=80"
+            alt="Curated Streetwear Look"
+            class="look-canvas__image"
+            loading="lazy"
+          >
+        {%- endif -%}
+
+        <!-- Hotspot Pins -->
+        {%- for block in section.blocks -%}
+          {%- assign top_pos = block.settings.pos_top | default: 50 -%}
+          {%- assign left_pos = block.settings.pos_left | default: 50 -%}
+          <button
+            type="button"
+            class="look-hotspot-pin{% if forloop.first %} is-active{% endif %}"
+            style="top: {{ top_pos }}%; left: {{ left_pos }}%;"
+            data-pin-index="{{ forloop.index0 }}"
+            data-product-id="{{ block.settings.product_id | default: forloop.index }}"
+            aria-label="View {{ block.settings.title | escape }}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="look-hotspot-pin__pulse"></span>
+            <span class="look-hotspot-pin__dot">+</span>
+          </button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Hotspot Products Panel -->
+    <div class="look-products-panel">
+      <div class="look-products-header">
+        <span class="look-products-badge">Complete {{ section.blocks.size }}-Piece Fit</span>
+        <h3 class="look-products-title">Pieces In This Look</h3>
+      </div>
+
+      <div class="look-products-list" id="look-products-list-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- assign prod = block.settings.product -%}
+          <div
+            class="look-product-card{% if forloop.first %} is-active{% endif %}"
+            data-card-index="{{ forloop.index0 }}"
+            data-product-id="{{ block.settings.product_id | default: forloop.index }}"
+          >
+            <div class="look-product-card__thumb">
+              {%- if block.settings.custom_image != blank -%}
+                <img src="{{ block.settings.custom_image | image_url: width: 200 }}" alt="{{ block.settings.title | escape }}">
+              {%- elsif prod != blank and prod.featured_image != blank -%}
+                <img src="{{ prod.featured_image | image_url: width: 200 }}" alt="{{ prod.title | escape }}">
+              {%- else -%}
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200" alt="Garment Thumbnail">
+              {%- endif -%}
+            </div>
+
+            <div class="look-product-card__info">
+              <span class="look-product-card__category">{{ block.settings.category | default: 'Staple' }}</span>
+              <h4 class="look-product-card__title">{% if prod != blank %}{{ prod.title }}{% else %}{{ block.settings.title | default: 'Essential Streetwear Piece' }}{% endif %}</h4>
+              <div class="look-product-card__price">{% if prod != blank %}{{ prod.price | money }}{% else %}{{ block.settings.price | default: 'Rs. 5999' }}{% endif %}</div>
+
+              <div class="look-product-card__actions">
+                <div class="look-size-picker">
+                  <button type="button" class="look-size-pill is-active" data-size="S">S</button>
+                  <button type="button" class="look-size-pill" data-size="M">M</button>
+                  <button type="button" class="look-size-pill" data-size="L">L</button>
+                  <button type="button" class="look-size-pill" data-size="XL">XL</button>
+                </div>
+                <button
+                  type="button"
+                  class="btn-look-add"
+                  data-variant-id="{{ block.settings.variant_id }}"
+                  data-product-id="{{ block.settings.product_id | default: forloop.index }}"
+                  data-product-title="{{ block.settings.title | escape }}"
+                  data-price="{{ block.settings.price | remove: 'Rs. ' }}"
+                  data-image="{% if block.settings.custom_image != blank %}{{ block.settings.custom_image | image_url: width: 300 }}{% elsif prod != blank and prod.featured_image != blank %}{{ prod.featured_image | image_url: width: 300 }}{% else %}https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300{% endif %}"
+                >
+                  + Add to Bag
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Bundle Full Look Action -->
+      <div class="look-bundle-box">
+        <div class="look-bundle-info">
+          <span class="look-bundle-tag">COMPLETE LOOK DISCOUNT</span>
+          <div class="look-bundle-pricing">
+            <span class="look-bundle-total">{{ section.settings.bundle_price | default: 'Rs. 14999' }}</span>
+            <span class="look-bundle-compare">{{ section.settings.bundle_compare_price | default: 'Rs. 18000' }}</span>
+          </div>
+        </div>
+        <button type="button" class="btn-bundle-buy" id="btn-bundle-buy-{{ section.id }}">
+          <span>Add Complete Look to Bag</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Shop The Look (Hotspot)",
+  "settings": [
+    { "type": "header", "content": "Editorial Image & Dimensions" },
+    { "type": "image_picker", "id": "image", "label": "Main Editorial Photography" },
+    {
+      "type": "select",
+      "id": "canvas_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "4/5", "label": "Portrait (4:5) - Recommended" },
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "2/3", "label": "Tall Editorial (2:3)" },
+        { "value": "16/9", "label": "Landscape (16:9)" }
+      ],
+      "default": "4/5"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout Style",
+      "options": [
+        { "value": "stacked", "label": "Stacked Below Image" },
+        { "value": "drawer", "label": "Side Drawer Popup" }
+      ],
+      "default": "stacked"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width (Edge-to-edge)", "default": false },
+    { "type": "header", "content": "Header & Pricing" },
+    { "type": "text", "id": "subtitle", "label": "Section Subtitle", "default": "STYLING CURATION" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "SHOP THE EDITORIAL LOOK" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Tap the pulsing coordinates on the editorial look to inspect garment weights, choose sizes, or bundle the full silhouette." },
+    { "type": "text", "id": "bundle_price", "label": "Bundle Outfit Price", "default": "Rs. 14999" },
+    { "type": "text", "id": "bundle_compare_price", "label": "Bundle Compare At Price", "default": "Rs. 18000" },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Garment Hotspot Pin",
+      "settings": [
+        { "type": "range", "id": "pos_top", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Vertical Position (Top %)", "default": 35 },
+        { "type": "range", "id": "pos_left", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Horizontal Position (Left %)", "default": 45 },
+        { "type": "text", "id": "category", "label": "Category Tag", "default": "Outerwear" },
+        { "type": "text", "id": "title", "label": "Product Title", "default": "450GSM Custom Archival Hoodie" },
+        { "type": "text", "id": "price", "label": "Price", "default": "Rs. 6999" },
+        { "type": "image_picker", "id": "custom_image", "label": "Garment Thumbnail" },
+        { "type": "product", "id": "product", "label": "Select Shopify Product (Optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop The Look (Hotspot)",
+      "blocks": [
+        { "type": "hotspot", "settings": { "pos_top": 28, "pos_left": 48, "category": "Headwear", "title": "Minimalist Embroidered Cap", "price": "Rs. 2999" } },
+        { "type": "hotspot", "settings": { "pos_top": 45, "pos_left": 52, "category": "Heavyweight Fleece", "title": "450GSM Archival Boxy Hoodie", "price": "Rs. 6999" } },
+        { "type": "hotspot", "settings": { "pos_top": 72, "pos_left": 46, "category": "Bottoms", "title": "Tactical Double-Pleat Cargo Pants", "price": "Rs. 5999" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

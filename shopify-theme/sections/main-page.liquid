@@ -1,0 +1,19 @@
+{%- if page.handle == 'account' or page.handle == 'client-portal' or page.handle == 'portal' or page.handle == 'my-account' -%}
+  {% section 'main-account' %}
+{%- else -%}
+  <div class="page-container" style="max-width: 1000px; margin: 60px auto 100px; padding: 0 24px;">
+    <h1 class="page-title" style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 36px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 32px; color: var(--color-black, #171717);">
+      {{ page.title | escape }}
+    </h1>
+    <div class="page-content rte" style="font-size: 15px; line-height: 1.8; color: #404040;">
+      {{ page.content }}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": []
+}
+{% endschema %}

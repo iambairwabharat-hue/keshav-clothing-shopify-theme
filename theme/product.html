@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essential Oversized Hoodie — KCCLOTHING</title>
+  <meta name="description" content="Premium heavyweight cotton hoodie with an oversized fit for ultimate comfort and modern style.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/theme.css">
+  
+
+</head>
+<body>
+
+  <!-- 1. Announcement Bar -->
+  <div class="announcement-bar" id="announcement-bar">
+    <span>LIMITED RELEASES. EXCLUSIVE DROPS. ELEGANCE IS NOW LIVE.</span>
+    <button class="announcement-bar__close" id="announcement-close" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <!-- 2. Header (Exact Catalog Layout: Left Nav, Center Logo, Right Icons) -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="collection.html" class="nav-link">Catalog</a>
+        <a href="collection.html?category=hoodies" class="nav-link">Hoodies</a>
+        <a href="collection.html?category=jackets" class="nav-link">Jackets</a>
+        <a href="collection.html?category=tees" class="nav-link">Tees</a>
+        <a href="collection.html?category=shirts" class="nav-link">Shirts</a>
+      </nav>
+
+      <a href="index.html" class="logo">KCCLOTHING</a>
+
+      <div class="header-icons">
+        <a href="admin.html" class="header-icon" title="Store Admin" style="font-size: 11px; font-weight: 600; color: #fff; background: #008060; padding: 4px 10px; border-radius: 4px; text-decoration: none; border: none; height: auto;">
+          ⚙ Admin
+        </a>
+        <button class="header-icon" aria-label="Search">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        
+        <a href="account.html" class="header-icon" aria-label="Account" title="Customer Account">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+        <button type="button" class="header-icon header-icon--cart" aria-label="Cart" data-cart-trigger>
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. Mobile Nav Drawer -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <button class="mobile-nav__close" id="mobile-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="mobile-nav__links">
+      <a href="index.html" class="mobile-nav__link">Home</a>
+      <a href="collection.html" class="mobile-nav__link">Catalog</a>
+      <a href="collection.html?category=hoodies" class="mobile-nav__link">Hoodies & Sweats</a>
+      <a href="collection.html?category=jackets" class="mobile-nav__link">Jackets & Outerwear</a>
+      <a href="collection.html?category=tees" class="mobile-nav__link">T-Shirts & Tops</a>
+      <a href="collection.html?category=shirts" class="mobile-nav__link">Handblock Shirts</a>
+      <a href="product.html" class="mobile-nav__link">Product Spotlight</a>
+    </div>
+  </nav>
+
+  <!-- 3. Product Main Section (Original Clean Layout) -->
+  <section class="product-main">
+    <!-- Breadcrumbs -->
+    <div style="grid-column: 1 / -1; margin-bottom: 8px;">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="collection.html">Catalog</a>
+        <span>/</span>
+        <span id="breadcrumb-category">Hoodies</span>
+        <span>/</span>
+        <span id="breadcrumb-title">Essential Oversized Hoodie</span>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <div class="gallery-thumbs" id="gallery-thumbs">
+        <button class="gallery-thumb gallery-thumb--active" data-src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop&q=80">
+          <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=150&h=200&fit=crop&q=80" alt="Front view">
+        </button>
+        <button class="gallery-thumb" data-src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=600&h=800&fit=crop&q=80">
+          <img src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=150&h=200&fit=crop&q=80" alt="Side view">
+        </button>
+        <button class="gallery-thumb" data-src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&h=800&fit=crop&q=80">
+          <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=150&h=200&fit=crop&q=80" alt="Back view">
+        </button>
+        <button class="gallery-thumb" data-src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=800&fit=crop&q=80">
+          <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=150&h=200&fit=crop&q=80" alt="Detail view">
+        </button>
+      </div>
+      <div class="gallery-main">
+        <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop&q=80" alt="Essential Oversized Hoodie" class="gallery-main__image" id="gallery-main-img">
+        <button class="gallery-zoom" aria-label="Zoom">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <span class="product-badge" id="product-badge">New Arrival</span>
+      <h1 class="product-title" id="product-title">Essential Oversized Hoodie</h1>
+      
+      <div class="product-rating">
+        <span class="stars" style="color: #f59e0b;">★★★★★</span>
+        <span class="rating-text">4.9 (128 reviews)</span>
+      </div>
+
+      <div class="price-block">
+        <span class="price-current" id="product-price-current">$59.99</span>
+        <span class="price-compare" id="product-price-compare">$89.99</span>
+        <span class="price-discount" id="product-price-discount">33% OFF</span>
+      </div>
+
+      <!-- Stock Alert -->
+      <div class="stock-alert">
+        <span class="stock-alert__dot"></span>
+        <span>Only 3 pieces left in current batch</span>
+      </div>
+
+      <!-- Standard Product Description in 1st section -->
+      <p class="product-description" id="product-short-desc">Premium heavyweight cotton hoodie with an oversized fit for ultimate comfort and modern style.</p>
+
+      <!-- Color Variant Group -->
+      <div class="variant-group" data-option-index="0" data-option-name="Color">
+        <div class="variant-label">
+          <span class="variant-label__text">Color: <span class="variant-label__value" id="option-0-label">Charcoal Gray</span></span>
+        </div>
+        <div class="color-swatches" id="color-swatches-wrap">
+          <button type="button" class="color-swatch variant-option-btn color-swatch--active is-active" data-value="Charcoal Gray" data-option-index="0" style="background:#52525b" aria-label="Charcoal Gray"></button>
+          <button type="button" class="color-swatch variant-option-btn" data-value="Light Gray" data-option-index="0" style="background:#a1a1aa" aria-label="Light Gray"></button>
+          <button type="button" class="color-swatch variant-option-btn" data-value="Sand" data-option-index="0" style="background:#d4c5a9" aria-label="Sand"></button>
+          <button type="button" class="color-swatch variant-option-btn" data-value="Black" data-option-index="0" style="background:#171717" aria-label="Black"></button>
+        </div>
+      </div>
+
+      <!-- Size Variant Group -->
+      <div class="variant-group" data-option-index="1" data-option-name="Size">
+        <div class="variant-label">
+          <span class="variant-label__text">Size: <span class="variant-label__value" id="option-1-label">M</span></span>
+          
+        </div>
+        <div class="size-options" id="size-options-wrap">
+          <button type="button" class="size-btn variant-option-btn" data-value="S" data-option-index="1">S</button>
+          <button type="button" class="size-btn variant-option-btn size-btn--active is-active" data-value="M" data-option-index="1">M</button>
+          <button type="button" class="size-btn variant-option-btn" data-value="L" data-option-index="1">L</button>
+          <button type="button" class="size-btn variant-option-btn" data-value="XL" data-option-index="1">XL</button>
+          <button type="button" class="size-btn variant-option-btn" data-value="XXL" data-option-index="1">XXL</button>
+        </div>
+      </div>
+
+      <!-- Quantity Selector & Add to Cart Form -->
+      <div style="display: flex; gap: 12px; align-items: center; margin: 16px 0 10px;">
+        <div class="qty-selector" id="qty-selector">
+          <button type="button" class="qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+          <input type="number" class="qty-value" data-qty-value value="1" min="1" aria-label="Quantity">
+          <button type="button" class="qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+        </div>
+
+        <button class="btn-add-to-cart" id="add-to-cart" style="flex: 1; margin: 0;">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span id="add-to-cart-text">Add to Cart</span>
+        </button>
+
+        <button class="btn-wishlist" id="wishlist-btn" data-wishlist-toggle="1" aria-label="Add to wishlist" style="height: 48px; width: 48px; border: 1px solid #e5e5e5; border-radius: 6px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <!-- Buy It Now Button -->
+      <button type="button" class="btn-buy-now" id="btn-buy-now" onclick="document.getElementById('add-to-cart').click(); setTimeout(() => { if (window.SideCart) window.SideCart.open(); }, 100);">
+        BUY NOW &rarr;
+      </button>
+
+      <!-- Trust Badges -->
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <div class="trust-badge__icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <div class="trust-badge__text">Free Shipping</div>
+            <div class="trust-badge__sub">On orders over $99</div>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge__icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          </div>
+          <div>
+            <div class="trust-badge__text">Easy Returns</div>
+            <div class="trust-badge__sub">30-day return policy</div>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge__icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="trust-badge__text">Secure Payment</div>
+            <div class="trust-badge__sub">100% secure checkout</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Share Buttons -->
+      <div class="share-buttons">
+        <span class="share-buttons__label">Share:</span>
+        <button type="button" class="share-btn" data-share="whatsapp">WhatsApp</button>
+        <button type="button" class="share-btn" data-share="twitter">Twitter / X</button>
+        <button type="button" class="share-btn" data-share="pinterest">Pinterest</button>
+        <button type="button" class="share-btn" data-share="copy">Copy Link</button>
+      </div>
+    </div>
+
+    <!-- Product Variants Mock Data for Static Server -->
+    <script type="application/json" id="ProductJson-main">
+    {
+      "id": 1,
+      "title": "Essential Oversized Hoodie",
+      "variants": []
+    }
+    </script>
+  </section>
+
+  <!-- 4. Product Details Tabs Section -->
+  <section class="product-details-section" id="product-details-section">
+    <div class="product-details-inner" style="grid-template-columns: 1fr; max-width: var(--container-max); margin: 0 auto;">
+      <div class="product-details-text" style="padding: 48px var(--container-padding); max-width: 960px;">
+        <div class="tabs" id="product-details-tabs-nav">
+          <button class="tab-btn tab-btn--active" data-tab="details">Details</button>
+          <button class="tab-btn" data-tab="materials">Materials</button>
+          <button class="tab-btn" data-tab="size-fit">Size & Fit</button>
+          <button class="tab-btn" data-tab="shipping">Shipping & Returns</button>
+        </div>
+
+        <div id="product-raw-desc" style="display:none;"></div>
+
+        <div id="product-details-panes">
+          <div class="tab-pane tab-pane--active" data-tab="details">
+            <p>Crafted from high-quality heavyweight cotton, this hoodie delivers unmatched comfort and durability. The oversized fit and minimal design make it a versatile staple for any wardrobe.</p>
+          </div>
+          <div class="tab-pane" data-tab="materials">
+            <p>80% Cotton, 20% Polyester. Premium heavyweight 450gsm fleece. Brushed interior for maximum softness.</p>
+          </div>
+          <div class="tab-pane" data-tab="size-fit">
+            <p>This hoodie features an oversized, relaxed fit. We recommend ordering your regular size for the intended oversized look.</p>
+          </div>
+          <div class="tab-pane" data-tab="shipping">
+            <p>Free standard shipping on orders over $99. Standard delivery: 5-7 business days.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Customer Reviews Section -->
+  <section class="reviews-section" id="reviews-section">
+    <div class="reviews-header">
+      <h2>Verified Customer Reviews</h2>
+      <button class="btn btn--outline" onclick="alert('Review submission form will open.');" style="font-size: 12px; padding: 8px 16px; border: 1px solid #171717; background: transparent; cursor: pointer; border-radius: 4px;">Write a Review</button>
+    </div>
+
+    <div class="reviews-summary">
+      <div class="reviews-avg">
+        <div class="reviews-avg__number">4.9</div>
+        <div class="reviews-avg__stars">★★★★★</div>
+        <div class="reviews-avg__count">128 Reviews</div>
+      </div>
+      <div class="reviews-bars">
+        <div class="review-bar-row">
+          <span>5 ★</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 88%;"></div></div>
+          <span>112</span>
+        </div>
+        <div class="review-bar-row">
+          <span>4 ★</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 10%;"></div></div>
+          <span>13</span>
+        </div>
+        <div class="review-bar-row">
+          <span>3 ★</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 2%;"></div></div>
+          <span>3</span>
+        </div>
+        <div class="review-bar-row">
+          <span>2 ★</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 0%;"></div></div>
+          <span>0</span>
+        </div>
+        <div class="review-bar-row">
+          <span>1 ★</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 0%;"></div></div>
+          <span>0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-list">
+      <div class="review-card">
+        <div class="review-card__header">
+          <span class="review-card__author">Aarav M.</span>
+          <span class="review-card__verified">✓ Verified Buyer</span>
+        </div>
+        <div class="review-card__stars">★★★★★</div>
+        <div class="review-card__text">The 450GSM loopback cotton is insane. It holds its structured drape without feeling suffocating. Hands down the best oversized hoodie I own.</div>
+        <div class="review-card__date">2 days ago • Size L • Charcoal Gray</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-card__header">
+          <span class="review-card__author">Karan S.</span>
+          <span class="review-card__verified">✓ Verified Buyer</span>
+        </div>
+        <div class="review-card__stars">★★★★★</div>
+        <div class="review-card__text">Phenomenal quality and the boxy cut is spot on. Delivered in 3 days with luxury dustbag packaging. 10/10 recommend.</div>
+        <div class="review-card__date">1 week ago • Size M • Black</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Recommendations Section -->
+  <section class="recommendations">
+    <div class="recommendations__inner">
+      <div class="section-header">
+        <h2 class="section-title section-title--serif">You May Also Like</h2>
+        <a href="collection.html" class="view-all-link">View All →</a>
+      </div>
+      <div class="product-grid" id="product-recommendations-grid">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Add-to-Cart Bar (appears on scroll) -->
+  <div class="sticky-atc-bar" id="sticky-atc-bar">
+    <div class="sticky-atc-info">
+      <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=100&h=120&fit=crop&q=80" alt="Sticky product thumb" class="sticky-atc-thumb" id="sticky-atc-thumb">
+      <div>
+        <div class="sticky-atc-title" id="sticky-atc-title">Essential Oversized Hoodie</div>
+        <div class="sticky-atc-price" id="sticky-atc-price">$59.99</div>
+      </div>
+    </div>
+    <button type="button" class="sticky-atc-btn">Add to Bag</button>
+  </div>
+
+  <!-- 7. Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer__grid">
+      <!-- Col 1: Brand & Manifesto -->
+      <div class="footer__brand-col">
+        <a href="index.html" class="footer__brand-name">KCCLOTHING</a>
+        <p class="footer__brand-desc">
+          Luxury streetwear and architectural silhouettes engineered with generational textile craft, heavyweight fabrics, and subversive design.
+        </p>
+        <div class="footer__social">
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="footer__social-link" aria-label="Twitter / X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener" class="footer__social-link" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.332 1.365-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+          </a>
+          <a href="contact.html" class="footer__social-link" aria-label="WhatsApp Concierge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Collections / Shop -->
+      <div class="footer__col">
+        <h4 class="footer__col-title">Collections</h4>
+        <div class="footer__links">
+          <a href="collection.html" class="footer__link">All Releases</a>
+          <a href="collection.html?category=hoodies" class="footer__link">Heavyweight Hoodies</a>
+          <a href="collection.html?category=jackets" class="footer__link">Statement Jackets</a>
+          <a href="collection.html?category=tees" class="footer__link">Graphic T-Shirts</a>
+          <a href="collection.html?category=shirts" class="footer__link">Handblock Overshirts</a>
+          <a href="collection.html?category=bottoms" class="footer__link">Bottoms & Trousers</a>
+        </div>
+      </div>
+
+      <!-- Col 3: Information & Client Care -->
+      <div class="footer__col">
+        <h4 class="footer__col-title">Client Concierge</h4>
+        <div class="footer__links">
+          <a href="about.html" class="footer__link">Our Story & Craft</a>
+          <a href="shipping-policy.html" class="footer__link">Shipping & Delivery</a>
+          <a href="returns-policy.html" class="footer__link">Returns & Exchanges</a>
+          <a href="size-guide.html" class="footer__link">Size & Fit Guide</a>
+          <a href="faq.html" class="footer__link">Frequently Asked Questions</a>
+          <a href="contact.html" class="footer__link">Contact Support</a>
+        </div>
+      </div>
+
+      <!-- Col 4: Newsletter -->
+      <div class="footer__col footer__newsletter-col">
+        <h4 class="footer__col-title">Inner Circle Access</h4>
+        <p class="footer__newsletter-text">
+          Subscribe for private drop notifications, exclusive lookbooks, and VIP access to rare archive releases.
+        </p>
+        <form class="footer__newsletter-form" onsubmit="event.preventDefault(); window.showToast('✓ Welcome to the KCCLOTHING circle.'); this.reset();">
+          <input type="email" class="footer__newsletter-input" placeholder="Enter your email" required aria-label="Email for newsletter">
+          <button type="submit" class="footer__newsletter-btn" aria-label="Subscribe">
+            <span>Join</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+        <div class="footer__security-badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Guaranteed Safe & 256-Bit SSL Encrypted</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <div class="footer__bottom-left">
+        <p class="footer__copyright">&copy; 2026 KCCLOTHING. All Rights Reserved.</p>
+        <div class="footer__legal-links">
+          <a href="privacy-policy.html" class="footer__legal-link">Privacy Policy</a>
+          <span class="footer__legal-dot">•</span>
+          <a href="terms.html" class="footer__legal-link">Terms of Service</a>
+          <span class="footer__legal-dot">•</span>
+          <a href="shipping-policy.html" class="footer__legal-link">Shipping</a>
+          <span class="footer__legal-dot">•</span>
+          <a href="returns-policy.html" class="footer__legal-link">Returns</a>
+        </div>
+      </div>
+      <div class="footer__pay-icons">
+        <span class="footer__pay-icon">VISA</span>
+        <span class="footer__pay-icon">MC</span>
+        <span class="footer__pay-icon">AMEX</span>
+        <span class="footer__pay-icon">PAYPAL</span>
+        <span class="footer__pay-icon">APPLE PAY</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Side Cart Drawer Backdrop -->
+  <div class="side-cart-backdrop" id="side-cart-backdrop"></div>
+
+  <!-- Side Cart Drawer -->
+  <div class="side-cart-drawer" id="side-cart-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <!-- 1. Header -->
+    <div class="side-cart-header">
+      <div class="side-cart-title">
+        Your Bag <span class="side-cart-count-badge" id="side-cart-badge-count">0</span>
+      </div>
+      <button type="button" class="side-cart-close" id="side-cart-close" aria-label="Close cart drawer">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- 2. Free Shipping Meter -->
+    <div class="side-cart-shipping">
+      <div class="side-cart-shipping-text" id="side-cart-shipping-text">
+        Add <strong>$99.00</strong> more for <strong>FREE Worldwide Shipping</strong>
+      </div>
+      <div class="side-cart-shipping-progress">
+        <div class="side-cart-shipping-bar" id="side-cart-shipping-bar" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- 3. Scrollable Body -->
+    <div class="side-cart-body" id="side-cart-body">
+      <!-- Dynamic Items List -->
+      <div class="side-cart-items-list" id="side-cart-items-list"></div>
+
+      <!-- Empty State -->
+      <div class="side-cart-empty" id="side-cart-empty" style="display: none;">
+        <div class="side-cart-empty__icon">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        </div>
+        <h3 class="side-cart-empty__title">Your bag is empty</h3>
+        <p class="side-cart-empty__text">Discover luxury streetwear and handcrafted statement pieces.</p>
+        <a href="collection.html" class="btn-side-cart-shop" id="btn-side-cart-shop">Shop Latest Drops</a>
+      </div>
+
+      <!-- Upsell Section -->
+      <div class="side-cart-upsell" id="side-cart-upsell">
+        <div class="side-cart-upsell-title">Pairs well with</div>
+        <div class="side-cart-upsell-card">
+          <img src="https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=150&h=200&fit=crop&q=80" alt="Persistence Tee" class="side-cart-upsell-thumb">
+          <div class="side-cart-upsell-info">
+            <div class="side-cart-upsell-name">Persistence of Time Tee</div>
+            <div class="side-cart-upsell-price">$34.99</div>
+          </div>
+          <button type="button" class="btn-upsell-add" onclick="window.SideCart.addItem({id: 2, title: 'Persistence of Time Tee', price: 34.99, image: 'https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=150&h=200&fit=crop&q=80', color: 'Vintage White', size: 'M'})">+ Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Footer Checkout -->
+    <div class="side-cart-footer" id="side-cart-footer">
+      <div class="side-cart-subtotal-row">
+        <span class="side-cart-subtotal-label">Subtotal</span>
+        <span class="side-cart-subtotal-amount" id="side-cart-subtotal">$0.00</span>
+      </div>
+      <div class="side-cart-taxes-note">Shipping, taxes, and promotional discounts calculated at checkout.</div>
+      <button type="button" class="btn-side-cart-checkout" id="btn-side-cart-checkout" onclick="alert('Proceeding to Secure Checkout...');">
+        <span>Proceed to Checkout</span>
+        <span>→</span>
+      </button>
+      <div class="side-cart-trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span>Guaranteed 256-Bit SSL Encrypted Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/store-data.js"></script>
+  <script src="assets/theme.js"></script>
+  <script>
+    // FULL DYNAMIC PRODUCT RENDERER FROM SAVED BACKEND DATA
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.StoreData) return;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const prodId = urlParams.get('id') || 1;
+      const p = StoreData.getProductById(prodId);
+
+      if (!p) return;
+
+      // 1. Page Title & Heading & Breadcrumbs
+      document.title = `${p.title} — KCCLOTHING`;
+      const titleEl = document.getElementById('product-title');
+      if (titleEl) titleEl.textContent = p.title;
+
+      const bcCategory = document.getElementById('breadcrumb-category');
+      const bcTitle = document.getElementById('breadcrumb-title');
+      if (bcCategory) bcCategory.textContent = p.category || 'Collection';
+      if (bcTitle) bcTitle.textContent = p.title;
+
+      const stickyThumb = document.getElementById('sticky-atc-thumb');
+      const stickyTitle = document.getElementById('sticky-atc-title');
+      const stickyPrice = document.getElementById('sticky-atc-price');
+      if (stickyThumb) stickyThumb.src = p.image;
+      if (stickyTitle) stickyTitle.textContent = p.title;
+      if (stickyPrice) stickyPrice.textContent = '$' + Number(p.price).toFixed(2);
+
+      // 2. Badge
+      const badgeEl = document.getElementById('product-badge');
+      if (badgeEl) {
+        badgeEl.textContent = (p.tags && p.tags.length > 0) ? p.tags[0] : (p.status === 'Active' ? 'New Arrival' : 'Draft Preview');
+      }
+
+      // 3. Pricing
+      const priceEl = document.getElementById('product-price-current');
+      if (priceEl) priceEl.textContent = '$' + Number(p.price).toFixed(2);
+
+      const compareEl = document.getElementById('product-price-compare');
+      const discountEl = document.getElementById('product-price-discount');
+      if (p.compare_at_price && p.compare_at_price > p.price) {
+        if (compareEl) {
+          compareEl.textContent = '$' + Number(p.compare_at_price).toFixed(2);
+          compareEl.classList.remove('is-hidden');
+          compareEl.style.display = 'inline';
+        }
+        if (discountEl) {
+          const disc = Math.round(((p.compare_at_price - p.price) / p.compare_at_price) * 100);
+          discountEl.textContent = `${disc}% OFF`;
+          discountEl.classList.remove('is-hidden');
+          discountEl.style.display = 'inline-block';
+        }
+      } else {
+        if (compareEl) { compareEl.classList.add('is-hidden'); compareEl.style.display = 'none'; }
+        if (discountEl) { discountEl.classList.add('is-hidden'); discountEl.style.display = 'none'; }
+      }
+
+      // 4. Short Description in 1st section
+      const descEl = document.getElementById('product-short-desc');
+      if (descEl && p.description) {
+        const temp = document.createElement('div');
+        temp.innerHTML = p.description;
+        const firstP = temp.querySelector('p');
+        descEl.textContent = firstP ? firstP.textContent : (p.title + ' crafted with premium architectural fabrication.');
+      }
+
+      // 5. Media & Thumbnails
+      const mediaList = (p.media && p.media.length > 0) ? p.media : [p.image];
+      const mainImg = document.getElementById('gallery-main-img');
+      if (mainImg) mainImg.src = mediaList[0];
+
+      const thumbsWrap = document.getElementById('gallery-thumbs');
+      if (thumbsWrap) {
+        thumbsWrap.innerHTML = '';
+        mediaList.forEach((imgUrl, i) => {
+          const btn = document.createElement('button');
+          btn.className = `gallery-thumb ${i === 0 ? 'gallery-thumb--active' : ''}`;
+          btn.setAttribute('data-src', imgUrl);
+          btn.innerHTML = `<img src="${imgUrl}" alt="${p.title} - View ${i+1}">`;
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('gallery-thumb--active'));
+            btn.classList.add('gallery-thumb--active');
+            if (mainImg) {
+              mainImg.style.opacity = '0.3';
+              setTimeout(() => {
+                mainImg.src = imgUrl;
+                mainImg.style.opacity = '1';
+              }, 120);
+            }
+          });
+          thumbsWrap.appendChild(btn);
+        });
+      }
+
+      // 6. Color Swatches
+      const colors = (p.colors && p.colors.length > 0) ? p.colors : ['Charcoal Gray', 'Light Gray', 'Sand', 'Black'];
+      const swatchesWrap = document.getElementById('color-swatches-wrap');
+      const colorLabel = document.getElementById('option-0-label');
+      if (colorLabel) colorLabel.textContent = colors[0];
+
+      if (swatchesWrap) {
+        swatchesWrap.innerHTML = '';
+        const colorMap = {
+          'charcoal': '#52525b', 'gray': '#71717a', 'light gray': '#a1a1aa',
+          'sand': '#d4c5a9', 'black': '#171717', 'white': '#f4f4f5',
+          'olive': '#556b2f', 'crimson': '#990000', 'red': '#b91c1c',
+          'blue': '#1e3a8a', 'gold': '#d97706', 'brown': '#644d3e',
+          'green': '#15803d'
+        };
+
+        colors.forEach((col, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `color-swatch variant-option-btn ${i === 0 ? 'color-swatch--active is-active' : ''}`;
+          btn.setAttribute('data-value', col);
+          btn.setAttribute('data-option-index', '0');
+          btn.setAttribute('aria-label', col);
+          btn.title = col;
+
+          let bg = '#52525b';
+          const lower = col.toLowerCase();
+          for (const [k, v] of Object.entries(colorMap)) {
+            if (lower.includes(k)) { bg = v; break; }
+          }
+          btn.style.background = bg;
+
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            swatchesWrap.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('color-swatch--active', 'is-active'));
+            btn.classList.add('color-swatch--active', 'is-active');
+            if (colorLabel) colorLabel.textContent = col;
+
+            // Swap image if media has an image for this color
+            const targetImg = mediaList[i % mediaList.length];
+            if (targetImg && mainImg) {
+              mainImg.style.opacity = '0.3';
+              setTimeout(() => {
+                mainImg.src = targetImg;
+                mainImg.style.opacity = '1';
+              }, 100);
+            }
+            if (window.handleVariantClick) window.handleVariantClick(btn);
+          });
+
+          swatchesWrap.appendChild(btn);
+        });
+      }
+
+      // 7. Size Buttons
+      const sizes = (p.sizes && p.sizes.length > 0) ? p.sizes : ['S', 'M', 'L', 'XL', 'XXL'];
+      const sizesWrap = document.getElementById('size-options-wrap');
+      const sizeLabel = document.getElementById('option-1-label');
+      if (sizeLabel) sizeLabel.textContent = sizes[0] || 'M';
+
+      if (sizesWrap) {
+        sizesWrap.innerHTML = '';
+        sizes.forEach((sz, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `size-btn variant-option-btn ${i === 0 ? 'size-btn--active is-active' : ''}`;
+          btn.setAttribute('data-value', sz);
+          btn.setAttribute('data-option-index', '1');
+          btn.textContent = sz;
+
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sizesWrap.querySelectorAll('.size-btn').forEach(b => b.classList.remove('size-btn--active', 'is-active'));
+            btn.classList.add('size-btn--active', 'is-active');
+            if (sizeLabel) sizeLabel.textContent = sz;
+            if (window.handleVariantClick) window.handleVariantClick(btn);
+          });
+
+          sizesWrap.appendChild(btn);
+        });
+      }
+
+      // 8. Generate Product Variants Matrix JSON for Live Switcher
+      const variantsData = [];
+      colors.forEach(col => {
+        sizes.forEach(sz => {
+          variantsData.push({
+            id: Date.now() + Math.floor(Math.random() * 1000),
+            options: [col, sz],
+            price: Math.round(p.price * 100),
+            compare_at_price: p.compare_at_price ? Math.round(p.compare_at_price * 100) : null,
+            available: p.inventory > 0,
+            featured_image: { src: mediaList[0] }
+          });
+        });
+      });
+
+      const variantJsonEl = document.getElementById('ProductJson-main');
+      if (variantJsonEl) {
+        variantJsonEl.textContent = JSON.stringify({
+          id: p.id,
+          title: p.title,
+          variants: variantsData
+        });
+      }
+
+      // 9. Raw H3 Description Tabs in Details Section
+      const rawDescEl = document.getElementById('product-raw-desc');
+      if (rawDescEl && p.description) {
+        rawDescEl.innerHTML = p.description;
+      }
+
+      // Re-trigger dynamic tabs parser from theme.js
+      const rawDesc = document.getElementById('product-raw-desc');
+      const tabsNav = document.getElementById('product-details-tabs-nav');
+      const panesContainer = document.getElementById('product-details-panes');
+
+      if (rawDesc && tabsNav && panesContainer && rawDesc.innerHTML.includes('<h3')) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = rawDesc.innerHTML.trim();
+        const h3Elements = tempDiv.querySelectorAll('h3');
+
+        if (h3Elements.length > 0) {
+          const tabs = [];
+          let currentTab = null;
+
+          Array.from(tempDiv.childNodes).forEach((node) => {
+            if (node.nodeType === 1 && node.tagName.toLowerCase() === 'h3') {
+              if (currentTab) tabs.push(currentTab);
+              currentTab = {
+                title: node.textContent.trim(),
+                slug: 'tab-' + tabs.length,
+                contentNodes: []
+              };
+            } else if (currentTab) {
+              currentTab.contentNodes.push(node.cloneNode(true));
+            } else if (node.textContent.trim().length > 0) {
+              if (!currentTab) {
+                currentTab = {
+                  title: 'Details',
+                  slug: 'tab-0',
+                  contentNodes: [node.cloneNode(true)]
+                };
+              }
+            }
+          });
+          if (currentTab) tabs.push(currentTab);
+
+          let navHtml = '';
+          let panesHtml = '';
+
+          tabs.forEach((tab, index) => {
+            const isActive = index === 0 ? ' tab-btn--active' : '';
+            const isPaneActive = index === 0 ? ' tab-pane--active' : '';
+            navHtml += `<button type="button" class="tab-btn${isActive}" data-tab="${tab.slug}">${tab.title}</button>`;
+
+            const paneWrapper = document.createElement('div');
+            tab.contentNodes.forEach(n => paneWrapper.appendChild(n));
+            panesHtml += `<div class="tab-pane${isPaneActive}" data-tab="${tab.slug}">${paneWrapper.innerHTML}</div>`;
+          });
+
+          tabsNav.innerHTML = navHtml;
+          panesContainer.innerHTML = panesHtml;
+
+          // Wire up tab clicks
+          const detailsTabs = document.querySelectorAll('.product-details-section .tab-btn');
+          const detailsPanes = document.querySelectorAll('.product-details-section .tab-pane');
+
+          detailsTabs.forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const tabId = btn.getAttribute('data-tab');
+              detailsTabs.forEach((b) => b.classList.remove('tab-btn--active'));
+              detailsPanes.forEach((pn) => pn.classList.remove('tab-pane--active'));
+
+              btn.classList.add('tab-btn--active');
+              const targetPane = document.querySelector(`.product-details-section .tab-pane[data-tab="${tabId}"]`);
+              if (targetPane) targetPane.classList.add('tab-pane--active');
+            });
+          });
+        }
+      }
+
+      // 10. Recommendations Grid
+      const recGrid = document.getElementById('product-recommendations-grid');
+      if (recGrid) {
+        const otherProds = StoreData.getProducts().filter(prod => String(prod.id) !== String(p.id)).slice(0, 4);
+        recGrid.innerHTML = '';
+        otherProds.forEach(op => {
+          const item = document.createElement('div');
+          item.className = 'product-card';
+          item.setAttribute('data-product-id', op.id);
+          const opMedia = (op.media && op.media.length > 0) ? op.media : [op.image];
+          const encodedOpImgs = JSON.stringify(opMedia).replace(/"/g, '&quot;');
+          const scrubHtml = opMedia.length > 1 ? `
+            <div class="card-scrub-indicators">
+              ${opMedia.map((_, idx) => `<span class="card-scrub-bar ${idx === 0 ? 'is-active' : ''}"></span>`).join('')}
+            </div>
+          ` : '';
+
+          item.innerHTML = `
+            <a href="product.html?id=${op.id}" class="product-card__image-wrap" data-images="${encodedOpImgs}">
+              <img src="${op.image}" alt="${op.title}" class="product-card__image" loading="lazy">
+              ${scrubHtml}
+              <button class="product-card__wishlist" data-wishlist-toggle="${op.id}" aria-label="Add to wishlist" onclick="event.preventDefault();event.stopPropagation();">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+            </a>
+            <div class="product-card__info">
+              <h3 class="product-card__title"><a href="product.html?id=${op.id}">${op.title}</a></h3>
+              <div class="product-card__price">$${Number(op.price).toFixed(2)}</div>
+            </div>
+          `;
+          recGrid.appendChild(item);
+        });
+      }
+    });
+  </script>
+  <!-- Sticky 90-Degree Rotated Black Box Size Guide Tab (Right Edge) -->
+  <button type="button" class="sticky-size-guide-tab" id="sticky-size-guide-btn" data-size-guide aria-label="Open Size Guide">
+    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    <span>SIZE GUIDE</span>
+  </button>
+
+</body>
+</html>

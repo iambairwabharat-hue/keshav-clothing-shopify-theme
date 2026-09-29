@@ -1,0 +1,140 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_product": {
+      "type": "main-product",
+      "blocks": {
+        "badge": {
+          "type": "badge",
+          "settings": {
+            "text": "New Arrival"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "model_specs": {
+          "type": "model_specs",
+          "settings": {
+            "model_info": "Model is 6?1? (185 cm) / 175 lbs wearing Size Large"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "trust_badges": {
+          "type": "trust_badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "badge",
+        "title",
+        "rating",
+        "price",
+        "variant_picker",
+        "model_specs",
+        "buy_buttons",
+        "trust_badges"
+      ],
+      "settings": {
+        "gallery_layout": "thumbnails_left"
+      }
+    },
+    "product_tabs": {
+      "type": "product-tabs",
+      "settings": {
+        "heading_alignment": "left",
+        "image_aspect_ratio": "4/5",
+        "image_border_radius": 10,
+        "bg_color": "#fafafa",
+        "text_color": "#171717",
+        "padding_top_desktop": 64,
+        "padding_bottom_desktop": 64,
+        "padding_top_mobile": 36,
+        "padding_bottom_mobile": 36
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "subtitle": "YOUR BROWSING ARCHIVE",
+        "heading": "RECENTLY VIEWED PIECES",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "bg_color": "#ffffff",
+        "text_color": "#171717",
+        "padding_top_desktop": 80,
+        "padding_bottom_desktop": 80,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "178920272533753ea8": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_jmWdfm": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "other_products_reviews"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_jmWdfm"
+      ],
+      "settings": {}
+    },
+    "custom_liquid_w4FALe": {
+      "type": "custom-liquid",
+      "name": "Custom Liquid",
+      "settings": {
+        "custom_liquid": "<section class=\"bag-good\">\n\n  <div class=\"bag-good-title\">HER HANDS. OUR STORY</div>\n\n  <!-- ROW 1 -->\n  <div class=\"bag-good-row\">\n\n    <div class=\"bag-good-text\">\n      <h3>TWO TECHNIQUES. ONE STATEMENT</h3>\n      <p>\n        Bold print meets textured embroidery, creating a tee with more dimension,\n        more detail and way more personality.\n      </p>\n    </div>\n\n    <div class=\"bag-good-image\">\n      <img\n        src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/Give_super_closeup_shot_202608311657.webp?v=1788175806\"\n        alt=\"Bag style\"\n      >\n    </div>\n\n  </div>\n\n\n  <!-- ROW 2 -->\n  <div class=\"bag-good-row bag-good-row-mobile-reverse\">\n\n    <div class=\"bag-good-image\">\n      <img\n        src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/Remove_text_for_closeup_shot_202608311656.webp?v=1788175807\"\n        alt=\"Adjustable bag strap\"\n      >\n    </div>\n\n    <div class=\"bag-good-text\">\n      <h3>WHERE PRINT MEETS TEXTURE</h3>\n      <p>\n        Look closer and you’ll see the contrast — crisp graphic artwork paired\n        with raised stitching for a finish that feels anything but ordinary.\n      </p>\n    </div>\n\n  </div>\n\n\n  <!-- ROW 3 -->\n  <div class=\"bag-good-row\">\n\n    <div class=\"bag-good-text\">\n      <h3>MORE THAN ONE DIMENSION</h3>\n      <p>\n        From graphic impact to embroidered accents, every angle brings something\n        different to the look.\n      </p>\n    </div>\n\n    <div class=\"bag-good-image\">\n      <img\n        src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/Remove_text_take_in_center_202608311656.webp?v=1788175805\"\n        alt=\"Bag interior\"\n      >\n    </div>\n\n  </div>\n\n</section>\n\n\n<style>\n\n.bag-good {\n  width: 100%;\n  background: #ffffff;\n  font-family: Arial, Helvetica, sans-serif;\n  overflow: hidden;\n}\n\n\n/* =========================================\n   TITLE\n========================================= */\n\n.bag-good-title {\n  text-align: center;\n  font-size: 26px;\n  font-weight: 500;\n  letter-spacing: -0.02em;\n  color: #111;\n  padding: 8px 0 7px;\n  text-transform: uppercase;\n}\n\n\n/* =========================================\n   ROW\n========================================= */\n\n.bag-good-row {\n  width: 100%;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n\n\n/* =========================================\n   TEXT\n========================================= */\n\n.bag-good-text {\n  background: #eeeeee;\n  min-height: 250px;\n  padding: 40px 34px;\n\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n\n  box-sizing: border-box;\n}\n\n.bag-good-text h3 {\n  margin: 0 0 12px;\n\n  font-size: 26px;\n  line-height: 1.1;\n  font-weight: 500;\n  letter-spacing: -0.03em;\n\n  color: #333;\n}\n\n.bag-good-text p {\n  margin: 0;\n  max-width: 390px;\n\n  font-size: 18px;\n  line-height: 1.45;\n  font-weight: 400;\n\n  color: #444;\n}\n\n\n/* =========================================\n   IMAGE\n========================================= */\n\n.bag-good-image {\n  width: 100%;\n  height: 550px;\n\n  overflow: hidden;\n  background: #fff;\n}\n\n.bag-good-image img {\n  width: 100%;\n  height: 100%;\n\n  display: block;\n\n  object-fit: cover;\n}\n\n\n/* =========================================\n   MOBILE\n========================================= */\n\n@media (max-width: 749px) {\n\n  .bag-good-title {\n    font-size: 10px;\n    padding: 9px 0 8px;\n  }\n\n\n  /* ONE COLUMN */\n\n  .bag-good-row {\n    grid-template-columns: 1fr;\n  }\n\n\n  /* =======================================\n     ROW 2 MOBILE REVERSE\n\n     Desktop:\n     Image → Text\n\n     Mobile:\n     Text → Image\n  ======================================= */\n\n  .bag-good-row-mobile-reverse .bag-good-text {\n    order: 1;\n  }\n\n  .bag-good-row-mobile-reverse .bag-good-image {\n    order: 2;\n  }\n\n\n  /* TEXT */\n\n  .bag-good-text {\n    min-height: 190px;\n    padding: 30px 24px;\n  }\n\n  .bag-good-text h3 {\n    font-size: 15px;\n    margin-bottom: 10px;\n  }\n\n  .bag-good-text p {\n    font-size: 13px;\n    line-height: 1.5;\n    max-width: 100%;\n  }\n\n\n  /* IMAGE */\n\n  .bag-good-image {\n    height: 270px;\n  }\n\n}\n\n\n/* =========================================\n   SMALL MOBILE\n========================================= */\n\n@media (max-width: 480px) {\n\n  .bag-good-text {\n    min-height: 170px;\n    padding: 26px 20px;\n  }\n\n  .bag-good-image {\n    height: 240px;\n  }\n\n  .bag-good-text h3 {\n    font-size: 14px;\n  }\n\n  .bag-good-text p {\n    font-size: 12.5px;\n  }\n\n}\n\n</style>"
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading_alignment": "center",
+        "subtitle": "CURATED PAIRINGS",
+        "heading": "You May Also Like"
+      }
+    }
+  },
+  "order": [
+    "main_product",
+    "product_tabs",
+    "178920272533753ea8",
+    "recently_viewed",
+    "custom_liquid_w4FALe",
+    "recommendations"
+  ]
+}

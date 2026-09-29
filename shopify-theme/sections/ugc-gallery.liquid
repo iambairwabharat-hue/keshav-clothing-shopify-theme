@@ -1,0 +1,108 @@
+{%- style -%}
+  #ugc-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #ugc-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #ugc-{{ section.id }} .ugc-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 6 }}, 1fr);
+  }
+{%- endstyle -%}
+
+<section class="ugc-gallery{% if section.settings.full_width %} ugc-gallery--full-width{% else %} container container--wide{% endif %}" id="ugc-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="section-header text-{{ section.settings.heading_alignment | default: 'center' }}" style="text-align: {{ section.settings.heading_alignment | default: 'center' }};">
+    {%- if section.settings.subtitle != blank -%}
+      <span class="section-subtitle">{{ section.settings.subtitle | escape }}</span>
+    {%- endif -%}
+    <h2 class="section-title">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.instagram_url != blank -%}
+      <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" class="ugc-handle">{{ section.settings.instagram_handle | default: '@KCCLOTHING' }}</a>
+    {%- endif -%}
+  </div>
+
+  <div class="ugc-grid">
+    {%- for block in section.blocks -%}
+      <div class="ugc-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.handle | escape }}" loading="lazy">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop&q=80" alt="Community Post" loading="lazy">
+        {%- endif -%}
+        <div class="ugc-card__overlay">
+          <span class="ugc-card__handle">{{ block.settings.handle | default: '@community' }}</span>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Community UGC Gallery",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Header & Social Handle" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "COMMUNITY IN MOTION" },
+    { "type": "text", "id": "title", "label": "Title", "default": "AS WORN BY DISRUPTORS" },
+    { "type": "text", "id": "instagram_handle", "label": "Instagram Handle", "default": "@KCCLOTHING" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram Link" },
+    { "type": "range", "id": "columns_desktop", "min": 3, "max": 6, "step": 1, "default": 6, "label": "Desktop Columns" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "ugc_post",
+      "name": "UGC Post Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Post Image" },
+        { "type": "text", "id": "handle", "label": "Creator Handle", "default": "@marcus.vibe" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community UGC Gallery",
+      "blocks": [
+        { "type": "ugc_post", "settings": { "handle": "@marcus.vibe" } },
+        { "type": "ugc_post", "settings": { "handle": "@elena_k" } },
+        { "type": "ugc_post", "settings": { "handle": "@kai.disrupt" } },
+        { "type": "ugc_post", "settings": { "handle": "@studio_raw" } },
+        { "type": "ugc_post", "settings": { "handle": "@clara.noir" } },
+        { "type": "ugc_post", "settings": { "handle": "@dave_street" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

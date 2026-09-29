@@ -1,0 +1,138 @@
+{%- style -%}
+  #drop-countdown-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --overlay-color: {{ section.settings.overlay_color | default: '#000000' }};
+    --bg-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #drop-countdown-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  {%- case section.settings.desktop_height -%}
+    {%- when '50vh' -%}
+      #drop-countdown-{{ section.id }} .countdown-inner { min-height: 50vh; }
+    {%- when '70vh' -%}
+      #drop-countdown-{{ section.id }} .countdown-inner { min-height: 70vh; }
+    {%- when '100vh' -%}
+      #drop-countdown-{{ section.id }} .countdown-inner { min-height: 100vh; }
+    {%- when 'auto' -%}
+      #drop-countdown-{{ section.id }} .countdown-inner { min-height: auto; }
+  {%- endcase -%}
+{%- endstyle -%}
+
+<section class="drop-countdown{% if section.settings.full_width %} drop-countdown--full-width{% else %} container{% endif %}" id="drop-countdown-{{ section.id }}" data-section-id="{{ section.id }}">
+  
+  <div class="drop-countdown__bg">
+    {%- if section.settings.bg_image != blank -%}
+      <img src="{{ section.settings.bg_image | image_url: width: 1800 }}" alt="{{ section.settings.title | escape }}" loading="lazy">
+    {%- else -%}
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1800&h=1000&fit=crop&q=80" alt="Vault Drop Release" loading="lazy">
+    {%- endif -%}
+    <div class="drop-countdown__overlay" style="background: var(--overlay-color); opacity: var(--overlay-opacity);"></div>
+  </div>
+
+  <div class="countdown-inner countdown-inner--align-{{ section.settings.content_alignment | default: 'center' }}">
+    <span class="countdown-badge">{{ section.settings.badge | default: 'Vault Release 004' }}</span>
+    <h2 class="countdown-title">{{ section.settings.title | default: 'REBELLION & SILENCE DROP' }}</h2>
+    <p class="countdown-desc">{{ section.settings.desc | default: 'Only 300 pieces serialized worldwide. Milled from heavy Japanese organic loopback fleece. Sign up for 1-hour early VIP unlock.' }}</p>
+
+    <!-- Live Dynamic Timer -->
+    <div class="countdown-timer" id="countdown-timer" data-target="{{ section.settings.target_date | default: '2026-09-30T18:00:00Z' }}">
+      <div class="countdown-box"><span class="countdown-num" id="timer-days">02</span><span class="countdown-unit">Days</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="timer-hours">14</span><span class="countdown-unit">Hours</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="timer-mins">36</span><span class="countdown-unit">Mins</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-box"><span class="countdown-num" id="timer-secs">48</span><span class="countdown-unit">Secs</span></div>
+    </div>
+
+    <!-- VIP Early Access Input -->
+    {%- form 'customer', class: 'countdown-form' -%}
+      <input type="hidden" name="contact[tags]" value="vip_drop_waitlist">
+      <input type="email" name="contact[email]" class="countdown-input" placeholder="Enter VIP access email" required>
+      <button type="submit" class="hero-btn hero-btn--{{ section.settings.button_style | default: 'solid_white' }}">
+        <span>Unlock Early Access</span>
+        <span>→</span>
+      </button>
+    {%- endform -%}
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Drop Vault Countdown",
+  "settings": [
+    { "type": "header", "content": "Media & Dimensions" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    {
+      "type": "select",
+      "id": "desktop_height",
+      "label": "Section Height",
+      "options": [
+        { "value": "auto", "label": "Auto / Content Height" },
+        { "value": "50vh", "label": "Compact (50vh)" },
+        { "value": "70vh", "label": "Medium (70vh)" },
+        { "value": "100vh", "label": "Full Screen (100vh)" }
+      ],
+      "default": "70vh"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": true },
+    { "type": "header", "content": "Overlay & Styling" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay Tint", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay Opacity", "default": 60 },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Drop Content" },
+    { "type": "text", "id": "badge", "label": "Badge Tag", "default": "Vault Release 004" },
+    { "type": "text", "id": "title", "label": "Title", "default": "REBELLION & SILENCE DROP" },
+    { "type": "textarea", "id": "desc", "label": "Description", "default": "Only 300 pieces serialized worldwide. Milled from heavy Japanese organic loopback fleece. Sign up for 1-hour early VIP unlock." },
+    { "type": "text", "id": "target_date", "label": "Target Drop Date (ISO 8601)", "default": "2026-10-15T18:00:00Z", "info": "Format: YYYY-MM-DDTHH:MM:SSZ" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        { "value": "solid_white", "label": "Solid White" },
+        { "value": "solid_black", "label": "Solid Black" },
+        { "value": "outline_white", "label": "Outline White" },
+        { "value": "glass", "label": "Glassmorphism" }
+      ],
+      "default": "solid_white",
+      "label": "Button Style"
+    },
+    { "type": "header", "content": "Colors & Padding" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#0a0a0a" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "presets": [
+    { "name": "Drop Vault Countdown" }
+  ]
+}
+{% endschema %}

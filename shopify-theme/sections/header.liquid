@@ -1,0 +1,225 @@
+<style>
+  {%- if section.settings.enable_sticky_header -%}
+    #shopify-section-header,
+    .shopify-section-header,
+    [id*="shopify-section-header"],
+    .header--sticky {
+      position: sticky !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 99999 !important;
+    }
+  {%- endif -%}
+
+  {%- if section.settings.header_color_scheme == 'dark' -%}
+    .header,
+    #shopify-section-header,
+    .shopify-section-header {
+      background-color: #000000 !important;
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+    .header .logo,
+    .header .nav-link,
+    .header .header-icon {
+      color: #ffffff !important;
+    }
+    .header .header-icon svg {
+      stroke: #ffffff !important;
+    }
+    .header .mobile-toggle span {
+      background: #ffffff !important;
+    }
+    .header .cart-count {
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+  {%- endif -%}
+</style>
+
+<header class="header header--theme-{{ section.settings.header_color_scheme | default: 'light' }} header--desktop-{{ section.settings.desktop_menu_type }}{% if section.settings.enable_sticky_header %} header--sticky{% endif %}" id="header">
+  <div class="header__inner">
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-links">
+      {%- for link in section.settings.menu_linklist.links -%}
+        <a href="{{ link.url }}" class="nav-link{% if link.current %} nav-link--active{% endif %}">
+          {{ link.title | escape }}
+        </a>
+      {%- else -%}
+        <a href="{{ routes.root_url }}" class="nav-link nav-link--active">Home</a>
+        <a href="{{ routes.all_products_collection_url }}" class="nav-link">Catalog</a>
+      {%- endfor -%}
+    </nav>
+
+    <a href="{{ routes.root_url }}" class="logo" id="header-logo">
+      {%- if section.settings.header_color_scheme == 'dark' and section.settings.logo_dark != blank -%}
+        <img
+          src="{{ section.settings.logo_dark | image_url: width: 800 }}"
+          alt="{{ shop.name | escape }}"
+          width="{{ section.settings.logo_width }}"
+          height="auto"
+          class="logo-img logo-img--dark"
+          style="max-width: {{ section.settings.logo_width }}px; width: 100%; height: auto; display: block;"
+        >
+      {%- elsif section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 800 }}"
+          alt="{{ shop.name | escape }}"
+          width="{{ section.settings.logo_width }}"
+          height="auto"
+          class="logo-img logo-img--primary{% if section.settings.header_color_scheme == 'dark' and section.settings.invert_logo_dark %} logo--invert{% endif %}"
+          style="max-width: {{ section.settings.logo_width }}px; width: 100%; height: auto; display: block;"
+        >
+      {%- else -%}
+        <span class="logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="header-icons">
+      <a href="{{ routes.search_url }}" class="header-icon" aria-label="Search">
+        {% render 'icon', icon: 'search' %}
+      </a>
+      {%- if customer -%}
+        {%- assign account_target = routes.account_url -%}
+      {%- else -%}
+        {%- assign account_target = routes.account_login_url -%}
+      {%- endif -%}
+      {%- if section.settings.account_link != blank -%}
+        {%- assign account_target = section.settings.account_link -%}
+      {%- endif -%}
+      <a href="{{ account_target }}" class="header-icon" aria-label="Account" title="Account">
+        {% render 'icon', icon: 'account' %}
+      </a>
+      <button type="button" class="header-icon header-icon--cart" aria-label="Cart" data-cart-trigger style="background: transparent; border: none; cursor: pointer;">
+        {% render 'icon', icon: 'cart' %}
+        <span class="cart-count">{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Nav Drawer -->
+<div class="mobile-backdrop" id="mobile-backdrop"></div>
+<nav class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav__header">
+    <button class="mobile-nav__close" id="mobile-close" aria-label="Close navigation">
+      {% render 'icon', icon: 'close' %}
+      <span>Cancel</span>
+    </button>
+  </div>
+  <div class="mobile-nav__links">
+    {%- for link in section.settings.menu_linklist.links -%}
+      <a href="{{ link.url }}" class="mobile-nav__link" style="color: #171717 !important;">{{ link.title | escape }}</a>
+      {%- if link.links.size > 0 -%}
+        <div class="mobile-nav__sublinks" style="padding-left: 16px; margin-bottom: 12px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5);">
+          {%- for childlink in link.links -%}
+            <a href="{{ childlink.url }}" class="mobile-nav__sublink" style="display: block; padding: 10px 0; font-size: 14px; font-weight: 700; color: #525252 !important; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;">{{ childlink.title | escape }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <a href="{{ routes.root_url }}" class="mobile-nav__link" style="color: #171717 !important;">Home</a>
+      <a href="{{ routes.all_products_collection_url }}" class="mobile-nav__link" style="color: #171717 !important;">Catalog</a>
+    {%- endfor -%}
+    <a href="{{ account_target }}" class="mobile-nav__link" style="color: #171717 !important;">My Account / Portal</a>
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Theme & Style"
+    },
+    {
+      "type": "select",
+      "id": "header_color_scheme",
+      "label": "Header Theme / Color Scheme",
+      "options": [
+        { "value": "light", "label": "Light (White Background / Dark Text)" },
+        { "value": "dark", "label": "Dark (Black Background / White Text)" }
+      ],
+      "default": "light",
+      "info": "Inverts header background, nav links, text, SVG icons, and cart count."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable Sticky Header",
+      "default": true,
+      "info": "Keeps the header fixed to top when scrolling."
+    },
+    {
+      "type": "select",
+      "id": "desktop_menu_type",
+      "label": "Desktop Menu Style",
+      "options": [
+        { "value": "inline", "label": "Inline Links" },
+        { "value": "hamburger", "label": "Hamburger (Three Lines)" }
+      ],
+      "default": "inline"
+    },
+    {
+      "type": "header",
+      "content": "Logo Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Primary Logo Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_dark",
+      "label": "Dark Theme Logo Image (Optional)",
+      "info": "Alternative logo used when Dark Header Theme is selected."
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_logo_dark",
+      "label": "Auto-invert Primary Logo in Dark Theme",
+      "default": true,
+      "info": "Automatically converts dark/black logo image into crisp white when using Dark Theme."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "default": 140,
+      "unit": "px",
+      "label": "Logo Width"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_linklist",
+      "label": "Main Navigation Menu"
+    },
+    {
+      "type": "header",
+      "content": "Customer Account Portal"
+    },
+    {
+      "type": "checkbox",
+      "id": "always_show_account",
+      "label": "Always Show Account Icon",
+      "default": true,
+      "info": "Ensures the customer account icon is visible in the header."
+    },
+    {
+      "type": "url",
+      "id": "account_link",
+      "label": "Account Link Override (Optional)",
+      "info": "Leave blank for Shopify default, or set to /account to open theme portal."
+    }
+  ]
+}
+{% endschema %}

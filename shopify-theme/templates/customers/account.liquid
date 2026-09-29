@@ -1,0 +1,367 @@
+<!-- Customer Account Template with Order Tracking & Saved Favorites -->
+<div class="account-page section-spacing">
+  <div class="container container--narrow" style="max-width: 1040px; margin: 40px auto; padding: 0 20px;">
+    
+    <!-- Hero Header -->
+    <section class="account-hero" style="text-align: center; margin-bottom: 40px;">
+      <div class="breadcrumbs" style="display: flex; justify-content: center; align-items: center; margin-bottom: 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-gray-500, #737373);">
+        <a href="{{ routes.root_url }}" style="color: inherit; text-decoration: none;">Home</a>
+        <span style="margin: 0 8px;">/</span>
+        <span>Client Portal</span>
+      </div>
+      <h1 class="account-hero__title" style="font-family: var(--font-display, 'Moniqa-BoldHeading', 'Oswald', sans-serif); font-size: clamp(32px, 4vw, 48px); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; color: #171717;">CLIENT PORTAL</h1>
+      <p class="account-hero__sub" style="font-size: 14px; color: var(--color-gray-600, #525252); max-width: 540px; margin: 0 auto;">Welcome back, {{ customer.first_name | default: 'Client' }}. Manage your recent orders, shipment tracking, and saved wishlist items.</p>
+    </section>
+
+    <!-- Account Layout Grid -->
+    <div class="account-container" style="display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start;">
+      
+      <!-- Sidebar Navigation -->
+      <aside class="account-sidebar" style="background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid var(--color-gray-200, #e5e5e5); box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <div class="account-user" style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5);">
+          <div class="account-avatar" style="width: 46px; height: 46px; border-radius: 50%; background: #171717; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;">
+            {{ customer.first_name | slice: 0, 1 | default: 'C' }}{{ customer.last_name | slice: 0, 1 | default: 'L' }}
+          </div>
+          <div>
+            <div class="account-user__name" style="font-weight: 700; font-size: 14.5px; color: #171717;">{{ customer.name | default: 'Client Member' }}</div>
+            <span class="account-user__badge" style="display: inline-block; font-size: 10px; font-weight: 700; background: #f3f4f6; color: #171717; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px;">VIP MEMBER</span>
+          </div>
+        </div>
+
+        <nav class="account-nav" style="display: flex; flex-direction: column; gap: 6px;">
+          <button type="button" class="account-nav__btn account-nav__btn--active" data-pane="orders" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; background: #171717; color: #ffffff; border: none; font-size: 13px; font-weight: 600; text-align: left; cursor: pointer; border-radius: 6px; transition: all 0.2s;">
+            <span style="display: flex; align-items: center; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              Orders
+            </span>
+            <span class="nav-count-badge" style="font-size: 11px; background: rgba(255,255,255,0.2); padding: 2px 7px; border-radius: 10px;">{{ customer.orders_count }}</span>
+          </button>
+          
+          <button type="button" class="account-nav__btn" data-pane="favorites" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; background: transparent; color: #171717; border: none; font-size: 13px; font-weight: 600; text-align: left; cursor: pointer; border-radius: 6px; transition: all 0.2s;">
+            <span style="display: flex; align-items: center; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              Wishlist & Saved
+            </span>
+            <span class="favorites-count nav-count-badge" style="font-size: 11px; background: #e5e5e5; padding: 2px 7px; border-radius: 10px;">0</span>
+          </button>
+
+          <button type="button" class="account-nav__btn" data-pane="addresses" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; background: transparent; color: #171717; border: none; font-size: 13px; font-weight: 600; text-align: left; cursor: pointer; border-radius: 6px; transition: all 0.2s;">
+            <span style="display: flex; align-items: center; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Addresses
+            </span>
+            <span class="nav-count-badge" style="font-size: 11px; background: #e5e5e5; padding: 2px 7px; border-radius: 10px;">{{ customer.addresses_count }}</span>
+          </button>
+
+          <a href="{{ routes.account_logout_url }}" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; background: transparent; text-decoration: none; font-size: 13px; font-weight: 600; color: #dc2626; border-radius: 6px; margin-top: 16px; border-top: 1px solid #f3f4f6; padding-top: 16px;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            Sign Out
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content Panes -->
+      <main class="account-content">
+        
+        <!-- Pane 1: Order History & Real-Time Tracking -->
+        <div class="account-pane account-pane--active" id="pane-orders">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); padding-bottom: 14px;">
+            <div>
+              <h2 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; color: #171717;">ORDER HISTORY</h2>
+              <p style="font-size: 12.5px; color: var(--color-gray-500, #737373); margin-top: 3px;">Track your packages and view past purchase receipts.</p>
+            </div>
+            <span style="font-size: 12px; font-weight: 700; color: #171717; background: #f3f4f6; padding: 4px 10px; border-radius: 4px;">{{ customer.orders_count }} TOTAL ORDERS</span>
+          </div>
+
+          {%- paginate customer.orders by 10 -%}
+            {%- if customer.orders.size > 0 -%}
+              <div class="orders-list" style="display: flex; flex-direction: column; gap: 24px;">
+                {%- for order in customer.orders -%}
+                  <div class="order-card" style="border: 1px solid var(--color-gray-200, #e5e5e5); border-radius: 8px; background: #ffffff; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                    
+                    <!-- Order Header -->
+                    <div style="background: #fafafa; padding: 16px 20px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                      <div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                          <a href="{{ order.customer_url }}" style="font-size: 15px; font-weight: 700; color: #171717; text-decoration: none;">Order {{ order.name }}</a>
+                          {%- if order.fulfillment_status == 'fulfilled' -%}
+                            <span style="font-size: 10px; font-weight: 700; background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;">DELIVERED</span>
+                          {%- elsif order.fulfillment_status == 'partial' -%}
+                            <span style="font-size: 10px; font-weight: 700; background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;">IN TRANSIT</span>
+                          {%- else -%}
+                            <span style="font-size: 10px; font-weight: 700; background: #e0f2fe; color: #075985; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px;">PROCESSING</span>
+                          {%- endif -%}
+                        </div>
+                        <div style="font-size: 12px; color: var(--color-gray-500, #737373); margin-top: 4px;">Placed on {{ order.created_at | date: "%B %d, %Y" }}</div>
+                      </div>
+
+                      <div style="text-align: right;">
+                        <div style="font-size: 15px; font-weight: 800; color: #171717;">{{ order.total_price | money_with_currency }}</div>
+                        <div style="font-size: 11.5px; color: #525252; margin-top: 2px;">{{ order.financial_status_label }}</div>
+                      </div>
+                    </div>
+
+                    <!-- Real-Time Order Tracking Bar -->
+                    <div style="padding: 20px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); background: #ffffff;">
+                      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #171717; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <span>Shipment Progress</span>
+                        {%- if order.successful_fulfillments.first.tracking_url != blank -%}
+                          <a href="{{ order.successful_fulfillments.first.tracking_url }}" target="_blank" style="color: #171717; font-weight: 600; text-decoration: underline;">
+                            Track with {{ order.successful_fulfillments.first.tracking_company | default: 'Carrier' }} &rarr;
+                          </a>
+                        {%- endif -%}
+                      </div>
+
+                      <!-- Visual 4-Step Tracker -->
+                      <div class="tracking-steps" style="display: grid; grid-template-columns: repeat(4, 1fr); position: relative; gap: 8px; text-align: center;">
+                        <div class="tracking-step" style="position: relative;">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; background: #171717; color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 11px; font-weight: 700;">✓</div>
+                          <span style="font-size: 11px; font-weight: 600; color: #171717; display: block;">Placed</span>
+                        </div>
+                        
+                        <div class="tracking-step">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; background: {% if order.fulfillment_status != 'unfulfilled' %}#171717{% else %}#e5e5e5{% endif %}; color: {% if order.fulfillment_status != 'unfulfilled' %}#fff{% else %}#737373{% endif %}; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 11px; font-weight: 700;">
+                            {% if order.fulfillment_status != 'unfulfilled' %}✓{% else %}2{% endif %}
+                          </div>
+                          <span style="font-size: 11px; font-weight: 600; color: {% if order.fulfillment_status != 'unfulfilled' %}#171717{% else %}#737373{% endif %}; display: block;">Processing</span>
+                        </div>
+
+                        <div class="tracking-step">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; background: {% if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' %}#171717{% else %}#e5e5e5{% endif %}; color: {% if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' %}#fff{% else %}#737373{% endif %}; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 11px; font-weight: 700;">
+                            {% if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' %}✓{% else %}3{% endif %}
+                          </div>
+                          <span style="font-size: 11px; font-weight: 600; color: {% if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' %}#171717{% else %}#737373{% endif %}; display: block;">In Transit</span>
+                        </div>
+
+                        <div class="tracking-step">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; background: {% if order.fulfillment_status == 'fulfilled' %}#166534{% else %}#e5e5e5{% endif %}; color: {% if order.fulfillment_status == 'fulfilled' %}#fff{% else %}#737373{% endif %}; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 11px; font-weight: 700;">
+                            {% if order.fulfillment_status == 'fulfilled' %}✓{% else %}4{% endif %}
+                          </div>
+                          <span style="font-size: 11px; font-weight: 600; color: {% if order.fulfillment_status == 'fulfilled' %}#166534{% else %}#737373{% endif %}; display: block;">Delivered</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Items List -->
+                    <div style="padding: 20px;">
+                      <div style="display: flex; flex-direction: column; gap: 14px;">
+                        {%- for line_item in order.line_items -%}
+                          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                              <div style="width: 56px; height: 68px; background: #f5f5f5; border-radius: 4px; overflow: hidden; flex-shrink: 0; border: 1px solid #e5e5e5;">
+                                {%- if line_item.image -%}
+                                  <img src="{{ line_item.image | image_url: width: 150 }}" alt="{{ line_item.title | escape }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {%- else -%}
+                                  <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #a3a3a3;">Item</div>
+                                {%- endif -%}
+                              </div>
+                              <div>
+                                <a href="{{ line_item.product.url }}" style="font-size: 13.5px; font-weight: 700; color: #171717; text-decoration: none; display: block;">{{ line_item.product.title | default: line_item.title }}</a>
+                                {%- if line_item.variant.title != blank and line_item.variant.title != 'Default Title' -%}
+                                  <div style="font-size: 12px; color: #737373; margin-top: 2px;">Size / Variant: {{ line_item.variant.title }}</div>
+                                {%- endif -%}
+                                <div style="font-size: 12px; color: #737373; margin-top: 2px;">Qty: {{ line_item.quantity }}</div>
+                              </div>
+                            </div>
+                            <div style="font-size: 13.5px; font-weight: 700; color: #171717;">
+                              {{ line_item.final_price | money }}
+                            </div>
+                          </div>
+                        {%- endfor -%}
+                      </div>
+
+                      <!-- Footer Buttons -->
+                      <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6;">
+                        <a href="{{ order.customer_url }}" style="padding: 9px 16px; border: 1px solid #d4d4d4; background: #ffffff; color: #171717; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;">
+                          View Invoice Details
+                        </a>
+                        {%- if order.successful_fulfillments.first.tracking_url != blank -%}
+                          <a href="{{ order.successful_fulfillments.first.tracking_url }}" target="_blank" style="padding: 9px 18px; background: #171717; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                            Track Shipment &rarr;
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                  </div>
+                {%- endfor -%}
+              </div>
+              {{ paginate | default_pagination }}
+            {%- else -%}
+              <div style="text-align: center; padding: 56px 20px; background: #ffffff; border-radius: 8px; border: 1px dashed var(--color-gray-300, #d4d4d4);">
+                <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="var(--color-gray-400)" stroke-width="1.4" style="margin: 0 auto 14px; display: block;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                <h3 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; color: #171717;">No Orders Placed Yet</h3>
+                <p style="font-size: 13.5px; color: var(--color-gray-500, #737373); max-width: 420px; margin: 0 auto 20px;">Once you place an order, you will be able to track live shipment status, view order invoices, and manage deliveries right here.</p>
+                <a href="{{ routes.all_products_collection_url }}" style="display: inline-block; padding: 12px 28px; background: #171717; color: #ffffff; text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-decoration: none; border-radius: 4px;">Explore Drops</a>
+              </div>
+            {%- endif -%}
+          {%- endpaginate -%}
+        </div>
+
+        <!-- Pane 2: Wishlist & Saved Items -->
+        <div class="account-pane" id="pane-favorites" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); padding-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; color: #171717;">WISHLIST & SAVED ITEMS</h2>
+              <p style="font-size: 12.5px; color: var(--color-gray-500, #737373); margin-top: 3px;">Your private curation of coveted luxury pieces.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="account-favs-badge" style="font-size: 11px; font-weight: 700; background: #171717; color: #ffffff; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">0 Pieces</span>
+              <a href="{{ routes.all_products_collection_url }}" style="font-size: 11px; font-weight: 700; color: #171717; text-decoration: none; border: 1px solid #171717; padding: 4px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px;">+ Browse Collection</a>
+            </div>
+          </div>
+
+          <div class="account-favorites-grid" id="account-favorites-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+            <!-- Rendered dynamically via JavaScript -->
+          </div>
+
+          <div id="account-favorites-empty" style="display: none; text-align: center; padding: 56px 20px; background: #ffffff; border-radius: 8px; border: 1px dashed var(--color-gray-300, #d4d4d4);">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--color-gray-400)" stroke-width="1.2" style="margin: 0 auto 14px; display: block;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <h3 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; color: #171717;">No Wishlist Items Saved</h3>
+            <p style="font-size: 13.5px; color: var(--color-gray-500, #737373); max-width: 400px; margin: 0 auto 20px;">Tap the heart icon on any luxury streetwear release across our catalog to save items to your personal wishlist here.</p>
+            <a href="{{ routes.all_products_collection_url }}" style="display: inline-block; padding: 12px 28px; background: #171717; color: #ffffff; text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-decoration: none; border-radius: 4px;">Explore Catalog</a>
+          </div>
+        </div>
+
+        <!-- Pane 3: Saved Addresses -->
+        <div class="account-pane" id="pane-addresses" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); padding-bottom: 14px;">
+            <div>
+              <h2 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; color: #171717;">SAVED ADDRESSES</h2>
+              <p style="font-size: 12.5px; color: var(--color-gray-500, #737373); margin-top: 3px;">Manage your primary delivery location for faster checkout.</p>
+            </div>
+            <a href="{{ routes.account_addresses_url }}" style="font-size: 12px; font-weight: 700; color: #171717; text-decoration: underline; text-transform: uppercase; letter-spacing: 0.8px;">Manage All Addresses ({{ customer.addresses_count }}) &rarr;</a>
+          </div>
+
+          {%- if customer.default_address -%}
+            <div style="border: 1px solid var(--color-gray-200, #e5e5e5); border-radius: 8px; padding: 24px; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 10px; font-weight: 700; background: #171717; color: #ffffff; padding: 3px 10px; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px;">DEFAULT DELIVERY LOCATION</span>
+                <a href="{{ routes.account_addresses_url }}" style="font-size: 12px; font-weight: 600; color: #171717; text-decoration: underline;">Edit</a>
+              </div>
+              <div style="font-size: 14.5px; line-height: 1.6; color: #171717; font-weight: 500;">
+                {{ customer.default_address | format_address }}
+              </div>
+            </div>
+          {%- else -%}
+            <div style="text-align: center; padding: 48px 20px; background: #ffffff; border-radius: 8px; border: 1px dashed var(--color-gray-300, #d4d4d4);">
+              <p style="font-size: 14px; color: var(--color-gray-500, #737373); margin-bottom: 16px;">No default address saved yet.</p>
+              <a href="{{ routes.account_addresses_url }}" style="display: inline-block; padding: 10px 24px; background: #171717; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Add Primary Address</a>
+            </div>
+          {%- endif -%}
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getSavedFavorites() {
+    try {
+      const raw = localStorage.getItem('nevermind_wishlist');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function removeAccountFavorite(id) {
+    if (window.Wishlist) {
+      window.Wishlist.remove(id);
+    } else {
+      let list = getSavedFavorites();
+      list = list.filter(item => String(item) !== String(id));
+      localStorage.setItem('nevermind_wishlist', JSON.stringify(list));
+    }
+    renderAccountFavorites();
+    if (window.showToast) window.showToast('Removed from Wishlist');
+  }
+
+  function renderAccountFavorites() {
+    const favIds = getSavedFavorites().map(String);
+    const allProducts = (window.STORE_DATA && window.STORE_DATA.products) || [];
+    const favProducts = allProducts.filter(p => favIds.includes(String(p.id)));
+
+    const count = favProducts.length;
+    document.querySelectorAll('.favorites-count').forEach(el => el.textContent = count);
+    const badge = document.getElementById('account-favs-badge');
+    if (badge) badge.textContent = `${count} Piece${count === 1 ? '' : 's'}`;
+
+    const grid = document.getElementById('account-favorites-grid');
+    const emptyState = document.getElementById('account-favorites-empty');
+    if (!grid) return;
+
+    if (favProducts.length === 0) {
+      grid.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
+    }
+
+    grid.style.display = 'grid';
+    if (emptyState) emptyState.style.display = 'none';
+
+    grid.innerHTML = favProducts.map(p => {
+      const img = (p.images && p.images[0]) || '';
+      const price = typeof p.price === 'number' ? p.price.toFixed(2) : p.price;
+      return `
+        <div class="account-fav-card" id="account-fav-card-${p.id}" style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #ffffff; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f5f5f5;">
+            <a href="/products/${p.handle || p.id}"><img src="${img}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: cover;"></a>
+            <button type="button" class="account-fav-remove" onclick="removeAccountFavorite('${p.id}')" title="Remove from wishlist" style="position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: #ffffff; border: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #dc2626; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="#dc2626" stroke="#dc2626"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button>
+            <span style="position: absolute; bottom: 10px; left: 10px; font-size: 10px; font-weight: 700; background: #171717; color: #ffffff; padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.8px;">${p.category || 'Luxury'}</span>
+          </div>
+          <div style="padding: 16px; display: flex; flex-direction: column; flex: 1;">
+            <a href="/products/${p.handle || p.id}" style="font-size: 14px; font-weight: 700; color: #171717; text-decoration: none; margin-bottom: 4px; line-height: 1.3;">${p.title}</a>
+            <div style="font-size: 14px; font-weight: 800; color: #171717; margin-bottom: 14px;">$${price}</div>
+            <button type="button" onclick="if(window.SideCart){ SideCart.addItem('${p.id}', 1, 'L'); SideCart.open(); } else { window.location.href='/products/${p.handle || p.id}'; }" style="margin-top: auto; padding: 11px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; width: 100%; border: 1px solid #171717; background: #171717; color: #ffffff; border-radius: 4px; cursor: pointer; transition: background 0.2s;">+ Add to Bag</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const navBtns = document.querySelectorAll('.account-nav__btn[data-pane]');
+    const panes = document.querySelectorAll('.account-pane');
+
+    function switchPane(paneId) {
+      navBtns.forEach(b => {
+        const isActive = b.getAttribute('data-pane') === paneId;
+        b.classList.toggle('account-nav__btn--active', isActive);
+        b.style.background = isActive ? '#171717' : 'transparent';
+        b.style.color = isActive ? '#ffffff' : '#171717';
+        const badge = b.querySelector('.nav-count-badge');
+        if (badge) {
+          badge.style.background = isActive ? 'rgba(255,255,255,0.2)' : '#e5e5e5';
+          badge.style.color = isActive ? '#ffffff' : '#171717';
+        }
+      });
+
+      panes.forEach(p => {
+        p.style.display = (p.id === 'pane-' + paneId) ? 'block' : 'none';
+      });
+
+      if (paneId === 'favorites') {
+        renderAccountFavorites();
+      }
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const paneId = btn.getAttribute('data-pane');
+        switchPane(paneId);
+      });
+    });
+
+    renderAccountFavorites();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetPane = urlParams.get('pane') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+    if (targetPane && document.getElementById('pane-' + targetPane)) {
+      switchPane(targetPane);
+    }
+  });
+</script>

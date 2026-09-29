@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "All Products",
+    "handle": "all",
+    "description": "The complete archive of luxury streetwear staples and handcrafted drops.",
+    "image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [1, 2, 3, 4, 5, 6]
+  },
+  {
+    "id": 2,
+    "title": "Jackets & Outerwear",
+    "handle": "jackets",
+    "description": "Architectural bomber jackets, raw twill coats, and heavy workwear silhouettes.",
+    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [3]
+  },
+  {
+    "id": 3,
+    "title": "Hoodies & Sweats",
+    "handle": "hoodies",
+    "description": "450GSM organic loopback fleece with dropped shoulders and custom garment dyeing.",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [1]
+  },
+  {
+    "id": 4,
+    "title": "T-Shirts & Tops",
+    "handle": "tees",
+    "description": "Heavyweight 380GSM boxy tees, handcrafted block prints, and vintage washes.",
+    "image": "https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [2, 5]
+  },
+  {
+    "id": 5,
+    "title": "Handblock Shirts",
+    "handle": "shirts",
+    "description": "Artisanal corduroy and raw linen overshirts crafted by generational weavers.",
+    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [4]
+  },
+  {
+    "id": 6,
+    "title": "Bottoms & Trousers",
+    "handle": "bottoms",
+    "description": "Wide-leg pleated cords, tailored cargo trousers, and relaxed fleece pants.",
+    "image": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=1200&h=600&fit=crop&q=80",
+    "product_ids": [6]
+  }
+]

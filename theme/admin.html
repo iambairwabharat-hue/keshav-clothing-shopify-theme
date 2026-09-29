@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify Admin — Products & Categories Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --p-surface: #ffffff;
+      --p-surface-subdued: #fafbfb;
+      --p-surface-hovered: #f6f6f7;
+      --p-border: #e1e3e5;
+      --p-border-subdued: #ebebeb;
+      --p-text: #202223;
+      --p-text-subdued: #6d7175;
+      --p-primary: #008060;
+      --p-primary-hover: #006e52;
+      --p-danger: #d82c0d;
+      --p-badge-bg: #e4e5e7;
+      --p-badge-active: #cbeae2;
+      --p-badge-active-text: #005e46;
+      --font-polaris: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-polaris);
+      font-size: 13px;
+      color: var(--p-text);
+      background-color: #f1f2f4;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .admin-app { display: flex; width: 100%; height: 100%; }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: 240px;
+      background: #1a1a1a;
+      color: #e3e3e3;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .admin-sidebar__brand {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .shopify-bag-icon {
+      width: 30px;
+      height: 30px;
+      background: #008060;
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .store-name-title { font-size: 13px; font-weight: 600; color: #ffffff; }
+    .store-badge { font-size: 10.5px; color: #8c9196; }
+
+    .admin-sidebar__nav {
+      padding: 16px 10px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8c9196;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 8px 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      color: #cccccc;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      margin-bottom: 2px;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: #ffffff; }
+    .nav-item.active { background: rgba(255,255,255,0.16); color: #ffffff; font-weight: 600; }
+    .nav-item svg { width: 18px; height: 18px; stroke-width: 1.5; flex-shrink: 0; }
+
+    /* Main Area */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #f6f6f7;
+    }
+
+    .admin-topbar {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--p-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      background: #f1f2f3;
+      border: 1px solid #d2d5d8;
+      border-radius: 6px;
+      padding: 6px 12px;
+      width: 400px;
+      gap: 8px;
+    }
+
+    .search-input-wrap input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .btn-view-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #d2d5d8;
+      color: #202223;
+      padding: 7px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .btn-view-store:hover { background: #f6f6f7; }
+
+    .admin-content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 36px 60px;
+    }
+
+    .admin-content-wrap { max-width: 1120px; margin: 0 auto; }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .page-title { font-size: 20px; font-weight: 700; color: var(--p-text); }
+
+    .btn-primary {
+      background: var(--p-primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+    }
+
+    .btn-primary:hover { background: var(--p-primary-hover); }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--p-text);
+      border: 1px solid var(--p-border);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover { background: #f6f6f7; }
+
+    /* Polaris Cards & Tables */
+    .polaris-card {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid var(--p-border);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .polaris-card__body { padding: 20px; }
+    .polaris-card__title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--p-text);
+      margin-bottom: 14px;
+    }
+
+    .polaris-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .polaris-table th {
+      background: #fafbfb;
+      padding: 12px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--p-text-subdued);
+      border-bottom: 1px solid var(--p-border);
+    }
+
+    .polaris-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--p-border-subdued);
+      vertical-align: middle;
+    }
+
+    .polaris-table tr:hover td { background: var(--p-surface-hovered); }
+
+    .product-cell { display: flex; align-items: center; gap: 14px; }
+    .product-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #f1f2f3;
+      border: 1px solid var(--p-border);
+    }
+
+    .product-cell-title { font-weight: 600; color: var(--p-text); cursor: pointer; }
+    .product-cell-title:hover { text-decoration: underline; color: #008060; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--p-badge-active);
+      color: var(--p-badge-active-text);
+    }
+
+    .status-badge--draft { background: var(--p-badge-bg); color: var(--p-text-subdued); }
+
+    .action-btn-row { display: flex; gap: 6px; }
+    .icon-btn {
+      background: #ffffff;
+      border: 1px solid var(--p-border);
+      border-radius: 4px;
+      padding: 5px 8px;
+      cursor: pointer;
+      color: var(--p-text);
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .icon-btn:hover { background: #f1f2f3; }
+    .icon-btn--danger:hover { background: #fde8e8; color: var(--p-danger); border-color: #f8b4b4; }
+
+    /* 2-Column Shopify Product Edit Form */
+    .shopify-edit-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 12px; font-weight: 600; color: var(--p-text); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #c9cccf;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: #008060;
+      box-shadow: 0 0 0 1px #008060;
+    }
+
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    .h3-helper-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f2f3;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .h3-chip {
+      background: #ffffff;
+      border: 1px solid #d2d5d8;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #008060;
+    }
+
+    .h3-chip:hover { background: #e0f2ed; border-color: #008060; }
+
+    /* Media Grid in Product Editor */
+    .media-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .media-card-item {
+      position: relative;
+      aspect-ratio: 1;
+      border: 1px solid var(--p-border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #f1f2f3;
+    }
+
+    .media-card-item img { width: 100%; height: 100%; object-fit: cover; }
+    .media-card-del {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.65);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    /* Profit calculation indicators */
+    .profit-pill {
+      font-size: 11px;
+      color: var(--p-text-subdued);
+      margin-top: 4px;
+    }
+
+    .profit-pill span { font-weight: 600; color: #008060; }
+
+    /* Modal */
+    .admin-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-modal--open { display: flex; }
+    .modal-dialog {
+      background: #ffffff;
+      border-radius: 10px;
+      max-width: 960px;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--p-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--p-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafbfb;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px;
+      border: 1px solid #c9cccf;
+      border-radius: 6px;
+      background: #ffffff;
+      min-height: 38px;
+    }
+
+    .tag-pill {
+      background: #e4e5e7;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11.5px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-pill button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6d7175;
+      font-weight: bold;
+    }
+
+    .tag-input-field {
+      border: none;
+      outline: none;
+      font-size: 12px;
+      flex: 1;
+      min-width: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-app">
+    <!-- Left Navigation Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__brand">
+        <div class="shopify-bag-icon">S</div>
+        <div>
+          <div class="store-name-title">KCCLOTHING STORE</div>
+          <div class="store-badge">Shopify Advanced CMS Hub</div>
+        </div>
+      </div>
+
+      <nav class="admin-sidebar__nav">
+        <div class="nav-group-title">Store Catalog</div>
+        <div class="nav-item active" id="nav-products" onclick="switchTab('products')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          Products
+        </div>
+        <div class="nav-item" id="nav-collections" onclick="switchTab('collections')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Categories / Collections
+        </div>
+        <div class="nav-item" id="nav-analytics" onclick="switchTab('analytics')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          Live Analytics
+        </div>
+
+        <div class="nav-group-title" style="margin-top: 20px;">Live Store Preview</div>
+        <a href="index.html" target="_blank" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Home Page ↗
+        </a>
+        <a href="collection" target="_blank" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          Catalog / Collection ↗
+        </a>
+        <a href="product" target="_blank" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Product Details ↗
+        </a>
+      </nav>
+
+      <div style="padding: 14px 18px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: #8c9196; display: flex; justify-content: space-between; align-items: center;">
+        <span onclick="resetCatalog()" style="cursor: pointer; color: #fff;">↺ Reset Store Data</span>
+        <span>Local OS 2.0</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="admin-main">
+      <!-- Top Bar -->
+      <header class="admin-topbar">
+        <div class="search-input-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6d7175"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="global-search" placeholder="Search products, collections, tags..." oninput="filterTable(this.value)">
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="index.html" target="_blank" class="btn-view-store">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            View Live Store
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Scroll -->
+      <div class="admin-content-scroll">
+        <div class="admin-content-wrap">
+
+          <!-- TAB 1: PRODUCTS -->
+          <div id="tab-content-products">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Products</h1>
+                <p style="color: var(--p-text-subdued); font-size: 12px; margin-top: 4px;">Advanced product editor with 2-column layout, variant matrix, and H3 tab controls</p>
+              </div>
+              <button type="button" class="btn-primary" onclick="openProductModal()">
+                + Add Product
+              </button>
+            </div>
+
+            <div class="polaris-card">
+              <table class="polaris-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Inventory</th>
+                    <th>Category</th>
+                    <th>Vendor</th>
+                    <th>Price</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="products-table-body">
+                  <!-- Dynamically rendered -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 2: COLLECTIONS / CATEGORIES -->
+          <div id="tab-content-collections" style="display: none;">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Categories & Collections</h1>
+                <p style="color: var(--p-text-subdued); font-size: 12px; margin-top: 4px;">Create, edit, and assign products to categories and drops</p>
+              </div>
+              <button type="button" class="btn-primary" onclick="openCollectionModal()">
+                + Create Collection
+              </button>
+            </div>
+
+            <div class="polaris-card">
+              <table class="polaris-table">
+                <thead>
+                  <tr>
+                    <th>Collection</th>
+                    <th>URL Handle</th>
+                    <th>Products Included</th>
+                    <th>Description</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="collections-table-body">
+                  <!-- Dynamically rendered -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: LIVE ANALYTICS -->
+          <div id="tab-content-analytics" style="display: none;">
+            <div class="page-header">
+              <h1 class="page-title">Store Overview</h1>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+              <div class="polaris-card" style="padding: 20px;">
+                <div style="font-size: 11.5px; color: var(--p-text-subdued); font-weight: 600;">TOTAL CATALOG VALUE</div>
+                <div id="metric-total-value" style="font-size: 22px; font-weight: 700; margin-top: 8px;">$14,280.00</div>
+              </div>
+              <div class="polaris-card" style="padding: 20px;">
+                <div style="font-size: 11.5px; color: var(--p-text-subdued); font-weight: 600;">TOTAL PRODUCTS</div>
+                <div id="metric-total-products" style="font-size: 22px; font-weight: 700; margin-top: 8px;">6</div>
+              </div>
+              <div class="polaris-card" style="padding: 20px;">
+                <div style="font-size: 11.5px; color: var(--p-text-subdued); font-weight: 600;">ACTIVE CATEGORIES</div>
+                <div id="metric-total-collections" style="font-size: 22px; font-weight: 700; margin-top: 8px;">6</div>
+              </div>
+              <div class="polaris-card" style="padding: 20px;">
+                <div style="font-size: 11.5px; color: var(--p-text-subdued); font-weight: 600;">AVERAGE MARGIN</div>
+                <div style="font-size: 22px; font-weight: 700; margin-top: 8px; color: #008060;">62.5%</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADVANCED SHOPIFY PRODUCT EDIT MODAL (2-COLUMN POLARIS LAYOUT) -->
+  <div class="admin-modal" id="product-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-product-title">Add New Product</h3>
+        <button type="button" class="icon-btn" onclick="closeProductModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="edit-product-id">
+
+        <div class="shopify-edit-layout">
+          <!-- Main Left Column -->
+          <div class="edit-col-main">
+            <!-- 1. Title & Description Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" id="prod-title" class="form-input" placeholder="e.g. Essential Oversized Hoodie" required oninput="updateSEOPreview()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Description (HTML &amp; &lt;h3&gt; Dynamic Tabs)</label>
+                <div class="h3-helper-bar">
+                  <span style="font-weight: 600; color: #6d7175;">Insert H3 Tab:</span>
+                  <button type="button" class="h3-chip" onclick="insertH3('Description')">+ Description Tab</button>
+                  <button type="button" class="h3-chip" onclick="insertH3('Materials & Fit')">+ Materials &amp; Fit</button>
+                  <button type="button" class="h3-chip" onclick="insertH3('Shipping & Returns')">+ Shipping &amp; Returns</button>
+                  <button type="button" class="h3-chip" onclick="insertH3('Care Guide')">+ Care Guide</button>
+                </div>
+                <textarea id="prod-description" class="form-textarea" rows="8" placeholder="<h3>Description</h3>&#10;<p>Premium heavyweight cotton hoodie...</p>" oninput="updateSEOPreview()"></textarea>
+              </div>
+            </div>
+
+            <!-- 2. Media / Image Gallery Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Media Gallery</div>
+              <div class="form-group">
+                <label class="form-label">Add Image URLs (One URL per line)</label>
+                <textarea id="prod-media-urls" class="form-textarea" rows="3" placeholder="https://images.unsplash.com/...&#10;https://images.unsplash.com/..." oninput="renderMediaPreviews()"></textarea>
+              </div>
+              <div class="media-preview-grid" id="media-preview-grid"></div>
+            </div>
+
+            <!-- 3. Pricing & Margins Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Pricing</div>
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label class="form-label">Price ($ / Rs.)</label>
+                  <input type="number" step="0.01" id="prod-price" class="form-input" placeholder="59.99" oninput="calculateProfit()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Compare-at Price</label>
+                  <input type="number" step="0.01" id="prod-compare-price" class="form-input" placeholder="89.99">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cost per Item</label>
+                  <input type="number" step="0.01" id="prod-cost" class="form-input" placeholder="24.00" oninput="calculateProfit()">
+                </div>
+              </div>
+              <div class="profit-pill" id="profit-calc-result">
+                Margin: <span>--</span> &bull; Profit: <span>--</span>
+              </div>
+            </div>
+
+            <!-- 4. Inventory & SKU Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Inventory</div>
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label class="form-label">SKU (Stock Keeping Unit)</label>
+                  <input type="text" id="prod-sku" class="form-input" placeholder="NVM-HD-001">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Barcode (ISBN, UPC, GTIN)</label>
+                  <input type="text" id="prod-barcode" class="form-input" placeholder="890123456789">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Available Quantity</label>
+                  <input type="number" id="prod-inventory" class="form-input" placeholder="50" value="50">
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Search Engine Listing Preview -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Search Engine Listing Preview</div>
+              <div style="padding: 12px; background: #fafbfb; border: 1px solid var(--p-border); border-radius: 6px;">
+                <div id="seo-preview-title" style="color: #1a0dab; font-size: 15px; font-weight: 500;">Essential Heavyweight Hoodie</div>
+                <div id="seo-preview-url" style="color: #006621; font-size: 11.5px; margin: 2px 0 4px;">https://your-store.com/products/essential-heavyweight-hoodie</div>
+                <div id="seo-preview-desc" style="color: #545454; font-size: 12px; line-height: 1.4;">Premium heavyweight cotton hoodie with an oversized fit...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar Right Column -->
+          <div class="edit-col-sidebar">
+            <!-- Status Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Status</div>
+              <select id="prod-status" class="form-select">
+                <option value="Active">Active</option>
+                <option value="Draft">Draft</option>
+              </select>
+            </div>
+
+            <!-- Organization Card -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Product Organization</div>
+              
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="prod-category" class="form-select">
+                  <option value="Hoodies">Hoodies</option>
+                  <option value="Tees">Tees</option>
+                  <option value="Jackets">Jackets</option>
+                  <option value="Shirts">Shirts</option>
+                  <option value="Bottoms">Bottoms</option>
+                  <option value="Archive">Archive</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Product Type</label>
+                <input type="text" id="prod-type" class="form-input" placeholder="e.g. Outerwear">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Vendor / Brand</label>
+                <input type="text" id="prod-vendor" class="form-input" placeholder="KCCLOTHING">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Collections Multi-Select</label>
+                <div id="prod-collections-checklist" style="display: flex; flex-direction: column; gap: 6px; padding: 6px 0;">
+                  <!-- Checkboxes populated via JS -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Tags</label>
+                <div class="tag-container" id="prod-tags-container">
+                  <input type="text" class="tag-input-field" id="prod-tag-input" placeholder="Add tag + Enter">
+                </div>
+              </div>
+            </div>
+
+            <!-- Variants (Colors / Sizes) -->
+            <div class="polaris-card polaris-card__body">
+              <div class="polaris-card__title">Variants &amp; Options</div>
+              <div class="form-group">
+                <label class="form-label">Color Names (Comma separated)</label>
+                <input type="text" id="prod-colors" class="form-input" placeholder="Charcoal Gray, Light Gray, Sand, Black">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sizes (Comma separated)</label>
+                <input type="text" id="prod-sizes" class="form-input" placeholder="S, M, L, XL, XXL">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeProductModal()">Discard</button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-primary" onclick="saveProductForm(true)">Save &amp; View Live ↗</button>
+          <button type="button" class="btn-primary" style="background:#202223;" onclick="saveProductForm(false)">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVANCED CATEGORY / COLLECTION EDIT MODAL -->
+  <div class="admin-modal" id="collection-modal">
+    <div class="modal-dialog" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-collection-title">Create Collection</h3>
+        <button type="button" class="icon-btn" onclick="closeCollectionModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="edit-collection-id">
+
+        <div class="form-group">
+          <label class="form-label">Collection Title</label>
+          <input type="text" id="col-title" class="form-input" placeholder="e.g. Statement Jackets &amp; Outerwear" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL Handle (e.g. /jackets)</label>
+          <input type="text" id="col-handle" class="form-input" placeholder="jackets">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="col-description" class="form-textarea" rows="3" placeholder="Curated architectural bomber jackets and coats."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Collection Banner Image URL</label>
+          <input type="url" id="col-image" class="form-input" placeholder="https://images.unsplash.com/..." oninput="previewColImage()">
+          <div id="col-image-preview" style="margin-top: 10px; height: 120px; border-radius: 6px; overflow: hidden; background: #f1f2f3; border: 1px solid var(--p-border); display: none;">
+            <img src="" id="col-image-preview-img" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Assign Products to this Collection</label>
+          <div id="col-products-checklist" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--p-border); border-radius: 6px; padding: 10px; background: #fafbfb;">
+            <!-- Checkbox list of all products -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeCollectionModal()">Cancel</button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-primary" onclick="saveCollectionForm(true)">Save &amp; View Collection ↗</button>
+          <button type="button" class="btn-primary" style="background:#202223;" onclick="saveCollectionForm(false)">Save Collection</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/store-data.js"></script>
+  <script>
+    let activeTags = [];
+
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-' + tab).classList.add('active');
+
+      document.getElementById('tab-content-products').style.display = tab === 'products' ? 'block' : 'none';
+      document.getElementById('tab-content-collections').style.display = tab === 'collections' ? 'block' : 'none';
+      document.getElementById('tab-content-analytics').style.display = tab === 'analytics' ? 'block' : 'none';
+
+      if (tab === 'analytics') updateAnalytics();
+    }
+
+    // Render Products Table
+    function renderProductsTable(items) {
+      const products = items || StoreData.getProducts();
+      const tbody = document.getElementById('products-table-body');
+      tbody.innerHTML = '';
+
+      products.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="product-cell">
+              <img src="${p.image}" class="product-thumb" alt="${p.title}">
+              <div>
+                <div class="product-cell-title" onclick="editProduct(${p.id})">${p.title}</div>
+                <div style="font-size: 11px; color: var(--p-text-subdued);">${p.sku || 'NO-SKU'} &bull; ${(p.colors || []).length} Colors &bull; ${(p.sizes || []).length} Sizes</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="status-badge ${p.status === 'Active' ? '' : 'status-badge--draft'}">${p.status || 'Active'}</span>
+          </td>
+          <td>${p.inventory || 0} in stock</td>
+          <td>${p.category || 'Apparel'}</td>
+          <td>${p.vendor || 'KCCLOTHING'}</td>
+          <td style="font-weight: 600;">$${Number(p.price).toFixed(2)}</td>
+          <td style="text-align: right;">
+            <div class="action-btn-row" style="justify-content: flex-end;">
+              <a href="product.html?id=${p.id}" target="_blank" class="icon-btn" title="View live on store">👁 View</a>
+              <button class="icon-btn" onclick="editProduct(${p.id})" title="Edit">✎ Edit</button>
+              <button class="icon-btn icon-btn--danger" onclick="deleteProductItem(${p.id})" title="Delete">🗑</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render Collections Table
+    function renderCollectionsTable() {
+      const collections = StoreData.getCollections();
+      const products = StoreData.getProducts();
+      const tbody = document.getElementById('collections-table-body');
+      tbody.innerHTML = '';
+
+      collections.forEach(c => {
+        const count = (c.product_ids || []).length || products.filter(p => (p.collections || []).includes(c.handle)).length;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="product-cell">
+              <img src="${c.image}" class="product-thumb" alt="${c.title}">
+              <div>
+                <div class="product-cell-title" onclick="editCollection(${c.id})">${c.title}</div>
+              </div>
+            </div>
+          </td>
+          <td><code>/${c.handle}</code></td>
+          <td><span class="status-badge">${count} Products</span></td>
+          <td style="color: var(--p-text-subdued); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.description}</td>
+          <td style="text-align: right;">
+            <div class="action-btn-row" style="justify-content: flex-end;">
+              <a href="collection.html?category=${c.handle}" target="_blank" class="icon-btn">👁 View</a>
+              <button class="icon-btn" onclick="editCollection(${c.id})">✎ Edit</button>
+              <button class="icon-btn icon-btn--danger" onclick="deleteCollectionItem(${c.id})">🗑</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateAnalytics() {
+      const products = StoreData.getProducts();
+      const collections = StoreData.getCollections();
+      const totalVal = products.reduce((sum, p) => sum + (Number(p.price) * (Number(p.inventory) || 1)), 0);
+      document.getElementById('metric-total-value').textContent = '$' + totalVal.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      document.getElementById('metric-total-products').textContent = products.length;
+      document.getElementById('metric-total-collections').textContent = collections.length;
+    }
+
+    function filterTable(query) {
+      const q = query.toLowerCase();
+      const products = StoreData.getProducts().filter(p => 
+        p.title.toLowerCase().includes(q) || 
+        p.category.toLowerCase().includes(q) ||
+        (p.tags || []).some(t => t.toLowerCase().includes(q))
+      );
+      renderProductsTable(products);
+    }
+
+    // PRODUCT MODAL OPERATIONS
+    function openProductModal() {
+      document.getElementById('modal-product-title').textContent = 'Add New Product';
+      document.getElementById('edit-product-id').value = '';
+      document.getElementById('prod-title').value = '';
+      document.getElementById('prod-category').value = 'Hoodies';
+      document.getElementById('prod-type').value = 'Hoodies & Sweatshirts';
+      document.getElementById('prod-vendor').value = 'KCCLOTHING';
+      document.getElementById('prod-status').value = 'Active';
+      document.getElementById('prod-price').value = '59.99';
+      document.getElementById('prod-compare-price').value = '89.99';
+      document.getElementById('prod-cost').value = '24.00';
+      document.getElementById('prod-sku').value = 'NVM-HD-00' + (StoreData.getProducts().length + 1);
+      document.getElementById('prod-barcode').value = '';
+      document.getElementById('prod-inventory').value = '50';
+      document.getElementById('prod-media-urls').value = 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80';
+      document.getElementById('prod-description').value = `<h3>Description</h3>\n<p>Premium heavyweight cotton hoodie with an oversized fit for ultimate comfort and modern style.</p>\n\n<h3>Materials & Fit</h3>\n<p>Crafted from 100% heavyweight 450GSM organic loopback fleece. Oversized fit with dropped shoulders.</p>\n\n<h3>Shipping & Returns</h3>\n<p>Free worldwide shipping on orders over $99. 30-day effortless returns and exchanges.</p>`;
+      document.getElementById('prod-colors').value = 'Charcoal Gray, Light Gray, Sand, Black';
+      document.getElementById('prod-sizes').value = 'S, M, L, XL, XXL';
+
+      activeTags = ['Heavyweight', '450GSM', 'Oversized'];
+      renderTagPills();
+      renderMediaPreviews();
+      calculateProfit();
+      updateSEOPreview();
+      renderProductCollectionsChecklist([]);
+
+      document.getElementById('product-modal').classList.add('admin-modal--open');
+    }
+
+    function editProduct(id) {
+      const p = StoreData.getProductById(id);
+      if (!p) return;
+
+      document.getElementById('modal-product-title').textContent = 'Edit Product — ' + p.title;
+      document.getElementById('edit-product-id').value = p.id;
+      document.getElementById('prod-title').value = p.title;
+      document.getElementById('prod-category').value = p.category || 'Hoodies';
+      document.getElementById('prod-type').value = p.product_type || '';
+      document.getElementById('prod-vendor').value = p.vendor || 'KCCLOTHING';
+      document.getElementById('prod-status').value = p.status || 'Active';
+      document.getElementById('prod-price').value = p.price;
+      document.getElementById('prod-compare-price').value = p.compare_at_price || '';
+      document.getElementById('prod-cost').value = p.cost_per_item || '';
+      document.getElementById('prod-sku').value = p.sku || '';
+      document.getElementById('prod-barcode').value = p.barcode || '';
+      document.getElementById('prod-inventory').value = p.inventory || 50;
+      document.getElementById('prod-media-urls').value = (p.media || [p.image]).join('\n');
+      document.getElementById('prod-description').value = p.description || '';
+      document.getElementById('prod-colors').value = (p.colors || []).join(', ');
+      document.getElementById('prod-sizes').value = (p.sizes || []).join(', ');
+
+      activeTags = p.tags || [];
+      renderTagPills();
+      renderMediaPreviews();
+      calculateProfit();
+      updateSEOPreview();
+      renderProductCollectionsChecklist(p.collections || []);
+
+      document.getElementById('product-modal').classList.add('admin-modal--open');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.remove('admin-modal--open');
+    }
+
+    function insertH3(title) {
+      const textarea = document.getElementById('prod-description');
+      textarea.value += `\n\n<h3>${title}</h3>\n<p>Add your ${title.toLowerCase()} content here...</p>`;
+      textarea.focus();
+      updateSEOPreview();
+    }
+
+    function calculateProfit() {
+      const price = parseFloat(document.getElementById('prod-price').value) || 0;
+      const cost = parseFloat(document.getElementById('prod-cost').value) || 0;
+      const profitEl = document.getElementById('profit-calc-result');
+
+      if (price > 0 && cost > 0) {
+        const profit = price - cost;
+        const margin = Math.round((profit / price) * 100);
+        profitEl.innerHTML = `Margin: <span>${margin}%</span> &bull; Profit: <span>$${profit.toFixed(2)}</span>`;
+      } else {
+        profitEl.innerHTML = `Margin: <span>--</span> &bull; Profit: <span>--</span>`;
+      }
+    }
+
+    function updateSEOPreview() {
+      const title = document.getElementById('prod-title').value || 'Product Title';
+      const desc = document.getElementById('prod-description').value || '';
+      const cleanDesc = desc.replace(/<[^>]+>/g, ' ').slice(0, 140);
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      document.getElementById('seo-preview-title').textContent = title + ' | KCCLOTHING';
+      document.getElementById('seo-preview-url').textContent = 'https://your-store.com/products/' + slug;
+      document.getElementById('seo-preview-desc').textContent = cleanDesc || 'Product description preview...';
+    }
+
+    function renderMediaPreviews() {
+      const urls = document.getElementById('prod-media-urls').value.split('\n').map(u => u.trim()).filter(Boolean);
+      const container = document.getElementById('media-preview-grid');
+      container.innerHTML = '';
+
+      urls.forEach((url, i) => {
+        const div = document.createElement('div');
+        div.className = 'media-card-item';
+        div.innerHTML = `<img src="${url}" alt="Media"><button type="button" class="media-card-del" onclick="removeMediaUrl(${i})">✕</button>`;
+        container.appendChild(div);
+      });
+    }
+
+    function removeMediaUrl(idx) {
+      const urls = document.getElementById('prod-media-urls').value.split('\n').map(u => u.trim()).filter(Boolean);
+      urls.splice(idx, 1);
+      document.getElementById('prod-media-urls').value = urls.join('\n');
+      renderMediaPreviews();
+    }
+
+    function renderProductCollectionsChecklist(selectedHandles) {
+      const collections = StoreData.getCollections();
+      const container = document.getElementById('prod-collections-checklist');
+      container.innerHTML = '';
+
+      collections.forEach(c => {
+        const isChecked = selectedHandles.includes(c.handle) ? 'checked' : '';
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '8px';
+        label.style.fontSize = '12px';
+        label.style.cursor = 'pointer';
+        label.innerHTML = `<input type="checkbox" value="${c.handle}" ${isChecked}> ${c.title}`;
+        container.appendChild(label);
+      });
+    }
+
+    function renderTagPills() {
+      const container = document.getElementById('prod-tags-container');
+      const input = document.getElementById('prod-tag-input');
+      container.innerHTML = '';
+
+      activeTags.forEach((tag, idx) => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill';
+        pill.innerHTML = `${tag} <button type="button" onclick="removeTag(${idx})">✕</button>`;
+        container.appendChild(pill);
+      });
+
+      container.appendChild(input);
+    }
+
+    function removeTag(idx) {
+      activeTags.splice(idx, 1);
+      renderTagPills();
+    }
+
+    document.getElementById('prod-tag-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && this.value.trim()) {
+        e.preventDefault();
+        activeTags.push(this.value.trim());
+        this.value = '';
+        renderTagPills();
+        document.getElementById('prod-tag-input').focus();
+      }
+    });
+
+    function showToast(message) {
+      let toast = document.getElementById('admin-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'admin-toast';
+        toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #008060; color: #fff; padding: 14px 22px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); font-size: 13px; font-weight: 600; z-index: 10000; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span>✓</span> <span>${message}</span>`;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(20px)';
+      }, 4000);
+    }
+
+    async function saveProductForm(viewLive) {
+      const id = document.getElementById('edit-product-id').value;
+      const title = document.getElementById('prod-title').value.trim();
+      const price = parseFloat(document.getElementById('prod-price').value) || 0;
+
+      if (!title || !price) {
+        alert('Please fill in product title and price.');
+        return;
+      }
+
+      const mediaUrls = document.getElementById('prod-media-urls').value.split('\n').map(u => u.trim()).filter(Boolean);
+      const selectedCols = Array.from(document.querySelectorAll('#prod-collections-checklist input:checked')).map(cb => cb.value);
+
+      const product = {
+        id: id ? (isNaN(id) ? id : Number(id)) : Date.now(),
+        title: title,
+        category: document.getElementById('prod-category').value,
+        product_type: document.getElementById('prod-type').value.trim(),
+        vendor: document.getElementById('prod-vendor').value.trim() || 'KCCLOTHING',
+        status: document.getElementById('prod-status').value,
+        price: price,
+        compare_at_price: parseFloat(document.getElementById('prod-compare-price').value) || 0,
+        cost_per_item: parseFloat(document.getElementById('prod-cost').value) || 0,
+        sku: document.getElementById('prod-sku').value.trim(),
+        barcode: document.getElementById('prod-barcode').value.trim(),
+        inventory: parseInt(document.getElementById('prod-inventory').value) || 0,
+        image: mediaUrls[0] || 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80',
+        media: mediaUrls.length > 0 ? mediaUrls : ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80'],
+        description: document.getElementById('prod-description').value,
+        colors: document.getElementById('prod-colors').value.split(',').map(s => s.trim()).filter(Boolean),
+        sizes: document.getElementById('prod-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
+        collections: selectedCols,
+        tags: activeTags
+      };
+
+      await StoreData.saveProduct(product);
+      closeProductModal();
+      renderProductsTable();
+      showToast(`Product "${product.title}" saved successfully!`);
+
+      if (viewLive) {
+        window.open('product.html?id=' + product.id, '_blank');
+      }
+    }
+
+    async function deleteProductItem(id) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        await StoreData.deleteProduct(id);
+        renderProductsTable();
+        showToast('Product deleted successfully.');
+      }
+    }
+
+    // EDITABLE COLLECTIONS / CATEGORIES OPERATIONS
+    function openCollectionModal() {
+      document.getElementById('modal-collection-title').textContent = 'Create New Collection';
+      document.getElementById('edit-collection-id').value = '';
+      document.getElementById('col-title').value = '';
+      document.getElementById('col-handle').value = '';
+      document.getElementById('col-description').value = '';
+      document.getElementById('col-image').value = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=600&fit=crop&q=80';
+      previewColImage();
+      renderCollectionProductsChecklist([]);
+
+      document.getElementById('collection-modal').classList.add('admin-modal--open');
+    }
+
+    function editCollection(id) {
+      const c = StoreData.getCollectionById(id);
+      if (!c) return;
+
+      document.getElementById('modal-collection-title').textContent = 'Edit Collection — ' + c.title;
+      document.getElementById('edit-collection-id').value = c.id;
+      document.getElementById('col-title').value = c.title;
+      document.getElementById('col-handle').value = c.handle;
+      document.getElementById('col-description').value = c.description;
+      document.getElementById('col-image').value = c.image;
+      previewColImage();
+      renderCollectionProductsChecklist(c.product_ids || []);
+
+      document.getElementById('collection-modal').classList.add('admin-modal--open');
+    }
+
+    function closeCollectionModal() {
+      document.getElementById('collection-modal').classList.remove('admin-modal--open');
+    }
+
+    function previewColImage() {
+      const url = document.getElementById('col-image').value.trim();
+      const wrap = document.getElementById('col-image-preview');
+      const img = document.getElementById('col-image-preview-img');
+      if (url) {
+        img.src = url;
+        wrap.style.display = 'block';
+      } else {
+        wrap.style.display = 'none';
+      }
+    }
+
+    function renderCollectionProductsChecklist(selectedProductIds) {
+      const products = StoreData.getProducts();
+      const container = document.getElementById('col-products-checklist');
+      container.innerHTML = '';
+
+      products.forEach(p => {
+        const isChecked = selectedProductIds.includes(p.id) ? 'checked' : '';
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '10px';
+        label.style.padding = '4px 0';
+        label.style.fontSize = '12px';
+        label.style.cursor = 'pointer';
+        label.innerHTML = `
+          <input type="checkbox" value="${p.id}" ${isChecked}>
+          <img src="${p.image}" style="width: 24px; height: 24px; border-radius: 3px; object-fit: cover;">
+          <span>${p.title} ($${Number(p.price).toFixed(2)})</span>
+        `;
+        container.appendChild(label);
+      });
+    }
+
+    async function saveCollectionForm(viewLive) {
+      const id = document.getElementById('edit-collection-id').value;
+      const title = document.getElementById('col-title').value.trim();
+      let handle = document.getElementById('col-handle').value.trim();
+
+      if (!title) {
+        alert('Please provide a collection title.');
+        return;
+      }
+
+      if (!handle) {
+        handle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+
+      const assignedProductIds = Array.from(document.querySelectorAll('#col-products-checklist input:checked')).map(cb => parseInt(cb.value));
+
+      const col = {
+        id: id ? (isNaN(id) ? id : Number(id)) : Date.now(),
+        title: title,
+        handle: handle,
+        description: document.getElementById('col-description').value,
+        image: document.getElementById('col-image').value.trim(),
+        product_ids: assignedProductIds
+      };
+
+      await StoreData.saveCollection(col);
+      closeCollectionModal();
+      renderCollectionsTable();
+      showToast(`Collection "${col.title}" saved successfully!`);
+
+      if (viewLive) {
+        window.open('collection.html?category=' + col.handle, '_blank');
+      }
+    }
+
+    async function deleteCollectionItem(id) {
+      if (confirm('Are you sure you want to delete this collection?')) {
+        await StoreData.deleteCollection(id);
+        renderCollectionsTable();
+        showToast('Collection deleted.');
+      }
+    }
+
+    async function resetCatalog() {
+      if (confirm('Reset store catalog to original default products and collections?')) {
+        await StoreData.resetToDefault();
+        renderProductsTable();
+        renderCollectionsTable();
+        showToast('Store reset to defaults.');
+      }
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProductsTable();
+      renderCollectionsTable();
+    });
+  </script>
+</body>
+</html>

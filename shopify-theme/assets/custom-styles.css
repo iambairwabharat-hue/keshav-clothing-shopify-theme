@@ -1,0 +1,40 @@
+.ugc-card__overlay {
+    display: none;
+}
+.ai-image-slider-image-wrapper-amvy5a1hhexvxa1vvsaigenblock13898636cicpb {
+    background-color: transparent !important;
+}
+
+
+@media (max-width: 600px){
+div#shopify-block-AdmFJazR1TDh3eWY1T__ai_gen_block_1389863_6ciCpB {
+    display: none;
+}}
+.header, #shopify-section-header, .shopify-section-header, [id*="header"]{
+  background: #ffffff00 !important;
+}
+span#add-to-cart-text {
+    font-family: 'Moniqa-BoldHeading';
+}
+h1, h2, h3, h4, h5, h6, .hero__title, .hero__title-line, .section-title, .billboard__boxed-title, .editorial-strip-line-1, .editorial-strip-line-2, .promo-card__title, .product-title, .product-card__title, .tab-btn, .details-tab-nav-btn, .countdown-title, .video-reel-prod-title, .ugc-card__handle, .sticky-size-guide-tab span, .btn-buy-now span, .hero-btn span, .section-view-all span, .category-story-title, .brand-perk__title {
+    font-family: var(--font-heading) !important;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    font-size: large;
+}
+
+/* ── Navigation: Moniqa-ExtraBoldHeading ── */
+.nav-link,
+.nav-links a,
+.mobile-nav__link,
+.mobile-nav a,
+.header.header--theme-dark .mobile-nav .mobile-nav__link,
+.header.header--theme-dark .mobile-nav a,
+.hamburger-nav__link,
+.hamburger-menu a,
+[class*="nav-link"],
+[class*="mobile-nav__link"] {
+  font-family: 'Moniqa-ExtraBoldHeading', 'Moniqa-BoldHeading', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 22px !important;
+}

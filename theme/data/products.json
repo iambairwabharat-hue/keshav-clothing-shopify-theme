@@ -1,0 +1,248 @@
+[
+  {
+    "id": 1,
+    "title": "Essential Heavyweight Hoodie",
+    "handle": "essential-heavyweight-hoodie",
+    "category": "Hoodies",
+    "product_type": "Hoodies & Sweatshirts",
+    "vendor": "KCCLOTHING",
+    "status": "Active",
+    "price": 59.99,
+    "compare_at_price": 89.99,
+    "cost_per_item": 24,
+    "inventory": 48,
+    "sku": "NVM-HD-001",
+    "barcode": "890123456789",
+    "collections": [
+      "all",
+      "hoodies"
+    ],
+    "tags": [
+      "Heavyweight",
+      "450GSM",
+      "Oversized",
+      "Bestseller"
+    ],
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=800&h=1000&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&h=1000&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>ddd</h3>\n<p>Premium heavyweight cotton hoodie with an oversized fit for ultimate comfort and modern style.</p>\n\n<h3>Materials & Fit</h3>\n<p>Crafted from 100% heavyweight 450GSM organic loopback fleece. Oversized fit with dropped shoulders and structured drape.</p>\n\n<h3>Shipping & Returns</h3>\n<p>Free worldwide shipping on orders over $99. 30-day effortless returns and exchanges.</p>",
+    "colors": [
+      "Charcoal Gray",
+      "Light Gray",
+      "Sand",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Persistence of Time T-shirt",
+    "handle": "persistence-of-time-tshirt",
+    "category": "Tees",
+    "product_type": "Graphic T-Shirts",
+    "vendor": "KCCLOTHING",
+    "status": "Active",
+    "price": 34.99,
+    "compare_at_price": 49.99,
+    "cost_per_item": 12,
+    "inventory": 32,
+    "sku": "NVM-TEE-002",
+    "barcode": "890123456790",
+    "collections": [
+      "all",
+      "tees"
+    ],
+    "tags": [
+      "Block Print",
+      "380GSM",
+      "Vintage Wash"
+    ],
+    "image": "https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1578768079470-fa9cf84ca1e3?w=800&h=1000&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>Description</h3>\n<p>Artisanal block-printed graphic tee engineered on 380GSM single jersey cotton.</p>\n\n<h3>Care Guide</h3>\n<p>Cold wash inside out. Flat dry in shade to preserve handcrafted pigment.</p>",
+    "colors": [
+      "Vintage White",
+      "Faded Black",
+      "Olive"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Laal Zameen Hand-Embroidered Jacket",
+    "handle": "laal-zameen-jacket",
+    "category": "Jackets",
+    "product_type": "Outerwear & Coats",
+    "vendor": "FARAK",
+    "status": "Active",
+    "price": 360,
+    "compare_at_price": 420,
+    "cost_per_item": 160,
+    "inventory": 8,
+    "sku": "FRK-JKT-003",
+    "barcode": "890123456791",
+    "collections": [
+      "all",
+      "jackets"
+    ],
+    "tags": [
+      "Zardozi",
+      "Rare 1 of 50",
+      "Embroidery"
+    ],
+    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=1000&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>Masterpiece Craft</h3>\n<p>80+ artisan hours of Zardozi hand-embroidery on heavyweight Japanese raw twill.</p>\n\n<h3>Heritage & Provenance</h3>\n<p>Hand-tailored by generational master craftsmen in Varanasi and Gujarat.</p>",
+    "colors": [
+      "Crimson Red",
+      "Obsidian Black"
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Kaarigar Heavyweight Overshirt",
+    "handle": "kaarigar-heavyweight-overshirt",
+    "category": "Shirts",
+    "product_type": "Overshirts",
+    "vendor": "FARAK",
+    "status": "Active",
+    "price": 64.99,
+    "compare_at_price": 84.99,
+    "cost_per_item": 28,
+    "inventory": 24,
+    "sku": "FRK-SHT-004",
+    "barcode": "890123456792",
+    "collections": [
+      "all",
+      "shirts"
+    ],
+    "tags": [
+      "Corduroy",
+      "Handloom",
+      "Utility"
+    ],
+    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>Description</h3>\n<p>Handloom ribbed corduroy overshirt with horn buttons and double chest utility pockets.</p>",
+    "colors": [
+      "Espresso Brown",
+      "Earthy Sand",
+      "Forest Green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Argentino Block-Printed Jersey",
+    "handle": "argentino-block-printed-jersey",
+    "category": "Tees",
+    "product_type": "Jerseys",
+    "vendor": "FARAK",
+    "status": "Active",
+    "price": 48,
+    "compare_at_price": 65,
+    "cost_per_item": 19,
+    "inventory": 15,
+    "sku": "FRK-JSY-005",
+    "barcode": "890123456793",
+    "collections": [
+      "all",
+      "tees"
+    ],
+    "tags": [
+      "Jersey",
+      "Spray Block",
+      "Limited Drop"
+    ],
+    "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>Description</h3>\n<p>Heritage football silhouette re-engineered with artisanal spray-block print motifs.</p>",
+    "colors": [
+      "Sky Blue & White",
+      "Noir Gold"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Mukammal Wide-Leg Cord Trousers",
+    "handle": "mukammal-wide-leg-trousers",
+    "category": "Bottoms",
+    "product_type": "Pants & Trousers",
+    "vendor": "FARAK",
+    "status": "Active",
+    "price": 55,
+    "compare_at_price": 75,
+    "cost_per_item": 22,
+    "inventory": 19,
+    "sku": "FRK-BTM-006",
+    "barcode": "890123456794",
+    "collections": [
+      "all",
+      "bottoms"
+    ],
+    "tags": [
+      "Corduroy",
+      "Wide Leg",
+      "Pleated"
+    ],
+    "image": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&h=1000&fit=crop&q=80",
+    "media": [
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&h=1000&fit=crop&q=80"
+    ],
+    "description": "<h3>Description</h3>\n<p>Architectural wide drape milled from heavy wale ribbed cord with elasticated drawstring waist.</p>",
+    "colors": [
+      "Charcoal Black",
+      "Vintage Olive",
+      "Sand Tan"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ]
+  }
+]
