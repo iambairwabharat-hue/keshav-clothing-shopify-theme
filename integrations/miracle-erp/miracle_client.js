@@ -5,7 +5,11 @@ const config = require('./config');
 const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 /**
- * Miracle Cloud ERP TPA API Client (v1.3)
+ * Miracle Cloud ERP TPA API Client (v1.4)
+ * Field names discovered by API probing:
+ *   Account:  accnm, accgrpnm, balmethod, regtypedet=[{regtype}], addr.{statenm,citynm,pincode,addr1,addr2,mob1,email}
+ *   Product:  prdnm (name), grpnm (group), hsncode, salrate, purrate, gstper, uomnm (unit)
+ *   Voucher:  origin, voutyp (MUST match ERP company config), vouno, voudt, accnm, netamt, det=[{prdnm,qty,rate,amt}]
  */
 class MiracleERPClient {
   constructor(cfg = {}) {
@@ -79,6 +83,7 @@ class MiracleERPClient {
       const data = response.data;
       if (data.IsError) {
         console.warn(`[Miracle ERP Error ${data.ErrorCode}]: ${data.Message}`);
+        if (data.DataModel) console.warn('[Miracle ERP Error Detail]:', JSON.stringify(data.DataModel));
       }
       return data;
     } catch (err) {
@@ -127,6 +132,7 @@ class MiracleERPClient {
       accnm: accountData.name,
       accgrpnm: accountData.groupName || config.defaultCustomerGroup,
       balmethod: accountData.balMethod || config.defaultAccountBalMethod,
+      regtypedet: accountData.registrationDetail || config.defaultRegistrationDetail,
       addr: {
         statenm: accountData.state || config.defaultState,
         citynm: accountData.city || '',
@@ -151,18 +157,18 @@ class MiracleERPClient {
   /**
    * Section 7: Sync Product Master
    * POST TPA/M2/V1/Product
+   * Known valid fields (discovered via API): prdnm, grpnm, hsncode, salrate, purrate, gstper, uomnm
    */
   async upsertProduct(productData) {
     const payload = {
       action: productData.uniqueId ? 'E' : 'A',
-      pname: productData.name,
-      compnm: productData.company || '',
-      palias: productData.sku || '',
-      salert: productData.price || 0,
-      purrt: productData.costPrice || 0,
-      mrp: productData.mrp || productData.price || 0,
-      hsno: productData.hsnCode || '',
-      gstrt: productData.gstRate || 18,
+      prdnm: productData.name,          // product name (required)
+      ...( productData.group   ? { grpnm: productData.group }         : {} ),
+      ...( productData.hsnCode ? { hsncode: productData.hsnCode }     : {} ),
+      ...( productData.price   ? { salrate: productData.price }       : {} ),
+      ...( productData.costPrice ? { purrate: productData.costPrice } : {} ),
+      ...( productData.gstRate ? { gstper: productData.gstRate }      : {} ),
+      ...( productData.unit    ? { uomnm: productData.unit }          : {} ),
       ...productData.extra
     };
 
@@ -176,15 +182,18 @@ class MiracleERPClient {
   /**
    * Section 8: Create Sales Voucher / Sales Order for Shopify Order
    * POST TPA/M2/V1/Voucher
+   * IMPORTANT: voutyp must exactly match a Voucher Type configured in your Miracle ERP company:
+   *   Miracle ERP > Setup > Advanced Setup > Voucher Type
+   *   Set config.salesVoucherType to the exact name shown there.
    */
   async createSalesVoucher(shopifyOrder) {
     const items = (shopifyOrder.line_items || []).map(item => ({
-      pname: item.name || item.title,
+      prdnm: item.name || item.title,   // product name field is 'prdnm' in Voucher det[]
       qty: item.quantity,
       rate: parseFloat(item.price),
       amt: parseFloat(item.price) * item.quantity,
-      hsno: item.hsn || '',
-      gstrt: item.gst_rate || 18
+      hsncode: item.hsn || '',
+      gstper: item.gst_rate || 0
     }));
 
     const customerName = shopifyOrder.customer
@@ -193,12 +202,14 @@ class MiracleERPClient {
 
     const payload = {
       action: 'A',
-      origin: config.salesVoucherType, // 'S' for Sales Voucher
+      origin: config.salesVoucherOrigin,   // Module code: 'SL' = Sales Ledger
+      voutyp: config.salesVoucherType,     // MUST match exact Voucher Type name in Miracle ERP company
       vouno: String(shopifyOrder.order_number || shopifyOrder.name),
       voudt: new Date(shopifyOrder.created_at || Date.now()).toISOString().split('T')[0],
       accnm: customerName,
       netamt: parseFloat(shopifyOrder.total_price),
       det: items,
+      narration: `Shopify Order #${shopifyOrder.order_number || shopifyOrder.name} via ${shopifyOrder.gateway || 'Online'}`,
       ufddet: {
         'SHOPIFY_ORDER_ID': String(shopifyOrder.id),
         'PAYMENT_GATEWAY': shopifyOrder.gateway || 'Online'
@@ -224,6 +235,14 @@ class MiracleERPClient {
    */
   async getBranchList() {
     return await this.get('TPA/M2/V1/GetBranchList');
+  }
+
+  /**
+   * Get Voucher Type List — used to find exact voutyp name accepted by your Miracle ERP setup
+   * GET TPA/M2/V1/GetVoucherTypeList
+   */
+  async getVoucherTypes(origin) {
+    return await this.get('TPA/M2/V1/GetVoucherTypeList', origin ? { origin } : {});
   }
 }
 

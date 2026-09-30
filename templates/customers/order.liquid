@@ -1,0 +1,83 @@
+<!-- Customer Order Details -->
+<div class="account-page section-spacing">
+  <div class="container container--narrow" style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5); padding-bottom: 16px; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <a href="/pages/account" style="font-size: 12px; color: #737373; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 6px;">← Return to Client Portal</a>
+        <h1 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0; color: #171717;">ORDER {{ order.name }}</h1>
+        <p style="font-size: 13px; color: #737373; margin-top: 4px;">Placed on {{ order.created_at | time_tag: format: 'date_at_time' }}</p>
+      </div>
+      <div>
+        <span style="font-size: 11px; font-weight: 700; background: #171717; color: #fff; padding: 6px 14px; border-radius: 20px; text-transform: uppercase;">{{ order.financial_status_label }} / {{ order.fulfillment_status_label }}</span>
+      </div>
+    </div>
+
+    <!-- Line Items Table -->
+    <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; margin-bottom: 32px;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+          <tr style="background: #fafafa; border-bottom: 1px solid #e5e5e5; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #737373;">
+            <th style="padding: 16px 20px;">Product</th>
+            <th style="padding: 16px 20px;">SKU</th>
+            <th style="padding: 16px 20px;">Price</th>
+            <th style="padding: 16px 20px;">Qty</th>
+            <th style="padding: 16px 20px; text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr style="border-bottom: 1px solid #e5e5e5; font-size: 13.5px;">
+              <td style="padding: 16px 20px; font-weight: 600;">
+                {{ line_item.title }}
+                {%- if line_item.fulfillment -%}
+                  <div style="font-size: 11px; color: #16a34a; margin-top: 4px;">
+                    Fulfilled on {{ line_item.fulfillment.created_at | time_tag: format: 'date' }}
+                    {%- if line_item.fulfillment.tracking_url -%}
+                      • <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" style="text-decoration: underline;">Track Shipment #{{ line_item.fulfillment.tracking_number }}</a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </td>
+              <td style="padding: 16px 20px; color: #737373; font-size: 12px;">{{ line_item.sku | default: '—' }}</td>
+              <td style="padding: 16px 20px;">{{ line_item.original_price | money }}</td>
+              <td style="padding: 16px 20px;">{{ line_item.quantity }}</td>
+              <td style="padding: 16px 20px; text-align: right; font-weight: 700;">{{ line_item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr style="font-size: 13px; color: #525252;">
+            <td colspan="4" style="padding: 12px 20px; text-align: right;">Subtotal</td>
+            <td style="padding: 12px 20px; text-align: right; font-weight: 600;">{{ order.line_items_subtotal_price | money }}</td>
+          </tr>
+          <tr style="font-size: 13px; color: #525252;">
+            <td colspan="4" style="padding: 12px 20px; text-align: right;">Shipping ({{ order.shipping_methods[0].title }})</td>
+            <td style="padding: 12px 20px; text-align: right; font-weight: 600;">{{ order.shipping_price | money }}</td>
+          </tr>
+          <tr style="font-size: 16px; font-weight: 700; color: #171717; border-top: 2px solid #e5e5e5;">
+            <td colspan="4" style="padding: 16px 20px; text-align: right;">Total Amount</td>
+            <td style="padding: 16px 20px; text-align: right;">{{ order.total_net_amount | money_with_currency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Addresses Summary -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 24px; background: #fff;">
+        <h3 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Billing Address</h3>
+        <div style="font-size: 13.5px; line-height: 1.6; color: #525252;">
+          {{ order.billing_address | format_address }}
+        </div>
+      </div>
+      <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 24px; background: #fff;">
+        <h3 style="font-family: var(--font-display, 'Oswald', sans-serif); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Shipping Address</h3>
+        <div style="font-size: 13.5px; line-height: 1.6; color: #525252;">
+          {{ order.shipping_address | format_address }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

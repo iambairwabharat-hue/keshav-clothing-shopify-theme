@@ -1,0 +1,85 @@
+{%- style -%}
+  #craftsmanship-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #craftsmanship-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #craftsmanship-{{ section.id }} .specs-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 3 }}, 1fr);
+  }
+{%- endstyle -%}
+
+<section class="craftsmanship-breakdown{% if section.settings.full_width %} craftsmanship--full-width{% else %} container{% endif %}" id="craftsmanship-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="section-header text-center">
+    {%- if section.settings.subtitle != blank -%}
+      <span class="section-subtitle" style="color: {{ section.settings.subtitle_color | default: '#a3a3a3' }};">{{ section.settings.subtitle | escape }}</span>
+    {%- endif -%}
+    <h2 class="section-title" style="color: var(--text-color);">{{ section.settings.title | escape }}</h2>
+  </div>
+
+  <div class="specs-grid">
+    {%- for block in section.blocks -%}
+      <div class="spec-card" {{ block.shopify_attributes }}>
+        <span class="spec-card__tag">{{ block.settings.tag | escape }}</span>
+        <h3 class="spec-card__title">{{ block.settings.title | escape }}</h3>
+        <p class="spec-card__desc">{{ block.settings.desc | escape }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Craftsmanship Specs",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "TEXTILE ENGINEERING" },
+    { "type": "text", "id": "title", "label": "Title", "default": "THE ANATOMY OF KCCLOTHING" },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 4, "step": 1, "default": 3, "label": "Desktop Columns" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#0a0a0a" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Craftsmanship Point",
+      "settings": [
+        { "type": "text", "id": "tag", "label": "Spec Tag (e.g. Fabric 01)", "default": "Fabric 01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "450GSM Organic Fleece" },
+        { "type": "textarea", "id": "desc", "label": "Description", "default": "Custom-milled tight loopback weave provides structure, weight, and supreme thermal insulation." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Craftsmanship Specs",
+      "blocks": [
+        { "type": "spec", "settings": { "tag": "Fabric 01", "title": "450GSM Organic Fleece", "desc": "Custom-milled tight loopback weave provides structure, weight, and supreme thermal insulation." } },
+        { "type": "spec", "settings": { "tag": "Construction 02", "title": "Reverse Flatlock Stitch", "desc": "High-tensile industrial coverstitching ensures zero seam abrasion and prevents unraveling." } },
+        { "type": "spec", "settings": { "tag": "Finishing 03", "title": "Mineral Enzyme Wash", "desc": "Pre-shrunk with an eco-conscious enzyme wash for vintage hand-feel, rich matte patina, and zero shrinkage." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

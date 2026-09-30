@@ -1,0 +1,335 @@
+{%- comment -%}
+  KCCLOTHING - Flagship Featured Collection with Dynamic Columns, Mobile Swiper, Aspect Ratios, and Padding
+{%- endcomment -%}
+
+{%- style -%}
+  #featured-collection-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #featured-collection-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  /* Desktop Grid Columns */
+  #featured-collection-{{ section.id }} .product-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+    gap: {{ section.settings.grid_gap_desktop | default: 24 }}px;
+  }
+
+  /* Mobile Grid / Swiper */
+  @media (max-width: 768px) {
+    {%- if section.settings.enable_mobile_swipe -%}
+      #featured-collection-{{ section.id }} .product-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        padding-bottom: 12px;
+        scrollbar-width: none;
+      }
+      #featured-collection-{{ section.id }} .product-grid::-webkit-scrollbar {
+        display: none;
+      }
+      #featured-collection-{{ section.id }} .product-grid > * {
+        flex: 0 0 calc(75% - 8px);
+        scroll-snap-align: start;
+      }
+    {%- else -%}
+      #featured-collection-{{ section.id }} .product-grid {
+        grid-template-columns: repeat({{ section.settings.columns_mobile | default: 2 }}, 1fr);
+        gap: 12px;
+      }
+    {%- endif -%}
+  }
+
+  /* Card Image Aspect Ratio */
+  {%- case section.settings.image_aspect_ratio -%}
+    {%- when 'portrait' -%}
+      #featured-collection-{{ section.id }} .product-card__image-wrap { aspect-ratio: 3 / 4; }
+    {%- when 'square' -%}
+      #featured-collection-{{ section.id }} .product-card__image-wrap { aspect-ratio: 1 / 1; }
+    {%- when 'tall' -%}
+      #featured-collection-{{ section.id }} .product-card__image-wrap { aspect-ratio: 2 / 3; }
+  {%- endcase -%}
+{%- endstyle -%}
+
+{%- assign collection = section.settings.collection -%}
+{%- assign limit = section.settings.products_to_show | default: 4 -%}
+
+<section class="featured-collection{% if section.settings.full_width %} featured-collection--full-width{% else %} container{% endif %}" id="featured-collection-{{ section.id }}" data-section-id="{{ section.id }}">
+  
+  <div class="section-header-row">
+    <div>
+      {%- if section.settings.subtitle != blank -%}
+        <span class="section-subtitle">{{ section.settings.subtitle | escape }}</span>
+      {%- endif -%}
+      <h2 class="section-title">{{ section.settings.title | default: collection.title | default: 'FEATURED DROPS' }}</h2>
+      {%- if section.settings.description != blank -%}
+        <p class="section-desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.show_view_all and collection != blank -%}
+      <a href="{{ collection.url }}" class="section-view-all">
+        <span>View Full Drop</span>
+        <span>→</span>
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="product-grid">
+    {%- if collection != blank and collection.products.size > 0 -%}
+      {%- for product in collection.products limit: limit -%}
+        {% render 'product-card', 
+          product: product, 
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          show_quick_add: section.settings.show_quick_add,
+          show_wishlist: section.settings.show_wishlist,
+          show_discount_badge: section.settings.show_discount_badge
+        %}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..limit) -%}
+        <div class="product-card farak-card">
+          <div class="product-card__image-wrap farak-card__img-wrap">
+            <div class="placeholder-img" style="background:#eaeaea; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#999; font-weight:600;">Piece 0{{ i }}</div>
+            <button type="button" class="product-card__wishlist" aria-label="Favorite"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+            
+          </div>
+          <div class="product-card__info farak-card__info">
+            <h3 class="product-card__title farak-card__title">450GSM Archival Boxy Fleece</h3>
+            <div class="product-card__price farak-card__price"><span class="price-current">Rs. 6999</span></div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Collection Source & Content"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "LIMITED RUN ARCHIVE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "FEATURED DROPS"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "default": 4,
+      "label": "Products to Show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Link",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Grid & Column Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Desktop Columns"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_desktop",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop Column Gap",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "1 Column (Full Width Cards)" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2",
+      "label": "Mobile Columns (When swiper disabled)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_swipe",
+      "label": "Enable Horizontal Touch Swiper on Mobile",
+      "default": true,
+      "info": "Allows smooth swipe carousel on phones instead of long scrolling grid."
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Section (Edge-to-edge)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Product Card Features"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (3:4) - Recommended" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "tall", "label": "Tall Editorial (2:3)" },
+        { "value": "adapt", "label": "Natural Image Ratio" }
+      ],
+      "default": "portrait",
+      "label": "Card Image Aspect Ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show '+ Quick Add' Button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Heart Button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount_badge",
+      "label": "Show Sale / Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Product Star Rating",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Brand / Vendor",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding (Mobile)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

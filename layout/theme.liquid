@@ -1,0 +1,301 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_primary | default: '#000000' }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {%- if template.name == 'index' -%}
+        {{ shop.name }} &ndash; {{ page_title | default: 'WTFlex Streetwear | Heavyweight Silhouettes & Luxury Staples' }}
+      {%- elsif template.name == '404' -%}
+        Page Not Found &ndash; {{ shop.name }}
+      {%- else -%}
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endif -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    <!-- Typography: Dynamic Font System (Theme Settings → Typography & Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Theme Stylesheets -->
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'custom-styles.css' | asset_url | stylesheet_tag }}
+
+    <!-- Dynamic Font Overrides — loads LAST so it always wins over theme.css -->
+    <style>
+      /* ── Font declarations ── */
+
+      /* Moniqa-BoldHeading — default brand font (fallback if no picker selection) */
+      @font-face {
+        font-family: "Moniqa-BoldHeading";
+        src: url("{{ 'Moniqa-BoldHeading.ttf' | asset_url }}") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Moniqa-ExtraBoldHeading — uploaded by store owner for menu/nav */
+      @font-face {
+        font-family: "Moniqa-ExtraBoldHeading";
+        src: url("{{ 'Moniqa-ExtraBoldHeading.ttf' | asset_url }}") format("truetype");
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      {%- comment -%} Load selected heading font from picker {%- endcomment -%}
+      {%- if settings.font_heading != blank -%}
+        {{ settings.font_heading | font_face }}
+      {%- endif -%}
+
+      {%- comment -%} Load selected body font from picker {%- endcomment -%}
+      {%- if settings.font_body != blank -%}
+        {{ settings.font_body | font_face }}
+      {%- endif -%}
+
+      {%- comment -%} Custom uploaded .woff2 (overrides picker if filled in) {%- endcomment -%}
+      {%- if settings.custom_heading_font_woff2 != blank -%}
+        {%- assign _custom_font_name = settings.custom_heading_font_woff2 | remove: '.woff2' | remove: '.woff' -%}
+        @font-face {
+          font-family: "{{ _custom_font_name }}";
+          src: url("{{ settings.custom_heading_font_woff2 | asset_url }}") format("woff2");
+          font-weight: {{ settings.heading_font_weight | default: '700' }};
+          font-style: normal;
+          font-display: swap;
+        }
+      {%- endif -%}
+
+      :root {
+        {%- comment -%}
+          Heading font priority:
+          1. Custom uploaded .woff2 (if filled)
+          2. Default Brand Font checkbox ON → Moniqa-BoldHeading
+          3. Font Picker selection (checkbox OFF)
+        {%- endcomment -%}
+        {%- if settings.custom_heading_font_woff2 != blank -%}
+          {%- assign _custom_font_name = settings.custom_heading_font_woff2 | remove: '.woff2' | remove: '.woff' -%}
+          --font-heading: "{{ _custom_font_name }}", sans-serif;
+        {%- elsif settings.use_default_heading_font -%}
+          --font-heading: "Moniqa-BoldHeading", sans-serif;
+        {%- elsif settings.font_heading != blank -%}
+          --font-heading: {{ settings.font_heading.family | json }}, {{ settings.font_heading.fallback_families }};
+        {%- else -%}
+          --font-heading: "Moniqa-BoldHeading", sans-serif;
+        {%- endif -%}
+
+        {%- if settings.font_body != blank -%}
+          --font-body: {{ settings.font_body.family | json }}, {{ settings.font_body.fallback_families }};
+        {%- else -%}
+          --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        {%- endif -%}
+
+        /* Heading style controls */
+        --heading-font-weight: {{ settings.heading_font_weight | default: '700' }};
+        --heading-text-transform: {{ settings.heading_text_transform | default: 'uppercase' }};
+        --heading-letter-spacing: {{ settings.heading_letter_spacing | default: 2 }}px;
+
+        /* Font size tokens — body & UI */
+        --fs-body:         {{ settings.font_size_body | default: 15 }}px;
+        --fs-nav:          {{ settings.font_size_nav | default: 13 }}px;
+        --fs-price:        {{ settings.font_size_price | default: 16 }}px;
+        --fs-announcement: {{ settings.font_size_announcement | default: 12 }}px;
+
+        /* Font size tokens — headings */
+        --fs-h1:                 {{ settings.font_size_h1 | default: 60 }}px;
+        --fs-h2:                 {{ settings.font_size_h2 | default: 40 }}px;
+        --fs-h3:                 {{ settings.font_size_h3 | default: 28 }}px;
+        --fs-h4:                 {{ settings.font_size_h4 | default: 20 }}px;
+        --fs-product-title:      {{ settings.font_size_product_title | default: 32 }}px;
+        --fs-product-card-title: {{ settings.font_size_product_card_title | default: 14 }}px;
+      }
+
+      /* ── Body & UI text sizes ── */
+      body, p, li, .rte, .product-description {
+        font-family: var(--font-body);
+        font-size: var(--fs-body) !important;
+      }
+      span, label, input, textarea, select, a, button {
+        font-family: var(--font-body);
+      }
+
+      /* Navigation */
+      .nav-link,
+      .nav-links a,
+      .mobile-nav__link,
+      .mobile-nav a,
+      .header .nav-link,
+      .header .nav-links a,
+      .mobile-nav .mobile-nav__link,
+      .mobile-nav a,
+      .hamburger-nav__link,
+      .hamburger-menu a,
+      [class*="nav-link"],
+      [class*="mobile-nav__link"] {
+        font-family: "Moniqa-ExtraBoldHeading", "Moniqa-BoldHeading", sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 22px !important;
+      }
+
+      /* Announcement bar */
+      .announcement-bar, .announcement-bar * {
+        font-size: var(--fs-announcement) !important;
+      }
+
+      /* Prices */
+      .price-current, .price-compare, .product-card__price,
+      .farak-card__price, #product-price-current {
+        font-size: var(--fs-price) !important;
+      }
+
+      /* ── Heading sizes ── */
+      h1 { font-size: var(--fs-h1) !important; }
+      h2 { font-size: var(--fs-h2) !important; }
+      h3 { font-size: var(--fs-h3) !important; }
+      h4 { font-size: var(--fs-h4) !important; }
+
+      /* Product page title */
+      .product-title, #product-title {
+        font-size: var(--fs-product-title) !important;
+      }
+
+      /* Product card titles */
+      .product-card__title, .farak-card__title {
+        font-size: var(--fs-product-card-title) !important;
+      }
+    </style>
+
+    <!-- Shopify Header Hooks -->
+    {{ content_for_header }}
+
+    <!-- GA4 Analytics -->
+    {%- if settings.ga4_measurement_id != blank -%}
+      <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.ga4_measurement_id }}"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ settings.ga4_measurement_id }}');
+      </script>
+    {%- endif -%}
+
+    <!-- Meta Pixel -->
+    {%- if settings.meta_pixel_id != blank -%}
+      <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '{{ settings.meta_pixel_id }}');
+        fbq('track', 'PageView');
+        {%- if template.name == 'product' -%}
+          fbq('track', 'ViewContent', {
+            content_name: {{ product.title | json }},
+            content_ids: [{{ product.selected_or_first_available_variant.id | json }}],
+            content_type: 'product',
+            value: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+            currency: '{{ shop.currency }}'
+          });
+        {%- endif -%}
+      </script>
+      <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ settings.meta_pixel_id }}&ev=PageView&noscript=1"/></noscript>
+    {%- endif -%}
+
+    <!-- SEO Structured Data -->
+    {%- if template.name == 'product' -%}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": {{ product.title | json }},
+        "description": {{ product.description | strip_html | truncate: 300 | json }},
+        "image": {{ product.featured_image | image_url: width: 800 | prepend: 'https:' | json }},
+        "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+        "offers": {
+          "@type": "Offer",
+          "url": {{ canonical_url | json }},
+          "priceCurrency": {{ shop.currency | json }},
+          "price": {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+          "availability": {% if product.available %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %},
+          "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+        }
+      }
+      </script>
+    {%- elsif template.name == 'index' -%}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | json }},
+        "logo": "{{ settings.logo | image_url: width: 400 }}"
+      }
+      </script>
+    {%- endif -%}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    {% render 'preloader' %}
+    <a class="sr-only" href="#MainContent">{{ 'accessibility.skip_to_text' | default: 'Skip to content' }}</a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    {% render 'cart-drawer' %}
+    {% render 'search-modal' %}
+    {% if template.name == 'index' %}
+      {% render 'recent-products-popup' %}
+    {% endif %}
+
+    <!-- WhatsApp Floating Support Button -->
+    {%- if settings.enable_whatsapp_button != false and settings.whatsapp_number != blank -%}
+      {%- assign wa_msg = settings.whatsapp_message | default: 'Hi! I need help.' | url_encode -%}
+      <a
+        href="https://wa.me/{{ settings.whatsapp_number }}?text={{ wa_msg }}"
+        class="whatsapp-float"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with us on WhatsApp"
+        id="whatsapp-float-btn"
+      >
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+      </a>
+    {%- endif -%}
+
+    <!-- Scripts -->
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    
+    {% if template.name == 'product' %}
+      <button type="button" class="sticky-size-guide-tab" id="sticky-size-guide-btn" data-size-guide aria-label="Open Size Guide">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <span>SIZE GUIDE</span>
+      </button>
+    {% endif %}
+  </body>
+</html>

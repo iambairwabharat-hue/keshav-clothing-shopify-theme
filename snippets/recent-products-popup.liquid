@@ -1,0 +1,17 @@
+<div id="recent-products-popup-stack" class="recent-popup-stack" aria-live="polite" aria-label="Recently Viewed Products Stack"></div>
+
+{% if template.name == 'product' %}
+  <script id="current-pdp-data" type="application/json">
+    {
+      "id": {{ product.id | json }},
+      "handle": {{ product.handle | json }},
+      "title": {{ product.title | json }},
+      "url": {{ product.url | json }},
+      "price": {{ product.selected_or_first_available_variant.price | money | json }},
+      "compare_at_price": {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}{{ product.selected_or_first_available_variant.compare_at_price | money | json }}{% else %}null{% endif %},
+      "image": {{ product.featured_image | image_url: width: 300 | json }},
+      "variantId": {{ product.selected_or_first_available_variant.id | json }},
+      "available": {{ product.selected_or_first_available_variant.available | json }}
+    }
+  </script>
+{% endif %}

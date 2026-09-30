@@ -1,0 +1,363 @@
+{%- comment -%}
+  KCCLOTHING - 2-Column Product Tabs (Auto-Splits Product Description by H3 Headings into Tabs + Right Lookbook Media)
+{%- endcomment -%}
+
+{%- style -%}
+  #product-details-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FAFAFA' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+    border-top: 1px solid #e5e5e5;
+  }
+
+  @media (max-width: 768px) {
+    #product-details-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #product-details-{{ section.id }} .product-details-inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  @media (max-width: 990px) {
+    #product-details-{{ section.id }} .product-details-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  #product-details-{{ section.id }} .product-details-image-wrap {
+    position: relative;
+    border-radius: {{ section.settings.image_border_radius | default: 10 }}px;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.image_aspect_ratio | default: '4/5' }};
+    box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+    background: #eaeaea;
+  }
+
+  #product-details-{{ section.id }} .product-details-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  #product-details-{{ section.id }} .product-details-image-wrap:hover .product-details-image {
+    transform: scale(1.03);
+  }
+
+  #product-details-{{ section.id }} .details-tabs-header {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid #e5e5e5;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  #product-details-{{ section.id }} .details-tabs-header::-webkit-scrollbar { display: none; }
+
+  #product-details-{{ section.id }} .details-tab-nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: #737373;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+  #product-details-{{ section.id }} .details-tab-nav-btn:hover {
+    color: #171717;
+  }
+  #product-details-{{ section.id }} .details-tab-nav-btn.is-active {
+    color: #171717;
+    border-bottom-color: #171717;
+  }
+
+  #product-details-{{ section.id }} .details-tab-pane {
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: #404040;
+  }
+  #product-details-{{ section.id }} .details-tab-pane h3,
+  #product-details-{{ section.id }} .details-tab-pane h2,
+  #product-details-{{ section.id }} .details-tab-pane h4 {
+    display: none;
+  }
+  #product-details-{{ section.id }} .details-tab-pane ul {
+    padding-left: 20px;
+    margin: 12px 0;
+  }
+  #product-details-{{ section.id }} .details-tab-pane li {
+    margin-bottom: 6px;
+  }
+{%- endstyle -%}
+
+<section class="product-details-section" id="product-details-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="product-details-inner container container--wide">
+    
+    <!-- Left Column: Description & Dynamic H3 Tabs -->
+    <div class="product-details-text">
+      
+      <!-- Tab Header Buttons Container -->
+      <div class="details-tabs-header" id="details-tab-nav-{{ section.id }}">
+        <!-- Populated dynamically by JS heading parser or fallback tabs -->
+      </div>
+
+      <!-- Raw description source for auto-parser -->
+      <div id="product-raw-desc-{{ section.id }}" style="display: none;">
+        {{ product.description }}
+      </div>
+
+      <!-- Tab Panes Container -->
+      <div class="details-tab-panes" id="details-tab-panes-{{ section.id }}">
+        <!-- Populated dynamically by JS heading parser -->
+      </div>
+
+      <!-- Default Fallback Static Panes (Used when description has no H3s) -->
+      <div id="default-panes-source-{{ section.id }}" style="display: none;">
+        <div data-fallback-tab="Materials & Specs">
+          <ul>
+            <li><strong>Material:</strong> 100% Combed Heavyweight Organic Cotton (450 GSM Fleece / 280 GSM Jersey).</li>
+            <li><strong>Weave:</strong> Tight-knit diagonal loopback interior with matte exterior finish.</li>
+            <li><strong>Stitching:</strong> Industrial reverse flatlock coverstitching for zero irritation.</li>
+            <li><strong>Care:</strong> Machine wash cold inside out. Hang dry for best longevity.</li>
+          </ul>
+        </div>
+        <div data-fallback-tab="Sizing & Fit">
+          <p>Tailored with our signature boxy, dropped-shoulder silhouette for an effortless streetwear drape.</p>
+          <ul>
+            <li><strong>Intended Fit:</strong> True to size for a relaxed oversized aesthetic.</li>
+            <li><strong>Model Specs:</strong> Model is 6'1" (185 cm) / 175 lbs wearing Size Large.</li>
+          </ul>
+        </div>
+        <div data-fallback-tab="Shipping & Returns">
+          <ul>
+            <li><strong>Dispatch:</strong> Free express shipping on all orders over Rs. 9900.</li>
+            <li><strong>Exchanges:</strong> 15-day complimentary size exchange and easy returns policy.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Editorial Lookbook Media Image -->
+    <div class="product-details-media">
+      <div class="product-details-image-wrap">
+        {%- if section.settings.editorial_image != blank -%}
+          <img
+            src="{{ section.settings.editorial_image | image_url: width: 1000 }}"
+            alt="{{ product.title | escape }} Details Look"
+            class="product-details-image"
+            loading="lazy"
+          >
+        {%- elsif product.media.size > 1 -%}
+          <img
+            src="{{ product.media[1] | image_url: width: 1000 }}"
+            alt="{{ product.title | escape }} Lookbook"
+            class="product-details-image"
+            loading="lazy"
+          >
+        {%- elsif product.featured_media != blank -%}
+          <img
+            src="{{ product.featured_media | image_url: width: 1000 }}"
+            alt="{{ product.title | escape }}"
+            class="product-details-image"
+            loading="lazy"
+          >
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag: 'product-details-image placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var sectionEl = document.getElementById('product-details-{{ section.id }}');
+    if (!sectionEl) return;
+
+    var rawDescEl = document.getElementById('product-raw-desc-{{ section.id }}');
+    var navContainer = document.getElementById('details-tab-nav-{{ section.id }}');
+    var panesContainer = document.getElementById('details-tab-panes-{{ section.id }}');
+    var fallbackSource = document.getElementById('default-panes-source-{{ section.id }}');
+
+    if (!rawDescEl || !navContainer || !panesContainer) return;
+
+    var rawHtml = rawDescEl.innerHTML.trim();
+    var tempDiv = document.createElement('div');
+    tempDiv.innerHTML = rawHtml;
+
+    var headings = tempDiv.querySelectorAll('h3, h2, h4');
+
+    if (headings.length > 0) {
+      navContainer.innerHTML = '';
+      panesContainer.innerHTML = '';
+
+      var nodes = Array.from(tempDiv.childNodes);
+      var tabIndex = 0;
+
+      function createTab(title, contentHtml, isFirst) {
+        var tabId = 'tab-h3-' + tabIndex;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'details-tab-nav-btn' + (isFirst ? ' is-active' : '');
+        btn.setAttribute('data-target', tabId);
+        btn.textContent = title;
+        navContainer.appendChild(btn);
+
+        var pane = document.createElement('div');
+        pane.className = 'details-tab-pane' + (isFirst ? ' is-active' : '');
+        pane.id = tabId;
+        pane.style.display = isFirst ? 'block' : 'none';
+        pane.innerHTML = contentHtml || '<p>Details coming soon.</p>';
+        panesContainer.appendChild(pane);
+
+        tabIndex++;
+      }
+
+      var headingPositions = [];
+      nodes.forEach(function(node, idx) {
+        if (node.nodeType === 1 && (node.tagName === 'H3' || node.tagName === 'H2' || node.tagName === 'H4')) {
+          headingPositions.push(idx);
+        }
+      });
+
+      if (headingPositions.length > 0) {
+        if (headingPositions[0] > 0) {
+          var preContent = nodes.slice(0, headingPositions[0]).map(function(n){ return n.outerHTML || n.textContent; }).join('');
+          if (preContent.trim()) {
+            createTab('Overview', preContent, true);
+          }
+        }
+
+        headingPositions.forEach(function(pos, i) {
+          var hNode = nodes[pos];
+          var title = hNode.textContent.trim() || 'Tab ' + (i + 1);
+          var nextPos = (i + 1 < headingPositions.length) ? headingPositions[i + 1] : nodes.length;
+          var sectionNodes = nodes.slice(pos + 1, nextPos);
+          var sectionContent = sectionNodes.map(function(n){ return n.outerHTML || n.textContent; }).join('');
+          
+          var isFirst = (tabIndex === 0);
+          createTab(title, sectionContent, isFirst);
+        });
+      }
+    } else {
+      navContainer.innerHTML = '';
+      panesContainer.innerHTML = '';
+
+      var tabsList = [
+        { title: 'Description', html: rawHtml || '<p>Crafted from 100% heavyweight 450GSM loopback fleece with an architectural streetwear silhouette.</p>' }
+      ];
+
+      if (fallbackSource) {
+        fallbackSource.querySelectorAll('[data-fallback-tab]').forEach(function(fb) {
+          tabsList.push({
+            title: fb.getAttribute('data-fallback-tab'),
+            html: fb.innerHTML
+          });
+        });
+      }
+
+      tabsList.forEach(function(t, idx) {
+        var tabId = 'tab-fb-' + idx;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'details-tab-nav-btn' + (idx === 0 ? ' is-active' : '');
+        btn.setAttribute('data-target', tabId);
+        btn.textContent = t.title;
+        navContainer.appendChild(btn);
+
+        var pane = document.createElement('div');
+        pane.className = 'details-tab-pane' + (idx === 0 ? ' is-active' : '');
+        pane.id = tabId;
+        pane.style.display = idx === 0 ? 'block' : 'none';
+        pane.innerHTML = t.html;
+        panesContainer.appendChild(pane);
+      });
+    }
+
+    var allTabBtns = navContainer.querySelectorAll('.details-tab-nav-btn');
+    var allTabPanes = panesContainer.querySelectorAll('.details-tab-pane');
+
+    allTabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var targetId = this.getAttribute('data-target');
+        allTabBtns.forEach(function(b) { b.classList.remove('is-active'); });
+        allTabPanes.forEach(function(p) { p.style.display = 'none'; p.classList.remove('is-active'); });
+
+        this.classList.add('is-active');
+        var activePane = document.getElementById(targetId);
+        if (activePane) {
+          activePane.style.display = 'block';
+          activePane.classList.add('is-active');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Tabs & Editorial",
+  "settings": [
+    { "type": "header", "content": "Heading & Alignment" },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "header", "content": "Editorial Image (Right Column)" },
+    { "type": "image_picker", "id": "editorial_image", "label": "Custom Editorial Image (Defaults to 2nd product photo)" },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "4/5", "label": "Tall Editorial (4:5) - Recommended" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "1/1", "label": "Square (1:1)" }
+      ],
+      "default": "4/5"
+    },
+    { "type": "range", "id": "image_border_radius", "min": 0, "max": 24, "step": 2, "unit": "px", "label": "Image Border Radius", "default": 10 },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FAFAFA" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 64 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 64 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 36 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 36 }
+  ],
+  "presets": [
+    {
+      "name": "Product Tabs & Editorial"
+    }
+  ]
+}
+{% endschema %}

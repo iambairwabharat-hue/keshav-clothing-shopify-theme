@@ -1,0 +1,88 @@
+{%- comment -%}
+  KCCLOTHING - Product Recommendations (Excludes Current Open Product)
+{%- endcomment -%}
+
+<section class="recommendations" data-section-id="{{ section.id }}">
+  <div class="recommendations__inner container container--wide">
+    <div class="section-header-row" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px;">
+      <div>
+        <span class="section-subtitle">{{ section.settings.subtitle | default: 'CURATED PAIRINGS' }}</span>
+        <h2 class="section-title section-title--serif">{{ section.settings.heading | default: 'YOU MAY ALSO LIKE' }}</h2>
+      </div>
+      <a href="{{ routes.all_products_collection_url }}" class="hero-btn hero-btn--outline_black" style="padding: 8px 18px; font-size: 11px;">
+        <span>View All Pieces</span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <div class="product-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+      {%- assign shown_count = 0 -%}
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        {%- for rec_prod in recommendations.products -%}
+          {%- unless rec_prod.id == product.id or rec_prod.handle == product.handle -%}
+            {% render 'product-card', product: rec_prod, show_quick_add: true, show_wishlist: true %}
+            {%- assign shown_count = shown_count | plus: 1 -%}
+            {%- if shown_count >= 4 -%}{%- break -%}{%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if shown_count < 4 -%}
+        {%- assign rel_collection = product.collections.first | default: collections.all -%}
+        {%- for rel_prod in rel_collection.products -%}
+          {%- unless rel_prod.id == product.id or rel_prod.handle == product.handle -%}
+            {% render 'product-card', product: rel_prod, show_quick_add: true, show_wishlist: true %}
+            {%- assign shown_count = shown_count | plus: 1 -%}
+            {%- if shown_count >= 4 -%}{%- break -%}{%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if shown_count < 4 -%}
+        {%- for rel_prod in collections.all.products -%}
+          {%- unless rel_prod.id == product.id or rel_prod.handle == product.handle -%}
+            {% render 'product-card', product: rel_prod, show_quick_add: true, show_wishlist: true %}
+            {%- assign shown_count = shown_count | plus: 1 -%}
+            {%- if shown_count >= 4 -%}{%- break -%}{%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "CURATED PAIRINGS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "YOU MAY ALSO LIKE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Recommendations"
+    }
+  ]
+}
+{% endschema %}

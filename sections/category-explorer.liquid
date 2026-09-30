@@ -1,0 +1,220 @@
+{%- comment -%}
+  KCCLOTHING - WTFlex Story-Style Circular Category Explorer with Horizontal Touch Swipe & Direct Links
+{%- endcomment -%}
+
+{%- style -%}
+  #category-circles-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #category-circles-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #category-circles-{{ section.id }} .category-story-track {
+    display: flex;
+    align-items: flex-start;
+    justify-content: {{ section.settings.desktop_alignment | default: 'center' }};
+    gap: {{ section.settings.gap_desktop | default: 28 }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 10px 16px 16px;
+  }
+  #category-circles-{{ section.id }} .category-story-track::-webkit-scrollbar { display: none; }
+
+  #category-circles-{{ section.id }} .category-story-item {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    scroll-snap-align: start;
+    transition: transform 0.25s ease;
+  }
+  #category-circles-{{ section.id }} .category-story-item:hover {
+    transform: translateY(-4px);
+  }
+
+  #category-circles-{{ section.id }} .category-story-ring {
+    width: {{ section.settings.circle_size_desktop | default: 94 }}px;
+    height: {{ section.settings.circle_size_desktop | default: 94 }}px;
+    border-radius: 50%;
+    padding: 3px;
+    background: {{ section.settings.ring_color | default: 'linear-gradient(135deg, #171717 0%, #737373 100%)' }};
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  #category-circles-{{ section.id }} .category-story-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eaeaea;
+    border: 2px solid #ffffff;
+  }
+
+  #category-circles-{{ section.id }} .category-story-title {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    #category-circles-{{ section.id }} .category-story-track {
+      justify-content: flex-start;
+      gap: 18px;
+    }
+    #category-circles-{{ section.id }} .category-story-ring {
+      width: {{ section.settings.circle_size_mobile | default: 76 }}px;
+      height: {{ section.settings.circle_size_mobile | default: 76 }}px;
+    }
+    #category-circles-{{ section.id }} .category-story-title {
+      font-size: 11px;
+      margin-top: 8px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="category-circles-section{% if section.settings.full_width %} category-circles--full-width{% else %} container container--wide{% endif %}" id="category-circles-{{ section.id }}" data-section-id="{{ section.id }}">
+  
+  {%- if section.settings.heading != blank -%}
+    <div class="section-header text-{{ section.settings.heading_alignment | default: 'center' }}" style="text-align: {{ section.settings.heading_alignment | default: 'center' }};" style="margin-bottom: 20px;">
+      {%- if section.settings.subtitle != blank -%}
+        <span class="section-subtitle">{{ section.settings.subtitle | escape }}</span>
+      {%- endif -%}
+      <h2 class="section-title">{{ section.settings.heading | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="category-story-track">
+    {%- for block in section.blocks -%}
+      {%- assign coll = block.settings.collection -%}
+      {%- assign link_url = block.settings.link | default: coll.url | default: routes.all_products_collection_url -%}
+      
+      <a href="{{ link_url }}" class="category-story-item" {{ block.shopify_attributes }}>
+        <div class="category-story-ring">
+          {%- if block.settings.image != blank -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 250, height: 250, crop: 'center' }}"
+              alt="{{ block.settings.title | default: coll.title | escape }}"
+              class="category-story-img"
+              loading="lazy"
+            >
+          {%- elsif coll != blank and coll.featured_image != blank -%}
+            <img
+              src="{{ coll.featured_image | image_url: width: 250, height: 250, crop: 'center' }}"
+              alt="{{ coll.title | escape }}"
+              class="category-story-img"
+              loading="lazy"
+            >
+          {%- else -%}
+            <img
+              src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&h=200&fit=crop"
+              alt="Category"
+              class="category-story-img"
+              loading="lazy"
+            >
+          {%- endif -%}
+
+          {%- if block.settings.badge_tag != blank -%}
+            <span style="position: absolute; bottom: -4px; background: #e53e3e; color: #ffffff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid #ffffff;">{{ block.settings.badge_tag | escape }}</span>
+          {%- endif -%}
+        </div>
+        <span class="category-story-title">{{ block.settings.title | default: coll.title | default: 'Category' }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Story Category Explorer",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Header & Layout" },
+    { "type": "text", "id": "subtitle", "label": "Section Subtitle", "default": "EXPLORE STREETWEAR SILHOUETTES" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "SHOP BY CATEGORY" },
+    {
+      "type": "select",
+      "id": "desktop_alignment",
+      "label": "Desktop Alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "flex-start", "label": "Left Align" }
+      ],
+      "default": "center"
+    },
+    { "type": "range", "id": "circle_size_desktop", "min": 60, "max": 140, "step": 2, "unit": "px", "label": "Circle Size (Desktop)", "default": 94 },
+    { "type": "range", "id": "circle_size_mobile", "min": 50, "max": 100, "step": 2, "unit": "px", "label": "Circle Size (Mobile)", "default": 76 },
+    { "type": "range", "id": "gap_desktop", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Gap between Categories", "default": 28 },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 36 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 36 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 20 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 20 }
+  ],
+  "blocks": [
+    {
+      "type": "category_story",
+      "name": "Category Circle",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Category Label", "default": "Hoodies" },
+        { "type": "image_picker", "id": "image", "label": "Circular Image Thumbnail" },
+        { "type": "collection", "id": "collection", "label": "Select Collection" },
+        { "type": "url", "id": "link", "label": "Custom URL Override" },
+        { "type": "text", "id": "badge_tag", "label": "Mini Badge Tag (e.g. HOT, NEW, 30% OFF)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Category Explorer",
+      "blocks": [
+        { "type": "category_story", "settings": { "title": "Oversized Hoodies", "badge_tag": "HOT" } },
+        { "type": "category_story", "settings": { "title": "Boxy Tees", "badge_tag": "NEW" } },
+        { "type": "category_story", "settings": { "title": "Bowling Shirts" } },
+        { "type": "category_story", "settings": { "title": "Cargo Pants" } },
+        { "type": "category_story", "settings": { "title": "Denim Jorts" } },
+        { "type": "category_story", "settings": { "title": "Caps & Hats" } },
+        { "type": "category_story", "settings": { "title": "Archive Vault", "badge_tag": "SALE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

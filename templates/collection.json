@@ -1,0 +1,70 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_collection": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 12,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    },
+    "marquee": {
+      "type": "marquee-ticker",
+      "blocks": {
+        "t1": {
+          "type": "text",
+          "settings": {
+            "text": "LIMITED EDITION"
+          }
+        },
+        "t2": {
+          "type": "text",
+          "settings": {
+            "text": "NEW ARRIVAL"
+          }
+        },
+        "t3": {
+          "type": "text",
+          "settings": {
+            "text": "WORLDWIDE DISPATCH"
+          }
+        },
+        "t4": {
+          "type": "text",
+          "settings": {
+            "text": "HEAVYWEIGHT 450GSM"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "speed": 20,
+        "font_size": 18,
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "padding_top_desktop": 16,
+        "padding_bottom_desktop": 16,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 12
+      }
+    }
+  },
+  "order": [
+    "main_collection",
+    "marquee"
+  ]
+}

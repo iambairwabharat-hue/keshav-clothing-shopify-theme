@@ -1,0 +1,66 @@
+{%- style -%}
+  #recently-viewed-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #recently-viewed-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #recently-viewed-{{ section.id }} .recently-viewed-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+  }
+{%- endstyle -%}
+
+<!-- Persistent Recently Viewed Products Section -->
+<section class="recently-viewed-section{% if section.settings.full_width %} recently-viewed--full-width{% else %} container container--wide{% endif %}" id="recently-viewed-{{ section.id }}" data-section-id="{{ section.id }}" style="display: none;">
+  <div class="section-header-row">
+    <div>
+      <span class="section-subtitle">{{ section.settings.subtitle | default: 'YOUR BROWSING ARCHIVE' }}</span>
+      <h2 class="section-title">{{ section.settings.heading | default: 'RECENTLY VIEWED' }}</h2>
+    </div>
+    <button type="button" class="btn-clear-recent" id="btn-clear-recent-{{ section.id }}" aria-label="Clear recently viewed history">
+      Clear History
+    </button>
+  </div>
+
+  <div class="recently-viewed-grid product-grid" id="recently-viewed-grid-{{ section.id }}" data-limit="{{ section.settings.products_to_show | default: 4 }}">
+    <!-- Injected via JavaScript -->
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recently Viewed",
+  "settings": [
+    { "type": "header", "content": "Header & Sizing" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "YOUR BROWSING ARCHIVE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "RECENTLY VIEWED PIECES" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Products to Show" },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 5, "step": 1, "default": 4, "label": "Desktop Columns" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "presets": [
+    { "name": "Recently Viewed" }
+  ]
+}
+{% endschema %}

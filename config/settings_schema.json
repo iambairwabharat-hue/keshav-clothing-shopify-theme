@@ -1,0 +1,428 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "WTFlex Luxury",
+    "theme_author": "WTFlex Studio",
+    "theme_version": "2.0.0",
+    "theme_documentation_url": "https://h1bfui-vi.myshopify.com",
+    "theme_support_url": "https://h1bfui-vi.myshopify.com"
+  },
+  {
+    "name": "Branding & Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon Image",
+        "info": "Will be scaled down to 32x32px"
+      }
+    ]
+  },
+  {
+    "name": "Colors & Aesthetics",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Accent",
+        "default": "#171717"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Page Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary_bg",
+        "label": "Secondary Section Background",
+        "default": "#f8fafc"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Primary Text",
+        "default": "#171717"
+      },
+      {
+        "type": "color",
+        "id": "color_muted_text",
+        "label": "Muted / Subtitle Text",
+        "default": "#64748b"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Borders & Dividers",
+        "default": "#e2e8f0"
+      },
+      {
+        "type": "color",
+        "id": "color_badge",
+        "label": "Sale / Discount Badge Color",
+        "default": "#dc2626"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success / Unlocked Reward Color",
+        "default": "#16a34a"
+      }
+    ]
+  },
+  {
+    "name": "Cart & Drawer Settings",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_cart_drawer",
+        "label": "Enable Side Cart Drawer",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_shipping_bar",
+        "label": "Enable Gamified Rewards Bar",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free Shipping Threshold Amount (Rs.)",
+        "default": 9900
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_discounts",
+        "label": "Enable Discount Code Field in Cart Drawer",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "\"Pairs Well With\" Upsell"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_upsell",
+        "label": "Enable \"Pairs Well With\" Upsell in Cart Drawer",
+        "default": true
+      },
+      {
+        "type": "product",
+        "id": "cart_upsell_product",
+        "label": "Upsell Product",
+        "info": "Pick any product from your store to show in the cart drawer upsell."
+      }
+    ]
+  },
+  {
+    "name": "Product Cards & Catalog",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_quick_add",
+        "label": "Enable Quick Add on Product Cards",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_wishlist",
+        "label": "Enable Wishlist Buttons",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_hover_image",
+        "label": "Show Secondary Image on Hover",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Typography & Fonts",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Heading Font"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_default_heading_font",
+        "label": "Use Default Brand Font (Moniqa-BoldHeading)",
+        "default": true,
+        "info": "Turn OFF to use the Font Picker below instead."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font (active only when Default is OFF)",
+        "default": "inter_n4",
+        "info": "Applies to all headings (H1–H6), product titles, section titles, nav links, and buttons."
+      },
+      {
+        "type": "header",
+        "content": "Custom Uploaded Font (Optional)"
+      },
+      {
+        "type": "paragraph",
+        "content": "To use your own font: go to Theme Editor → ⋯ (three dots) → Edit code → Assets → Add a new asset → upload your .woff2 font file. Then paste the filename below."
+      },
+      {
+        "type": "text",
+        "id": "custom_heading_font_woff2",
+        "label": "Custom Font File (.woff2)",
+        "info": "Paste the exact filename you uploaded, e.g. my-brand-font.woff2 — the font name will be set automatically.",
+        "placeholder": "e.g. my-brand-font.woff2"
+      },
+      {
+        "type": "select",
+        "id": "heading_font_weight",
+        "label": "Heading Font Weight",
+        "options": [
+          { "value": "300", "label": "300 — Light" },
+          { "value": "400", "label": "400 — Regular" },
+          { "value": "500", "label": "500 — Medium" },
+          { "value": "600", "label": "600 — Semi Bold" },
+          { "value": "700", "label": "700 — Bold" },
+          { "value": "800", "label": "800 — Extra Bold" },
+          { "value": "900", "label": "900 — Black" }
+        ],
+        "default": "700"
+      },
+      {
+        "type": "select",
+        "id": "heading_text_transform",
+        "label": "Heading Text Case",
+        "options": [
+          { "value": "none", "label": "Normal" },
+          { "value": "uppercase", "label": "UPPERCASE" },
+          { "value": "capitalize", "label": "Capitalize Each Word" }
+        ],
+        "default": "uppercase"
+      },
+      {
+        "type": "range",
+        "id": "heading_letter_spacing",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading Letter Spacing",
+        "default": 2
+      },
+      {
+        "type": "header",
+        "content": "Body Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body / UI Font",
+        "default": "inter_n4",
+        "info": "Applies to paragraphs, descriptions, labels, and general UI text."
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes — Body & UI"
+      },
+      {
+        "type": "range",
+        "id": "font_size_body",
+        "label": "Body Text Size",
+        "min": 12,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "font_size_nav",
+        "label": "Navigation Links Size",
+        "min": 10,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 13
+      },
+      {
+        "type": "range",
+        "id": "font_size_price",
+        "label": "Price Text Size",
+        "min": 12,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_announcement",
+        "label": "Announcement Bar Text Size",
+        "min": 10,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes — Headings"
+      },
+      {
+        "type": "range",
+        "id": "font_size_h1",
+        "label": "H1 / Hero Title Size",
+        "min": 28,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "font_size_h2",
+        "label": "H2 / Section Title Size",
+        "min": 22,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "font_size_h3",
+        "label": "H3 / Card Title Size",
+        "min": 16,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "default": 28
+      },
+      {
+        "type": "range",
+        "id": "font_size_h4",
+        "label": "H4 / Sub-heading Size",
+        "min": 14,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "font_size_product_title",
+        "label": "Product Page Title Size",
+        "min": 18,
+        "max": 56,
+        "step": 2,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "font_size_product_card_title",
+        "label": "Product Card Title Size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Social Media Links",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_link",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube_link",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter_link",
+        "label": "X / Twitter URL"
+      }
+    ]
+  },
+  {
+    "name": "Product & Size Chart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Global Size Chart"
+      },
+      {
+        "type": "image_picker",
+        "id": "global_size_chart_image",
+        "label": "Global Size Chart Image",
+        "info": "This image will be used as the default size chart for all products. Individual products can override this via the 'custom.size_chart_image' metafield."
+      }
+    ]
+  },
+  {
+    "name": "WhatsApp Support",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_whatsapp_button",
+        "label": "Enable WhatsApp Floating Button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp Phone Number",
+        "info": "Include country code, digits only. E.g. 919876543210 for India.",
+        "placeholder": "919876543210"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Pre-filled WhatsApp Message",
+        "default": "Hi! I need help with my order.",
+        "info": "This message will be pre-filled when the customer opens WhatsApp."
+      }
+    ]
+  },
+  {
+    "name": "Analytics & Tracking",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Google Analytics 4"
+      },
+      {
+        "type": "text",
+        "id": "ga4_measurement_id",
+        "label": "GA4 Measurement ID",
+        "info": "Format: G-XXXXXXXXXX. Leave blank to disable.",
+        "placeholder": "G-XXXXXXXXXX"
+      },
+      {
+        "type": "header",
+        "content": "Meta (Facebook) Pixel"
+      },
+      {
+        "type": "text",
+        "id": "meta_pixel_id",
+        "label": "Meta Pixel ID",
+        "info": "Your Facebook/Instagram Pixel ID. Leave blank to disable.",
+        "placeholder": "123456789012345"
+      }
+    ]
+  }
+]
+

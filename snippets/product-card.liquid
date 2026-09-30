@@ -1,0 +1,116 @@
+{%- comment -%}
+  KCCLOTHING - Luxury Streetwear Product Card with Smooth 2nd Image Hover Reveal
+  Accepts:
+  - product: {Object} Product Liquid object
+  - show_vendor: {Boolean}
+  - show_rating: {Boolean}
+  - show_wishlist: {Boolean}
+  - show_discount_badge: {Boolean}
+{%- endcomment -%}
+
+{%- liquid
+  assign primary_media = product.featured_media | default: product.media.first | default: product.featured_image
+  assign secondary_media = product.media[1] | default: product.images[1]
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  assign primary_src = 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=700&h=900&fit=crop'
+  if primary_media != blank
+    assign primary_src = primary_media | image_url: width: 700
+  endif
+
+  assign secondary_src = ''
+  if secondary_media != blank
+    assign secondary_src = secondary_media | image_url: width: 700
+  endif
+-%}
+
+<div class="product-card scroll-reveal" data-product-id="{{ product.id }}" data-price="{{ product.price | divided_by: 100.0 }}">
+  
+  <div class="product-card__image-wrap">
+    <a href="{{ product.url | default: '#' }}" class="product-card__image-link" aria-label="{{ product.title | escape }}">
+      
+      <!-- Primary Image (Default View) -->
+      {%- if primary_media != blank -%}
+        <img
+          src="{{ primary_src }}"
+          alt="{{ primary_media.alt | default: product.title | escape }}"
+          class="product-card__image product-card__image--primary"
+          loading="lazy"
+          width="{{ primary_media.width | default: 600 }}"
+          height="{{ primary_media.height | default: 800 }}"
+        >
+      {%- else -%}
+        <img
+          src="{{ primary_src }}"
+          alt="{{ product.title | default: 'Garment' | escape }}"
+          class="product-card__image product-card__image--primary"
+          loading="lazy"
+        >
+      {%- endif -%}
+
+      <!-- Secondary Image (Smooth Fade-in on Hover) -->
+      {%- if secondary_media != blank -%}
+        <img
+          src="{{ secondary_src }}"
+          alt="{{ secondary_media.alt | default: product.title | escape }}"
+          class="product-card__image product-card__image--secondary"
+          loading="lazy"
+          width="{{ secondary_media.width | default: 600 }}"
+          height="{{ secondary_media.height | default: 800 }}"
+        >
+      {%- endif -%}
+
+    </a>
+
+    <!-- Discount % / Sale Badge -->
+    {%- if on_sale and show_discount_badge != false -%}
+      {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+      <span class="product-card__badge">{{ discount_pct }}% OFF</span>
+    {%- endif -%}
+
+    <!-- Wishlist Button -->
+    {%- if show_wishlist != false -%}
+      <button
+        type="button"
+        class="product-card__wishlist"
+        data-wishlist-toggle="{{ product.id }}"
+        aria-label="Add to wishlist"
+        onclick="if(window.Wishlist){Wishlist.toggle('{{ product.id }}');}event.preventDefault();event.stopPropagation();"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+    {%- endif -%}
+
+  </div>
+
+  <div class="product-card__info">
+    {%- if show_vendor and product.vendor != blank -%}
+      <span class="product-card__vendor">{{ product.vendor | escape }}</span>
+    {%- endif -%}
+
+    <a href="{{ product.url | default: '#' }}" class="product-card__title-link">
+      <h3 class="product-card__title">{{ product.title | escape }}</h3>
+    </a>
+    
+    <div class="product-card__price">
+      <span class="price-current">{{ product.price | money }}</span>
+      {%- if on_sale -%}
+        <span class="price-compare">{{ product.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if show_rating -%}
+      <div class="product-card__rating">
+        <span class="stars">★★★★★</span>
+        <span class="count">(4.9)</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+</div>

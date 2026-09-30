@@ -1,0 +1,242 @@
+{%- comment -%}
+  KCCLOTHING - WTFlex-Style Dynamic Collection Tabs Switcher with Fast JS Switching & In-Card Quick Add
+{%- endcomment -%}
+
+{%- style -%}
+  #collection-tabs-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #collection-tabs-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #collection-tabs-{{ section.id }} .tab-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+    margin-bottom: 32px;
+  }
+  #collection-tabs-{{ section.id }} .tab-nav-bar::-webkit-scrollbar { display: none; }
+
+  #collection-tabs-{{ section.id }} .tab-btn {
+    padding: 10px 24px;
+    font-family: var(--font-heading, 'Oswald', sans-serif);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 30px;
+    border: 1.5px solid #e5e5e5;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+  #collection-tabs-{{ section.id }} .tab-btn:hover {
+    border-color: #171717;
+  }
+  #collection-tabs-{{ section.id }} .tab-btn.is-active {
+    background: #171717;
+    color: #ffffff;
+    border-color: #171717;
+  }
+
+  #collection-tabs-{{ section.id }} .tab-product-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    #collection-tabs-{{ section.id }} .tab-nav-bar {
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    #collection-tabs-{{ section.id }} .tab-btn {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+    #collection-tabs-{{ section.id }} .tab-product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="collection-tabs-section{% if section.settings.full_width %} collection-tabs--full-width{% else %} container container--wide{% endif %}" id="collection-tabs-{{ section.id }}" data-section-id="{{ section.id }}">
+  
+  {%- if section.settings.heading != blank -%}
+    <div class="section-header text-{{ section.settings.heading_alignment | default: 'center' }}" style="text-align: {{ section.settings.heading_alignment | default: 'center' }};" style="margin-bottom: 24px;">
+      {%- if section.settings.subtitle != blank -%}
+        <span class="section-subtitle">{{ section.settings.subtitle | escape }}</span>
+      {%- endif -%}
+      <h2 class="section-title">{{ section.settings.heading | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  <!-- Collection Tabs Navigation Bar -->
+  <div class="tab-nav-bar" id="tab-nav-bar-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      {%- assign coll = block.settings.collection -%}
+      <button
+        type="button"
+        class="tab-btn{% if forloop.first %} is-active{% endif %}"
+        data-tab-target="tab-panel-{{ block.id }}"
+        {{ block.shopify_attributes }}
+      >
+        {{ block.settings.title | default: coll.title | default: 'Tab Title' }}
+      </button>
+    {%- endfor -%}
+  </div>
+
+  <!-- Tab Panels -->
+  <div class="tab-panels-wrap">
+    {%- for block in section.blocks -%}
+      {%- assign coll = block.settings.collection -%}
+      {%- assign limit = section.settings.products_to_show | default: 8 -%}
+      
+      <div
+        class="tab-panel{% if forloop.first %} is-active{% endif %}"
+        id="tab-panel-{{ block.id }}"
+        style="display: {% if forloop.first %}block{% else %}none{% endif %};"
+      >
+        <div class="tab-product-grid">
+          {%- if coll != blank and coll.products.size > 0 -%}
+            {%- for product in coll.products limit: limit -%}
+              {% render 'product-card', 
+                product: product, 
+                show_quick_add: true,
+                show_wishlist: true,
+                show_discount_badge: true
+              %}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..limit) -%}
+              <div class="product-card farak-card">
+                <div class="product-card__image-wrap farak-card__img-wrap">
+                  <div class="placeholder-img" style="background:#f2f2f2; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#999; font-weight:700;">Piece 0{{ i }}</div>
+                  <button type="button" class="product-card__wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+                  
+                </div>
+                <div class="product-card__info farak-card__info">
+                  <h3 class="product-card__title farak-card__title">WTFlex Heavyweight Boxy Tee</h3>
+                  <div class="product-card__price farak-card__price"><span class="price-current">Rs. 3999</span></div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+
+        {%- if block.settings.show_view_all and coll != blank -%}
+          <div class="text-center" style="margin-top: 36px;">
+            <a href="{{ coll.url }}" class="hero-btn hero-btn--solid_black">
+              <span>View All {{ block.settings.title | default: coll.title }}</span>
+              <span>→</span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var sectionWrap = document.getElementById('collection-tabs-{{ section.id }}');
+    if (!sectionWrap) return;
+
+    var tabBtns = sectionWrap.querySelectorAll('.tab-btn');
+    var tabPanels = sectionWrap.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var targetId = this.getAttribute('data-tab-target');
+        
+        tabBtns.forEach(function(b) { b.classList.remove('is-active'); });
+        tabPanels.forEach(function(p) { p.style.display = 'none'; p.classList.remove('is-active'); });
+
+        this.classList.add('is-active');
+        var targetPanel = document.getElementById(targetId);
+        if (targetPanel) {
+          targetPanel.style.display = 'block';
+          targetPanel.classList.add('is-active');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection Tabs (WTFlex)",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Header & Sizing" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "LATEST DROPS & SILHOUETTES" },
+    { "type": "text", "id": "heading", "label": "Section Heading", "default": "CURATED COLLECTIONS" },
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 16, "step": 2, "default": 8, "label": "Products to Show per Tab" },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 5, "step": 1, "default": 4, "label": "Desktop Columns" },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Collection Tab",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Tab Label", "default": "New Releases" },
+        { "type": "collection", "id": "collection", "label": "Select Collection" },
+        { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' Button", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tabs (WTFlex)",
+      "blocks": [
+        { "type": "tab", "settings": { "title": "New Releases" } },
+        { "type": "tab", "settings": { "title": "Bestsellers" } },
+        { "type": "tab", "settings": { "title": "Oversized Hoodies" } },
+        { "type": "tab", "settings": { "title": "Cargo Pants" } },
+        { "type": "tab", "settings": { "title": "Sale Vault" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

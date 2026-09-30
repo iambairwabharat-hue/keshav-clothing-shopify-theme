@@ -1,0 +1,31 @@
+<div class="custom-liquid page-width">
+  {{ section.settings.custom_liquid }}
+</div>
+
+{% schema %}
+{
+  "name": "Custom Liquid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "Custom Liquid / Shortcode",
+      "info": "Add app snippets, custom HTML, or Shopify Liquid code to create custom sections."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Liquid"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .custom-liquid {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+</style>

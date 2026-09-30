@@ -1,0 +1,180 @@
+{%- style -%}
+  #brand-perks-{{ section.id }} {
+    --section-pt: {{ section.settings.padding_top_desktop }}px;
+    --section-pb: {{ section.settings.padding_bottom_desktop }}px;
+    --section-pt-mob: {{ section.settings.padding_top_mobile }}px;
+    --section-pb-mob: {{ section.settings.padding_bottom_mobile }}px;
+    --bg-color: {{ section.settings.bg_color | default: '#FBFBFB' }};
+    --text-color: {{ section.settings.text_color | default: '#171717' }};
+    --icon-color: {{ section.settings.icon_color | default: '#171717' }};
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+  }
+
+  @media (max-width: 768px) {
+    #brand-perks-{{ section.id }} {
+      padding-top: var(--section-pt-mob);
+      padding-bottom: var(--section-pb-mob);
+    }
+  }
+
+  #brand-perks-{{ section.id }} .perk-icon svg {
+    color: var(--icon-color);
+    stroke: var(--icon-color);
+  }
+
+  @media (max-width: 768px) {
+    {%- if section.settings.enable_mobile_swipe -%}
+      #brand-perks-{{ section.id }} .brand-perks__grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        scrollbar-width: none;
+      }
+      #brand-perks-{{ section.id }} .brand-perks__grid::-webkit-scrollbar { display: none; }
+      #brand-perks-{{ section.id }} .brand-perks__grid > * {
+        flex: 0 0 240px;
+        scroll-snap-align: start;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section class="brand-perks{% if section.settings.full_width %} brand-perks--full-width{% else %} container{% endif %}" id="brand-perks-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="brand-perks__grid">
+    {%- for block in section.blocks -%}
+      <div class="perk-item" {{ block.shopify_attributes }}>
+        <div class="perk-icon">
+          {%- if block.settings.custom_svg != blank -%}
+            {{ block.settings.custom_svg }}
+          {%- elsif block.settings.custom_icon != blank -%}
+            <img src="{{ block.settings.custom_icon | image_url: width: 64 }}" alt="{{ block.settings.title | escape }}" width="20" height="20" loading="lazy">
+          {%- else -%}
+            {%- case block.settings.icon -%}
+              {%- when 'shipping' or 'truck' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              {%- when 'fabric' or 'fleece' or 'layers' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              {%- when 'vault' or 'lock' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path><circle cx="12" cy="16" r="1"></circle></svg>
+              {%- when 'returns' or 'refresh' or 'guarantee' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              {%- when 'shield' or 'security' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              {%- when 'clock' or 'time' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              {%- when 'globe' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              {%- when 'box' or 'package' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              {%- when 'star' or 'award' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              {%- when 'leaf' or 'eco' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              {%- when 'tag' or 'price' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              {%- when 'heart' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              {%- when 'check' or 'verified' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              {%- when 'fire' or 'trend' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            {%- endcase -%}
+          {%- endif -%}
+        </div>
+        <div>
+          <div class="perk-title">{{ block.settings.title | escape }}</div>
+          <div class="perk-sub">{{ block.settings.sub | escape }}</div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Perks Bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Layout & Sizing" },
+    { "type": "checkbox", "id": "enable_mobile_swipe", "label": "Enable Touch Swiping on Mobile", "default": true },
+    { "type": "checkbox", "id": "full_width", "label": "Full Width Section", "default": false },
+    { "type": "header", "content": "Colors & Spacing" },
+    { "type": "color", "id": "bg_color", "label": "Section Background", "default": "#FBFBFB" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#171717" },
+    { "type": "color", "id": "icon_color", "label": "Icon Color", "default": "#171717" },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top Padding (Desktop)", "default": 24 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom Padding (Desktop)", "default": 24 },
+    { "type": "range", "id": "padding_top_mobile", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Top Padding (Mobile)", "default": 16 },
+    { "type": "range", "id": "padding_bottom_mobile", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Bottom Padding (Mobile)", "default": 16 }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Choose Icon",
+          "default": "shipping",
+          "options": [
+            { "value": "shipping", "label": "?? Shipping Truck (Dispatch)" },
+            { "value": "fabric", "label": "?? Fabric & Fleece (Textile Layers)" },
+            { "value": "vault", "label": "?? Vault & Lock (Limited Runs)" },
+            { "value": "returns", "label": "?? 30-Day Guarantee (Exchange / Returns)" },
+            { "value": "shield", "label": "??? Security Shield (Authentic)" },
+            { "value": "clock", "label": "?? Clock (Fast Dispatch)" },
+            { "value": "globe", "label": "?? Worldwide Delivery" },
+            { "value": "box", "label": "?? Handcrafted Package" },
+            { "value": "star", "label": "? Craftsmanship Star" },
+            { "value": "leaf", "label": "?? Organic & Sustainable" },
+            { "value": "tag", "label": "??? Exclusive VIP Price Tag" },
+            { "value": "heart", "label": "?? Artisan Care / Loved" },
+            { "value": "check", "label": "? Verified Quality" },
+            { "value": "fire", "label": "?? Exclusive Drop / Trend" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom Icon Image (Optional PNG/SVG)"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Code (Optional)"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "450GSM Custom Fleece" },
+        { "type": "text", "id": "sub", "label": "Subtitle", "default": "Double-combed organic Japanese cotton" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Perks Bar",
+      "blocks": [
+        { "type": "perk", "settings": { "icon": "shipping", "title": "Complimentary Dispatch", "sub": "Free global shipping on orders over $99" } },
+        { "type": "perk", "settings": { "icon": "fabric", "title": "450GSM Custom Fleece", "sub": "Double-combed organic Japanese cotton" } },
+        { "type": "perk", "settings": { "icon": "vault", "title": "Limited Release Vault", "sub": "Serialized runs ? zero mass restocks" } },
+        { "type": "perk", "settings": { "icon": "returns", "title": "30-Day Guarantee", "sub": "Effortless exchanges & returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

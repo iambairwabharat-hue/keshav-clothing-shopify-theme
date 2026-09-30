@@ -1,0 +1,74 @@
+<!-- Predictive AJAX Live Search Modal -->
+<div class="search-modal-backdrop" id="search-modal-backdrop" style="display: none;"></div>
+<div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Search Store" style="display: none;">
+  <div class="search-modal__inner">
+    
+    <!-- Top Search Input Bar -->
+    <div class="search-modal__header">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-modal__form" id="live-search-form">
+        <span class="search-modal__icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.8" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
+        <input
+          type="search"
+          name="q"
+          id="live-search-input"
+          class="search-modal__input"
+          placeholder="Search collections, heavyweights, silhouettes..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+        <button type="button" class="search-modal__clear" id="live-search-clear" aria-label="Clear search input" style="display: none;">&times;</button>
+        <button type="button" class="search-modal__close" id="search-modal-close" aria-label="Close search (Esc)">&times;</button>
+      </form>
+    </div>
+
+    <!-- Live Results & Suggestions Container -->
+    <div class="search-modal__body" id="search-modal-body">
+      
+      <!-- Default Trending Suggestions (Shown before typing) -->
+      <div class="search-trending" id="search-trending">
+        <div class="search-trending__section">
+          <span class="search-trending__title">Trending Searches</span>
+          <div class="search-trending__pills">
+            <button type="button" class="search-pill" data-query="450GSM Hoodie">450GSM Hoodie</button>
+            <button type="button" class="search-pill" data-query="Heavyweight Tee">Heavyweight Tee</button>
+            <button type="button" class="search-pill" data-query="Cargo Pants">Cargo Pants</button>
+            <button type="button" class="search-pill" data-query="Oversized Fit">Oversized Fit</button>
+            <button type="button" class="search-pill" data-query="Vintage Black">Vintage Black</button>
+          </div>
+        </div>
+
+        <div class="search-trending__section">
+          <span class="search-trending__title">Quick Collections</span>
+          <div class="search-trending__collections">
+            <a href="{{ routes.collections_url }}/hoodies" class="search-collection-link">Heavyweight Hoodies →</a>
+            <a href="{{ routes.collections_url }}/jackets" class="search-collection-link">Statement Jackets →</a>
+            <a href="{{ routes.collections_url }}/tees" class="search-collection-link">Graphic & Boxy Tees →</a>
+            <a href="{{ routes.all_products_collection_url }}" class="search-collection-link">Archive Vault Releases →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live AJAX Dynamic Results Container -->
+      <div class="search-live-results" id="search-live-results" style="display: none;">
+        <div class="search-live-products" id="search-live-products">
+          <!-- Injected via JavaScript -->
+        </div>
+        <div class="search-live-footer" id="search-live-footer">
+          <a href="#" class="btn-search-view-all" id="btn-search-view-all">View all matching pieces →</a>
+        </div>
+      </div>
+
+      <!-- Zero Results Empty State -->
+      <div class="search-empty-state" id="search-empty-state" style="display: none;">
+        <p class="search-empty-text">No garments found matching "<span id="search-query-display"></span>".</p>
+        <p class="search-empty-sub">Try searching for keywords like "Hoodie", "Fleece", "Cargo", or "Black".</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>

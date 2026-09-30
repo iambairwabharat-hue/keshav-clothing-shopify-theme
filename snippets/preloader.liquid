@@ -1,0 +1,35 @@
+<!-- Creative Luxury Preloader Component -->
+<div class="creative-preloader" id="creative-preloader" style="background-color: #000000 !important; color: #ffffff !important;">
+  <style>
+    #creative-preloader, .creative-preloader {
+      background-color: #000000 !important;
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+    .preloader-logo-text {
+      color: #ffffff !important;
+      font-weight: 800;
+      letter-spacing: 4px;
+    }
+    .creative-preloader__bar {
+      background: #ffffff !important;
+    }
+    .creative-preloader__bar-wrap {
+      background: rgba(255, 255, 255, 0.2) !important;
+    }
+  </style>
+  <div class="creative-preloader__inner">
+    <div class="creative-preloader__logo-wrap" id="preloader-logo-wrap">
+      {%- if settings.logo != blank -%}
+        <img src="{{ settings.logo | image_url: width: 600 }}" alt="{{ shop.name | escape }}" class="preloader-logo-img">
+      {%- elsif settings.favicon != blank -%}
+        <img src="{{ settings.favicon | image_url: width: 600 }}" alt="{{ shop.name | escape }}" class="preloader-logo-img">
+      {%- else -%}
+        <span class="preloader-logo-text" style="color: #ffffff !important;">{{ shop.name }}</span>
+      {%- endif -%}
+    </div>
+    <div class="creative-preloader__bar-wrap" style="background: rgba(255, 255, 255, 0.2) !important;">
+      <div class="creative-preloader__bar" id="preloader-bar" style="background: #ffffff !important;"></div>
+    </div>
+  </div>
+</div>
