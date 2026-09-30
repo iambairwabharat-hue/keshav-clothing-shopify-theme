@@ -1,5 +1,8 @@
 const axios = require('axios');
+const https = require('https');
 const config = require('./config');
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 /**
  * Miracle Cloud ERP TPA API Client (v1.3)
@@ -27,7 +30,8 @@ class MiracleERPClient {
         headers: {
           'clientId': this.clientId,
           'apiKey': this.apiKey
-        }
+        },
+        httpsAgent
       });
 
       const { data } = response;
@@ -68,7 +72,8 @@ class MiracleERPClient {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        httpsAgent
       });
 
       const data = response.data;
@@ -99,7 +104,8 @@ class MiracleERPClient {
         headers: {
           'Authorization': `Bearer ${token}`
         },
-        params
+        params,
+        httpsAgent
       });
       return response.data;
     } catch (err) {
