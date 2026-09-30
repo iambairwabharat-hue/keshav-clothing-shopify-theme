@@ -7,9 +7,10 @@
  */
 module.exports = {
   baseUrl: process.env.MIRACLE_BASE_URL || 'https://tpaapi.miracleclouderp.com/',
-  urlKey: process.env.MIRACLE_URL_KEY || 'MKYOURURLKEY',
-  clientId: process.env.MIRACLE_CLIENT_ID || 'CLYOURCLIENTID',
-  apiKey: process.env.MIRACLE_API_KEY || 'AKYOURAPIKEY',
+  urlKey: process.env.MIRACLE_URL_KEY || 'MK_KESHAV',
+  username: 'KESHAV',
+  clientId: process.env.MIRACLE_CLIENT_ID || 'CL8b2a8da6e6944779b5',
+  apiKey: process.env.MIRACLE_API_KEY || '1708446799c74639bdb61eac832deb530aae973f0c0d4a758da15486bfd591a6',
 
   // Default voucher mapping settings for Shopify orders
   salesVoucherType: 'S', // S = Sales Invoice / Voucher
