@@ -37,14 +37,16 @@
 
   <div class="ugc-grid">
     {%- for block in section.blocks -%}
-      {%- if block.settings.image != blank -%}
       <div class="ugc-card" {{ block.shopify_attributes }}>
-        <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.handle | escape }}" loading="lazy">
+        {%- if block.settings.image != blank -%}
+          <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.handle | escape }}" loading="lazy">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop&q=80" alt="Community Post" loading="lazy">
+        {%- endif -%}
         <div class="ugc-card__overlay">
           <span class="ugc-card__handle">{{ block.settings.handle | default: '@community' }}</span>
         </div>
       </div>
-      {%- endif -%}
     {%- endfor -%}
   </div>
 </section>

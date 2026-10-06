@@ -49,7 +49,12 @@
             loading="lazy"
           >
         {%- else -%}
-          {{ 'collection-1' | placeholder_svg_tag: 'look-canvas__image placeholder-svg' }}
+          <img
+            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&q=80"
+            alt="Curated Streetwear Look"
+            class="look-canvas__image"
+            loading="lazy"
+          >
         {%- endif -%}
 
         <!-- Hotspot Pins -->
@@ -93,7 +98,7 @@
               {%- elsif prod != blank and prod.featured_image != blank -%}
                 <img src="{{ prod.featured_image | image_url: width: 200 }}" alt="{{ prod.title | escape }}">
               {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag: 'look-thumb-placeholder' }}
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200" alt="Garment Thumbnail">
               {%- endif -%}
             </div>
 
@@ -116,7 +121,7 @@
                   data-product-id="{{ block.settings.product_id | default: forloop.index }}"
                   data-product-title="{{ block.settings.title | escape }}"
                   data-price="{{ block.settings.price | remove: 'Rs. ' }}"
-                  data-image="{% if block.settings.custom_image != blank %}{{ block.settings.custom_image | image_url: width: 300 }}{% elsif prod != blank and prod.featured_image != blank %}{{ prod.featured_image | image_url: width: 300 }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}"
+                  data-image="{% if block.settings.custom_image != blank %}{{ block.settings.custom_image | image_url: width: 300 }}{% elsif prod != blank and prod.featured_image != blank %}{{ prod.featured_image | image_url: width: 300 }}{% else %}https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300{% endif %}"
                 >
                   + Add to Bag
                 </button>

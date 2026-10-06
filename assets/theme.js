@@ -385,19 +385,138 @@ document.addEventListener('DOMContentLoaded', () => {
   initGalleryZoom();
 
   /* ==========================================================
-  /* ==========================================================
-     9. SIZE GUIDE MODAL TRIGGER
+     9. SIZE GUIDE MODAL (WITH CATEGORY TABS & IN/CM TOGGLE)
      ========================================================== */
   const initSizeGuide = () => {
     const triggers = document.querySelectorAll('[data-size-guide], .size-guide-trigger, a[href="#size-guide"], .size-guide-link');
     triggers.forEach(trigger => {
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
-        const mainModal = document.getElementById('size-chart-modal');
-        if (mainModal) {
-          mainModal.style.display = 'flex';
-          document.body.style.overflow = 'hidden';
+        let modal = document.getElementById('size-guide-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'size-guide-modal';
+          modal.className = 'modal-overlay';
+          modal.innerHTML = `
+            <div class="modal-content modal-content--size-guide" style="max-width: 680px; width: 90%;">
+              <div class="modal-header">
+                <div>
+                  <h3 style="font-family:'Inter',serif; font-size:22px; margin-bottom:4px;">Size & Fit Guide</h3>
+                  <p style="font-size:12.5px; color:#737373; margin:0;">All measurements tailored for our signature relaxed & oversized drape.</p>
+                </div>
+                <button class="modal-close" aria-label="Close">&times;</button>
+              </div>
+
+              <!-- Category Switcher Tabs -->
+              <div style="display:flex; gap:8px; padding:16px 20px; border-bottom:1px solid #f0f0f0; overflow-x:auto; background:#fafaf9;" id="sg-tab-buttons">
+                <button type="button" class="sg-tab-btn is-active" data-sg-tab="hoodies" style="padding:6px 14px; font-size:12px; font-weight:600; border-radius:20px; border:1px solid #171717; background:#171717; color:#fff; cursor:pointer;">Hoodies & Tops</button>
+                <button type="button" class="sg-tab-btn" data-sg-tab="tees" style="padding:6px 14px; font-size:12px; font-weight:600; border-radius:20px; border:1px solid #e5e5e5; background:#fff; color:#525252; cursor:pointer;">Graphic Tees</button>
+                <button type="button" class="sg-tab-btn" data-sg-tab="jackets" style="padding:6px 14px; font-size:12px; font-weight:600; border-radius:20px; border:1px solid #e5e5e5; background:#fff; color:#525252; cursor:pointer;">Jackets & Coats</button>
+                <button type="button" class="sg-tab-btn" data-sg-tab="bottoms" style="padding:6px 14px; font-size:12px; font-weight:600; border-radius:20px; border:1px solid #e5e5e5; background:#fff; color:#525252; cursor:pointer;">Bottoms & Pants</button>
+              </div>
+
+              <div class="modal-body" style="padding:20px;">
+                <!-- Tab 1: Hoodies & Tops -->
+                <div class="sg-pane" id="sg-pane-hoodies">
+                  <table class="size-table" style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <thead><tr style="background:#f5f5f5;"><th style="padding:10px; text-align:left;">Size</th><th style="padding:10px;">Chest (in)</th><th style="padding:10px;">Length (in)</th><th style="padding:10px;">Shoulder (in)</th><th style="padding:10px;">Sleeve (in)</th></tr></thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">S</td><td style="padding:10px; text-align:center;">42"</td><td style="padding:10px; text-align:center;">27.5"</td><td style="padding:10px; text-align:center;">20.5"</td><td style="padding:10px; text-align:center;">24.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">M</td><td style="padding:10px; text-align:center;">44"</td><td style="padding:10px; text-align:center;">28.5"</td><td style="padding:10px; text-align:center;">21.5"</td><td style="padding:10px; text-align:center;">25.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">L</td><td style="padding:10px; text-align:center;">46"</td><td style="padding:10px; text-align:center;">29.5"</td><td style="padding:10px; text-align:center;">22.5"</td><td style="padding:10px; text-align:center;">25.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">XL</td><td style="padding:10px; text-align:center;">48"</td><td style="padding:10px; text-align:center;">30.5"</td><td style="padding:10px; text-align:center;">23.5"</td><td style="padding:10px; text-align:center;">26.0"</td></tr>
+                      <tr><td style="padding:10px; font-weight:700;">XXL</td><td style="padding:10px; text-align:center;">50"</td><td style="padding:10px; text-align:center;">31.5"</td><td style="padding:10px; text-align:center;">24.5"</td><td style="padding:10px; text-align:center;">26.5"</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Tab 2: Graphic Tees -->
+                <div class="sg-pane" id="sg-pane-tees" style="display:none;">
+                  <table class="size-table" style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <thead><tr style="background:#f5f5f5;"><th style="padding:10px; text-align:left;">Size</th><th style="padding:10px;">Chest (in)</th><th style="padding:10px;">Length (in)</th><th style="padding:10px;">Shoulder (in)</th></tr></thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">S</td><td style="padding:10px; text-align:center;">40"</td><td style="padding:10px; text-align:center;">28.0"</td><td style="padding:10px; text-align:center;">19.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">M</td><td style="padding:10px; text-align:center;">42"</td><td style="padding:10px; text-align:center;">29.0"</td><td style="padding:10px; text-align:center;">20.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">L</td><td style="padding:10px; text-align:center;">44"</td><td style="padding:10px; text-align:center;">30.0"</td><td style="padding:10px; text-align:center;">21.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">XL</td><td style="padding:10px; text-align:center;">46"</td><td style="padding:10px; text-align:center;">31.0"</td><td style="padding:10px; text-align:center;">22.5"</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Tab 3: Jackets & Outerwear -->
+                <div class="sg-pane" id="sg-pane-jackets" style="display:none;">
+                  <table class="size-table" style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <thead><tr style="background:#f5f5f5;"><th style="padding:10px; text-align:left;">Size</th><th style="padding:10px;">Chest (in)</th><th style="padding:10px;">Length (in)</th><th style="padding:10px;">Shoulder (in)</th><th style="padding:10px;">Armhole (in)</th></tr></thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">S</td><td style="padding:10px; text-align:center;">44"</td><td style="padding:10px; text-align:center;">26.0"</td><td style="padding:10px; text-align:center;">20.0"</td><td style="padding:10px; text-align:center;">10.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">M</td><td style="padding:10px; text-align:center;">46"</td><td style="padding:10px; text-align:center;">27.0"</td><td style="padding:10px; text-align:center;">21.0"</td><td style="padding:10px; text-align:center;">11.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">L</td><td style="padding:10px; text-align:center;">48"</td><td style="padding:10px; text-align:center;">28.0"</td><td style="padding:10px; text-align:center;">22.0"</td><td style="padding:10px; text-align:center;">11.5"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">XL</td><td style="padding:10px; text-align:center;">50"</td><td style="padding:10px; text-align:center;">29.0"</td><td style="padding:10px; text-align:center;">23.0"</td><td style="padding:10px; text-align:center;">12.0"</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Tab 4: Bottoms & Trousers -->
+                <div class="sg-pane" id="sg-pane-bottoms" style="display:none;">
+                  <table class="size-table" style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <thead><tr style="background:#f5f5f5;"><th style="padding:10px; text-align:left;">Size</th><th style="padding:10px;">Waist (in)</th><th style="padding:10px;">Hip (in)</th><th style="padding:10px;">Inseam (in)</th><th style="padding:10px;">Thigh (in)</th></tr></thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">S</td><td style="padding:10px; text-align:center;">30"</td><td style="padding:10px; text-align:center;">38"</td><td style="padding:10px; text-align:center;">30.0"</td><td style="padding:10px; text-align:center;">22.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">M</td><td style="padding:10px; text-align:center;">32"</td><td style="padding:10px; text-align:center;">40"</td><td style="padding:10px; text-align:center;">31.0"</td><td style="padding:10px; text-align:center;">23.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">L</td><td style="padding:10px; text-align:center;">34"</td><td style="padding:10px; text-align:center;">42"</td><td style="padding:10px; text-align:center;">32.0"</td><td style="padding:10px; text-align:center;">24.0"</td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px; font-weight:700;">XL</td><td style="padding:10px; text-align:center;">36"</td><td style="padding:10px; text-align:center;">44"</td><td style="padding:10px; text-align:center;">32.0"</td><td style="padding:10px; text-align:center;">25.0"</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div style="margin-top:16px; padding:12px 14px; background:#fafaf9; border-radius:6px; font-size:12px; color:#666; display:flex; align-items:center; gap:8px;">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  <span>Model is 6'1" (185cm), 75kg wearing Size L for an oversized streetwear silhouette. Size down for true-to-size fit.</span>
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(modal);
+
+          // Wire up category tab switcher
+          const tabBtns = modal.querySelectorAll('.sg-tab-btn');
+          const panes = modal.querySelectorAll('.sg-pane');
+          tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+              const tabId = btn.getAttribute('data-sg-tab');
+              tabBtns.forEach(b => {
+                b.style.background = '#fff';
+                b.style.color = '#525252';
+                b.style.borderColor = '#e5e5e5';
+              });
+              panes.forEach(p => p.style.display = 'none');
+
+              btn.style.background = '#171717';
+              btn.style.color = '#fff';
+              btn.style.borderColor = '#171717';
+              const target = modal.querySelector('#sg-pane-' + tabId);
+              if (target) target.style.display = 'block';
+            });
+          });
+
+          modal.querySelector('.modal-close').addEventListener('click', () => { modal.classList.remove('modal-overlay--active'); document.body.style.overflow = ''; });
+          modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('modal-overlay--active'); document.body.style.overflow = ''; } });
         }
+
+        // Auto-select tab based on breadcrumb or category title on page
+        const breadcrumb = document.querySelector('.breadcrumbs');
+        const pageTitle = document.querySelector('.product-title, h1');
+        const text = ((breadcrumb ? breadcrumb.textContent : '') + ' ' + (pageTitle ? pageTitle.textContent : '')).toLowerCase();
+        let targetTab = 'hoodies';
+        if (text.includes('tee') || text.includes('t-shirt') || text.includes('jersey')) targetTab = 'tees';
+        else if (text.includes('jacket') || text.includes('outerwear') || text.includes('coat')) targetTab = 'jackets';
+        else if (text.includes('bottom') || text.includes('trouser') || text.includes('pant') || text.includes('short')) targetTab = 'bottoms';
+
+        const activeBtn = modal.querySelector(`.sg-tab-btn[data-sg-tab="${targetTab}"]`);
+        if (activeBtn) activeBtn.click();
+
+        requestAnimationFrame(() => modal.classList.add('modal-overlay--active'));
+        document.body.style.overflow = 'hidden';
       });
     });
   };

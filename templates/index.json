@@ -15,7 +15,7 @@
         "ai_gen_block_0e2ceb7_wgTJVD": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/BANNER_4.png",
+            "banner_image": "shopify://shop_images/Red_Streetwear_Trio_in_Front_of_Translucent_KC.webp",
             "banner_url": "shopify://collections/graphic-drop",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
@@ -28,7 +28,7 @@
         "ai_gen_block_0e2ceb7_yyRMmT": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/ChatGPT_Image_Aug_25_2026_11_13_30_AM.webp",
+            "banner_image": "shopify://shop_images/Skyward_Distorted_Tee_Look.webp",
             "banner_url": "shopify://collections/stitch-drop-1",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
@@ -138,7 +138,7 @@
             "image_1": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_8.webp",
             "link_1": "shopify://products/brake-the-rules-green",
             "image_2": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_5.webp",
-            "link_2": "shopify://products/memory-tee",
+            "link_2": "shopify://products/memory-tee-black",
             "image_3": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_1.webp",
             "link_3": "",
             "image_4": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_7.webp",
@@ -232,7 +232,7 @@
         "reel_weJjPq": {
           "type": "reel",
           "settings": {
-            "product": "memory-tee",
+            "product": "memory-tee-black",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/97f6ad04bae34362a84592867c4bd751.mp4",
             "product_title": "Surreal Heritage Football Jersey",
             "product_price": "$48.00"
@@ -269,14 +269,14 @@
         "ai_gen_block_df774b8_EUdG8V": {
           "type": "ai_gen_block_df774b8",
           "settings": {
-            "image_1": "shopify://shop_images/chnage_text_too_JUST_DROPPED_202608311552.webp",
-            "link_1": "shopify://products/memory-tee",
-            "image_2": "shopify://shop_images/chnage_text_too_CROWD_FAVOURITES_202608311552.webp",
-            "link_2": "shopify://products/white",
-            "image_3": "shopify://shop_images/chnage_text_too_CURRENT_ROTATION_202608311552.webp",
-            "link_3": "shopify://products/brake-the-rules-green",
-            "image_4": "shopify://shop_images/BACK_BY_DEMAND_202608311558.webp",
-            "link_4": "shopify://products/skate-more",
+            "image_1": "shopify://shop_images/BANNER_FINALLL.webp",
+            "link_1": "shopify://collections/graphic-drop",
+            "image_2": "shopify://shop_images/Back_by_Demand_Streetwear_Campaign.webp",
+            "link_2": "shopify://collections/stitch-drop",
+            "image_3": "shopify://shop_images/banner_final.webp",
+            "link_3": "shopify://collections/stitch-drop-1",
+            "image_4": "shopify://shop_images/Just_Dropped_Under_a_Crimson_Moon_1_1.png",
+            "link_4": "shopify://collections/new-drops",
             "columns_mobile": "2",
             "desktop_width_percent": 100
           },

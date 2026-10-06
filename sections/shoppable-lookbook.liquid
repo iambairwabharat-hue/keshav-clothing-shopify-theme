@@ -35,9 +35,13 @@
   <div class="lookbook-inner">
     <div class="lookbook-stage">
       {%- if section.settings.image != blank -%}
-        <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.title | escape }}" class="lookbook-stage__img" loading="lazy">
+        {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.title | escape }}" class="lookbook-stage__img" loading="lazy">
+    {%- else -%}
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1400&h=800&fit=crop" alt="Lookbook Editorial" class="lookbook-stage__img" loading="lazy">
+    {%- endif -%}
       {%- else -%}
-        {{ 'collection-1' | placeholder_svg_tag: 'lookbook-stage__img placeholder-svg' }}
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=1500&fit=crop&q=80" alt="Editorial lookbook" class="lookbook-stage__img" loading="lazy">
       {%- endif -%}
 
       {%- for block in section.blocks -%}
@@ -52,14 +56,18 @@
 
         <div class="hotspot-card" id="card-look-{{ block.id }}">
           {%- if product != blank and product.featured_media != blank -%}
-            <img src="{{ product.featured_media | image_url: width: 150 }}" alt="{{ product.title | escape }}" class="hotspot-card__img">
+            {%- if product.featured_media != blank -%}
+                    <img src="{{ product.featured_media | image_url: width: 150 }}" alt="{{ product.title | escape }}" class="hotspot-card__img">
+                  {%- else -%}
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=150" alt="Product" class="hotspot-card__img">
+                  {%- endif -%}
             <div class="hotspot-card__info">
               <h4 class="hotspot-card__title">{{ product.title }}</h4>
               <div class="hotspot-card__price">{{ product.price | money }}</div>
             </div>
             <a href="{{ product.url }}" class="hotspot-card__btn">Shop Piece →</a>
           {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'hotspot-card__img placeholder-svg' }}
+            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=150&h=180&fit=crop&q=80" alt="Sample piece" class="hotspot-card__img">
             <div class="hotspot-card__info">
               <h4 class="hotspot-card__title">Essential Streetwear Piece</h4>
               <div class="hotspot-card__price">Rs. 5999</div>

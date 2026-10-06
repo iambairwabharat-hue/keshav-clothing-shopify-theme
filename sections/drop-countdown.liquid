@@ -38,6 +38,8 @@
   <div class="drop-countdown__bg">
     {%- if section.settings.bg_image != blank -%}
       <img src="{{ section.settings.bg_image | image_url: width: 1800 }}" alt="{{ section.settings.title | escape }}" loading="lazy">
+    {%- else -%}
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1800&h=1000&fit=crop&q=80" alt="Vault Drop Release" loading="lazy">
     {%- endif -%}
     <div class="drop-countdown__overlay" style="background: var(--overlay-color); opacity: var(--overlay-opacity);"></div>
   </div>

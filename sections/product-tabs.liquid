@@ -150,8 +150,8 @@
         </div>
         <div data-fallback-tab="Shipping & Returns">
           <ul>
-            <li><strong>Dispatch:</strong> Free express shipping on all orders over Rs. 9900.</li>
-            <li><strong>Exchanges:</strong> 15-day complimentary size exchange and easy returns policy.</li>
+            <li><strong>Dispatch:</strong> Free express shipping on all orders over $99.</li>
+            <li><strong>Exchanges:</strong> 7-day complimentary size exchange and easy returns policy.</li>
           </ul>
         </div>
       </div>
@@ -183,7 +183,12 @@
             loading="lazy"
           >
         {%- else -%}
-          {{ 'product-2' | placeholder_svg_tag: 'product-details-image placeholder-svg' }}
+          <img
+            src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&h=1100&fit=crop"
+            alt="Editorial Streetwear Fit"
+            class="product-details-image"
+            loading="lazy"
+          >
         {%- endif -%}
       </div>
     </div>

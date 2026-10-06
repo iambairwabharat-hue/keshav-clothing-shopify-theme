@@ -13,7 +13,7 @@
     "color_bg": "#FFFFFF",
     "color_text": "#000000",
     "show_quick_add": true,
-    "social_instagram_link": "https://www.instagram.com/keshavclothing_/",
+    "social_instagram_link": "https://instagram.com",
     "social_tiktok_link": "https://tiktok.com",
     "social_twitter_link": "https://twitter.com",
     "color_accent": "#737373",
@@ -37,7 +37,7 @@
           "enable_sticky_header": true,
           "desktop_menu_type": "hamburger",
           "logo": "shopify://shop_images/KC_B.png",
-          "logo_dark": "shopify://shop_images/ChatGPT_Image_Sep_21_2026_11_47_41_AM.png",
+          "logo_dark": "shopify://shop_images/Kc_logo_Final_1_1_1.png",
           "invert_logo_dark": true,
           "logo_width": 60,
           "menu_linklist": "main-menu",
@@ -86,7 +86,7 @@
         "settings": {
           "copyright_text": "Keshav Clothing",
           "show_legal_menu": true,
-          "legal_menu": "policy",
+          "legal_menu": "",
           "show_payment_icons": true
         }
       }
@@ -99,11 +99,5 @@
         "settings": {}
       }
     }
-  },
-  "platform_customizations": {
-    "custom_css": [
-      ".footer__social-link {width: 50px; height: 50px;}",
-      "#woman-flow .woman-flow-title span {font-family: \"Moniqa-BoldHeading\"; font-size: 55px;}"
-    ]
   }
 }

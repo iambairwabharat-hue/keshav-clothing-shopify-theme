@@ -10,7 +10,7 @@ module.exports = {
   urlKey: process.env.MIRACLE_URL_KEY || 'wzlok1yokd',
   username: 'KESHAV',
   clientId: process.env.MIRACLE_CLIENT_ID || 'CL8b2a8da6e6944779b5',
-  apiKey: process.env.MIRACLE_API_KEY || '1708446799c74639bdb61eac832deb530aae973f0c0d4a758da15486bfd591a6',
+  apiKey: process.env.MIRACLE_API_KEY || '5b9329605de648fdafe8d401afc15f91b668e43afd294a37a663d094b8a292ea',
 
   // Voucher type mapping for Shopify → Miracle ERP Sales Voucher
   // `origin`  → Module code sent as 'origin' field  (e.g. 'SL' = Sales Ledger)

@@ -51,16 +51,7 @@
         "t3",
         "t4"
       ],
-      "settings": {
-        "speed": 20,
-        "font_size": 18,
-        "bg_color": "#000000",
-        "text_color": "#ffffff",
-        "padding_top_desktop": 16,
-        "padding_bottom_desktop": 16,
-        "padding_top_mobile": 12,
-        "padding_bottom_mobile": 12
-      }
+      "settings": {}
     }
   },
   "order": [
