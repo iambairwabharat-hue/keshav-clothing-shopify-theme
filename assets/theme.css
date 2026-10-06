@@ -1136,7 +1136,7 @@ header.header--theme-dark,
 .gallery-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--gallery-image-fit, cover);
   display: block;
 }
 
@@ -1144,7 +1144,7 @@ header.header--theme-dark,
   position: relative;
   overflow: hidden;
   background: var(--color-gray-100, #f5f5f5);
-  aspect-ratio: 3/4;
+  aspect-ratio: var(--gallery-image-ratio, 3/4);
   flex: 1;
   min-width: 0;
   width: 100%;
@@ -1154,7 +1154,7 @@ header.header--theme-dark,
 .gallery-main__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--gallery-image-fit, cover);
   display: block;
   transition: opacity 0.25s ease;
 }
@@ -7194,13 +7194,34 @@ body.mobile-nav-active .mobile-toggle {
 
 /* ==========================================================
    PRODUCT CARD 2ND IMAGE HOVER REVEAL STYLING
+   Image ratio & fit controlled via Theme Settings → Product Cards & Catalog
    ========================================================== */
 .product-card__image-wrap {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
   background: #f7f7f7;
-  aspect-ratio: 3 / 4;
+  /* Use theme setting variable; fallback to 3/4 */
+  aspect-ratio: var(--card-image-ratio, 3/4);
+}
+
+/* When ratio is "auto" (Natural), use fixed pixel heights instead */
+@media (max-width: 767px) {
+  .product-card__image-wrap[style*="auto"],
+  :root[style*="--card-image-ratio: auto"] .product-card__image-wrap,
+  .product-card__image-wrap {
+    /* applied via JS class below when ratio=auto */
+  }
+  .product-card__image-wrap.ratio-natural {
+    aspect-ratio: unset;
+    height: var(--card-image-height-mobile, 360px);
+  }
+}
+@media (min-width: 768px) {
+  .product-card__image-wrap.ratio-natural {
+    aspect-ratio: unset;
+    height: var(--card-image-height-desktop, 480px);
+  }
 }
 
 .product-card__image-link {
@@ -7214,7 +7235,7 @@ body.mobile-nav-active .mobile-toggle {
 .product-card__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--card-image-fit, cover);
   display: block;
   transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
@@ -7230,7 +7251,7 @@ body.mobile-nav-active .mobile-toggle {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--card-image-fit, cover);
   opacity: 0;
   z-index: 2;
   transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);

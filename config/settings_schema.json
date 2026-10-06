@@ -136,9 +136,88 @@
         "id": "enable_hover_image",
         "label": "Show Secondary Image on Hover",
         "default": true
+      },
+      {
+        "type": "header",
+        "content": "Product Card Image"
+      },
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Image Aspect Ratio",
+        "default": "3/4",
+        "info": "Controls the height of product card images across the site.",
+        "options": [
+          { "value": "1/1",  "label": "Square (1:1)" },
+          { "value": "3/4",  "label": "Portrait 3:4 (Default)" },
+          { "value": "2/3",  "label": "Portrait 2:3 (Tall)" },
+          { "value": "4/5",  "label": "Portrait 4:5" },
+          { "value": "auto", "label": "Natural (no crop)" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "card_image_fit",
+        "label": "Image Display Mode",
+        "default": "cover",
+        "info": "Cover = fills card (may crop). Contain = shows full image with background. Fill = stretches to fit.",
+        "options": [
+          { "value": "cover",   "label": "Cover (Fill & Crop)" },
+          { "value": "contain", "label": "Contain (Full Image, No Crop)" },
+          { "value": "fill",    "label": "Stretch (Fill Without Ratio)" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "card_image_height_mobile",
+        "label": "Card Image Height — Mobile (px)",
+        "min": 200,
+        "max": 600,
+        "step": 10,
+        "default": 360,
+        "info": "Only used when Aspect Ratio is set to 'Natural'."
+      },
+      {
+        "type": "range",
+        "id": "card_image_height_desktop",
+        "label": "Card Image Height — Desktop (px)",
+        "min": 300,
+        "max": 900,
+        "step": 10,
+        "default": 480,
+        "info": "Only used when Aspect Ratio is set to 'Natural'."
+      },
+      {
+        "type": "header",
+        "content": "Product Page Gallery Image"
+      },
+      {
+        "type": "select",
+        "id": "gallery_image_ratio",
+        "label": "Gallery Image Aspect Ratio",
+        "default": "3/4",
+        "options": [
+          { "value": "1/1",  "label": "Square (1:1)" },
+          { "value": "3/4",  "label": "Portrait 3:4 (Default)" },
+          { "value": "2/3",  "label": "Portrait 2:3 (Tall)" },
+          { "value": "4/5",  "label": "Portrait 4:5" },
+          { "value": "auto", "label": "Natural (no crop)" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "gallery_image_fit",
+        "label": "Gallery Image Display Mode",
+        "default": "cover",
+        "options": [
+          { "value": "cover",   "label": "Cover (Fill & Crop)" },
+          { "value": "contain", "label": "Contain (Full Image, No Crop)" },
+          { "value": "fill",    "label": "Stretch" }
+        ]
       }
     ]
   },
+
   {
     "name": "Typography & Fonts",
     "settings": [

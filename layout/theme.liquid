@@ -123,6 +123,16 @@
         --fs-h4:                 {{ settings.font_size_h4 | default: 20 }}px;
         --fs-product-title:      {{ settings.font_size_product_title | default: 32 }}px;
         --fs-product-card-title: {{ settings.font_size_product_card_title | default: 14 }}px;
+
+        /* ── Product Card Image Settings ── */
+        --card-image-ratio:          {{ settings.card_image_ratio | default: '3/4' }};
+        --card-image-fit:            {{ settings.card_image_fit | default: 'cover' }};
+        --card-image-height-mobile:  {{ settings.card_image_height_mobile | default: 360 }}px;
+        --card-image-height-desktop: {{ settings.card_image_height_desktop | default: 480 }}px;
+
+        /* ── Product Gallery Image Settings ── */
+        --gallery-image-ratio: {{ settings.gallery_image_ratio | default: '3/4' }};
+        --gallery-image-fit:   {{ settings.gallery_image_fit | default: 'cover' }};
       }
 
       /* ── Body & UI text sizes ── */
