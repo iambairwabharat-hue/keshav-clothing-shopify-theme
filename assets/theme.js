@@ -332,19 +332,28 @@ document.addEventListener('DOMContentLoaded', () => {
   window.handleVariantClick = handleVariantClick;
 
   /* ==========================================================
-     7. PRODUCT GALLERY THUMBNAILS
+     7. PRODUCT GALLERY THUMBNAILS (INSTANT SWITCH & PRELOAD)
      ========================================================== */
   const thumbs = document.querySelectorAll('.gallery-thumb');
   const mainImg = document.getElementById('gallery-main-img');
   if (thumbs.length > 0 && mainImg) {
+    // Preload full size images in browser memory immediately
+    thumbs.forEach((thumb) => {
+      const src = thumb.getAttribute('data-src');
+      if (src) {
+        const preloadImg = new Image();
+        preloadImg.src = src;
+      }
+    });
+
     thumbs.forEach((thumb) => {
       thumb.addEventListener('click', () => {
         thumbs.forEach((t) => t.classList.remove('gallery-thumb--active'));
         thumb.classList.add('gallery-thumb--active');
         const newSrc = thumb.getAttribute('data-src') || (thumb.querySelector('img') ? thumb.querySelector('img').src : null);
-        if (newSrc) {
-          mainImg.style.opacity = '0.3';
-          setTimeout(() => { mainImg.src = newSrc; mainImg.style.opacity = '1'; }, 120);
+        if (newSrc && mainImg.src !== newSrc) {
+          // Instant swap without laggy 120ms timeout
+          mainImg.src = newSrc;
         }
       });
     });

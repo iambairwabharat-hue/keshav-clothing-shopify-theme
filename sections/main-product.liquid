@@ -18,15 +18,23 @@
               type="button"
               class="gallery-thumb{% if forloop.first %} gallery-thumb--active{% endif %}"
               data-index="{{ forloop.index0 }}"
-              data-src="{{ media | image_url: width: 1200 }}"
+              data-src="{{ media | image_url: width: 1000 }}"
               aria-label="Thumbnail {{ forloop.index }}"
             >
               <img
                 src="{{ media | image_url: width: 150 }}"
                 alt="{{ media.alt | escape }}"
                 loading="lazy"
+                width="75"
+                height="100"
               >
             </button>
+          {%- endfor -%}
+        </div>
+        <!-- Preload all gallery images in browser cache for instant carousel switching -->
+        <div style="display:none;" aria-hidden="true">
+          {%- for media in product.media -%}
+            <link rel="prefetch" href="{{ media | image_url: width: 1000 }}" as="image">
           {%- endfor -%}
         </div>
       {%- endif -%}
