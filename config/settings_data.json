@@ -9,10 +9,14 @@
  */
 {
   "current": {
+    "favicon": "shopify://shop_images/KC_W.png",
     "color_primary": "#000000",
     "color_bg": "#FFFFFF",
     "color_text": "#000000",
     "show_quick_add": true,
+    "card_image_ratio": "2/3",
+    "gallery_image_ratio": "2/3",
+    "gallery_image_fit": "cover",
     "social_instagram_link": "https://instagram.com",
     "social_tiktok_link": "https://tiktok.com",
     "social_twitter_link": "https://twitter.com",
@@ -86,7 +90,7 @@
         "settings": {
           "copyright_text": "Keshav Clothing",
           "show_legal_menu": true,
-          "legal_menu": "",
+          "legal_menu": "footer",
           "show_payment_icons": true
         }
       }

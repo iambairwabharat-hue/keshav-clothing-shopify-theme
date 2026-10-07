@@ -205,7 +205,7 @@
         "reel_KTrwbb": {
           "type": "reel",
           "settings": {
-            "product": "brake-the-rules-green",
+            "product": "break-the-rules-pista",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/191b26d94fd34809ba4baad3746db013.mp4",
             "product_title": "450GSM Archival Boxy Hoodie",
             "product_price": "$69.99"
@@ -214,7 +214,7 @@
         "reel_8NqYC3": {
           "type": "reel",
           "settings": {
-            "product": "white",
+            "product": "distorted",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/477eab1a459249049e107766fdac26b7.mp4",
             "product_title": "Dastaan Indigo Boxy Tee",
             "product_price": "$39.99"
@@ -223,7 +223,7 @@
         "reel_yxeMB8": {
           "type": "reel",
           "settings": {
-            "product": "flyhigh",
+            "product": "flyhigh-street-black",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/2675abdec7c447ea9e4fb8af8600db91.mp4",
             "product_title": "Tactical Double-Pleat Cargo",
             "product_price": "$59.99"
@@ -269,7 +269,7 @@
         "ai_gen_block_df774b8_EUdG8V": {
           "type": "ai_gen_block_df774b8",
           "settings": {
-            "image_1": "shopify://shop_images/BANNER_FINALLL.webp",
+            "image_1": "shopify://shop_images/Crowd_Favourites__Skate_in_Style.png",
             "link_1": "shopify://collections/graphic-drop",
             "image_2": "shopify://shop_images/Back_by_Demand_Streetwear_Campaign.webp",
             "link_2": "shopify://collections/stitch-drop",
