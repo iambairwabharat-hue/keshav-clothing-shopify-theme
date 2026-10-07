@@ -345,70 +345,90 @@
     {%- endfor -%}
   </div>
 
-  <!-- Size Chart Modal (Signature Fit & Oversized Fit) -->
+  <!-- Size Chart Modal (Signature Fit / Oversized Fit based on Collection) -->
+  {%- assign is_signature_fit = false -%}
+  {%- for collection in product.collections -%}
+    {%- assign col_title_down = collection.title | downcase -%}
+    {%- assign col_handle_down = collection.handle | downcase -%}
+    {%- if col_title_down contains 'signature' or col_handle_down contains 'signature' -%}
+      {%- assign is_signature_fit = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- for tag in product.tags -%}
+    {%- assign tag_down = tag | downcase -%}
+    {%- if tag_down contains 'signature' -%}
+      {%- assign is_signature_fit = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
   {%- assign size_chart_img = product.metafields.custom.size_chart_image | default: settings.global_size_chart_image -%}
   <div class="size-chart-modal-overlay" id="size-chart-modal" role="dialog" aria-modal="true" aria-label="Size Chart" style="display:none;">
     <div class="size-chart-modal__backdrop" id="size-chart-modal-backdrop"></div>
     <div class="size-chart-modal__box">
       <button type="button" class="size-chart-modal__close" id="size-chart-modal-close" aria-label="Close size chart">&times;</button>
       <h2 class="size-chart-modal__title">Size & Fit Guide</h2>
-      <p class="size-chart-modal__subtitle">All measurements tailored for our signature relaxed & oversized drape.</p>
+      <p class="size-chart-modal__subtitle">
+        {%- if is_signature_fit -%}
+          All measurements tailored for our <strong>Signature Fit</strong> silhouette.
+        {%- else -%}
+          All measurements tailored for our <strong>Oversized Fit</strong> silhouette.
+        {%- endif -%}
+      </p>
+
       {%- if size_chart_img != blank -%}
         <div class="size-chart-modal__img-wrap">
           <img src="{{ size_chart_img | image_url: width: 900 }}" alt="Size Chart for {{ product.title | escape }}" class="size-chart-modal__img" loading="lazy">
         </div>
       {%- else -%}
-        <!-- Fit Switcher Tabs -->
-        <div class="size-chart-tabs" id="size-chart-tabs">
-          <button type="button" class="size-chart-tab-btn active" data-fit-tab="sign">Signature Fit</button>
-          <button type="button" class="size-chart-tab-btn" data-fit-tab="overs">Oversized Fit</button>
-        </div>
-
         <div class="size-chart-modal__table-wrap">
-          <!-- SIGN SIZE CHART -->
-          <div class="size-chart-pane active" id="size-chart-pane-sign">
-            <table class="size-chart-table">
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>Chest Length</th>
-                  <th>Sleeve Length</th>
-                  <th>Length</th>
-                  <th>Width</th>
-                  <th>Sleeve Open</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>XL</strong></td><td>27 × 2 = 54"</td><td>19"</td><td>32"</td><td>27"</td><td>9.5"</td></tr>
-                <tr><td><strong>L</strong></td><td>25.5 × 2 = 51"</td><td>19"</td><td>31"</td><td>25"</td><td>9.5"</td></tr>
-                <tr><td><strong>M</strong></td><td>24.5 × 2 = 49"</td><td>18"</td><td>30"</td><td>24"</td><td>8.5"</td></tr>
-                <tr><td><strong>S</strong></td><td>23 × 2 = 46"</td><td>18"</td><td>29"</td><td>23"</td><td>8.5"</td></tr>
-                <tr><td><strong>XS</strong></td><td>22 × 2 = 44"</td><td>17"</td><td>29"</td><td>21.5"</td><td>8.5"</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- OVERS SIZE CHART -->
-          <div class="size-chart-pane" id="size-chart-pane-overs" style="display: none;">
-            <table class="size-chart-table">
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>Chest Length</th>
-                  <th>Sleeve Length</th>
-                  <th>Length</th>
-                  <th>Width</th>
-                  <th>Sleeve Open</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>XL</strong></td><td>28"</td><td>19.5"</td><td>29"</td><td>26"</td><td>8"</td></tr>
-                <tr><td><strong>L</strong></td><td>27"</td><td>19"</td><td>27"</td><td>26"</td><td>7.5"</td></tr>
-                <tr><td><strong>M</strong></td><td>25"</td><td>18"</td><td>28"</td><td>23"</td><td>7"</td></tr>
-                <tr><td><strong>S</strong></td><td>24"</td><td>18"</td><td>27"</td><td>22"</td><td>7"</td></tr>
-              </tbody>
-            </table>
-          </div>
+          {%- if is_signature_fit -%}
+            <!-- SIGNATURE FIT SIZE CHART -->
+            <div class="size-chart-pane active" id="size-chart-pane-sign">
+              <table class="size-chart-table">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Chest Length</th>
+                    <th>Sleeve Length</th>
+                    <th>Length</th>
+                    <th>Width</th>
+                    <th>Sleeve Open</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>XL</strong></td><td>27 × 2 = 54"</td><td>19"</td><td>32"</td><td>27"</td><td>9.5"</td></tr>
+                  <tr><td><strong>L</strong></td><td>25.5 × 2 = 51"</td><td>19"</td><td>31"</td><td>25"</td><td>9.5"</td></tr>
+                  <tr><td><strong>M</strong></td><td>24.5 × 2 = 49"</td><td>18"</td><td>30"</td><td>24"</td><td>8.5"</td></tr>
+                  <tr><td><strong>S</strong></td><td>23 × 2 = 46"</td><td>18"</td><td>29"</td><td>23"</td><td>8.5"</td></tr>
+                  <tr><td><strong>XS</strong></td><td>22 × 2 = 44"</td><td>17"</td><td>29"</td><td>21.5"</td><td>8.5"</td></tr>
+                </tbody>
+              </table>
+            </div>
+          {%- else -%}
+            <!-- OVERSIZED FIT SIZE CHART -->
+            <div class="size-chart-pane active" id="size-chart-pane-overs">
+              <table class="size-chart-table">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Chest Length</th>
+                    <th>Sleeve Length</th>
+                    <th>Length</th>
+                    <th>Width</th>
+                    <th>Sleeve Open</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>XL</strong></td><td>28"</td><td>19.5"</td><td>29"</td><td>26"</td><td>8"</td></tr>
+                  <tr><td><strong>L</strong></td><td>27"</td><td>19"</td><td>27"</td><td>26"</td><td>7.5"</td></tr>
+                  <tr><td><strong>M</strong></td><td>25"</td><td>18"</td><td>28"</td><td>23"</td><td>7"</td></tr>
+                  <tr><td><strong>S</strong></td><td>24"</td><td>18"</td><td>27"</td><td>22"</td><td>7"</td></tr>
+                </tbody>
+              </table>
+            </div>
+          {%- endif -%}
 
           <p class="size-chart-note">All measurements are in inches. For best fit, compare with a garment that fits you well.</p>
         </div>
