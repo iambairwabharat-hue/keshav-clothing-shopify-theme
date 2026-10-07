@@ -2167,6 +2167,17 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('is-visible');
           }, index * 200);
         });
+
+        // Every 5 seconds: trigger 3-pulse flash animation (small expansion and contraction 3 times)
+        setInterval(() => {
+          const visibleCards = popupStack.querySelectorAll('.recent-popup-card.is-visible:not(.is-dismissed)');
+          visibleCards.forEach(card => {
+            card.classList.remove('is-pulsing');
+            // Force browser reflow so the 3-pulse animation restarts cleanly
+            void card.offsetWidth;
+            card.classList.add('is-pulsing');
+          });
+        }, 5000);
       }, 3000);
 
       // Event delegation for close button and quick add button

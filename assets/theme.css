@@ -8420,6 +8420,49 @@ html, body {
   opacity: 1;
 }
 
+/* 3-pulse attention grabber animation (expands & shrinks 3 times) */
+@keyframes recentPopupPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+  16% {
+    transform: scale(1.06);
+    box-shadow: 0 20px 42px rgba(226, 184, 87, 0.35), 0 0 16px rgba(226, 184, 87, 0.4);
+    border-color: rgba(226, 184, 87, 0.7);
+  }
+  33% {
+    transform: scale(1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 20px 42px rgba(226, 184, 87, 0.35), 0 0 16px rgba(226, 184, 87, 0.4);
+    border-color: rgba(226, 184, 87, 0.7);
+  }
+  66% {
+    transform: scale(1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+  83% {
+    transform: scale(1.06);
+    box-shadow: 0 20px 42px rgba(226, 184, 87, 0.35), 0 0 16px rgba(226, 184, 87, 0.4);
+    border-color: rgba(226, 184, 87, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+.recent-popup-card.is-pulsing {
+  animation: recentPopupPulse 1.25s ease-in-out forwards !important;
+}
+
 .recent-popup-card.is-dismissed {
   transform: translateX(140%) !important;
   opacity: 0 !important;
