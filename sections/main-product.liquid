@@ -97,7 +97,12 @@
                     <span class="variant-label__text">
                       {{ option.name }}: <span class="variant-label__value" id="option-{{ option_index }}-label">{{ option.selected_value }}</span>
                     </span>
-                    
+                    {%- assign downcase_name = option.name | downcase -%}
+                    {%- if downcase_name contains 'size' -%}
+                      <button type="button" class="size-guide-trigger" id="size-guide-trigger" aria-label="Open size guide">
+                        📐 Size Guide
+                      </button>
+                    {%- endif -%}
                   </div>
 
                   {%- assign is_color = false -%}
@@ -339,6 +344,117 @@
       {%- endcase -%}
     {%- endfor -%}
   </div>
+
+  <!-- Size Chart Modal (Signature Fit & Oversized Fit) -->
+  {%- assign size_chart_img = product.metafields.custom.size_chart_image | default: settings.global_size_chart_image -%}
+  <div class="size-chart-modal-overlay" id="size-chart-modal" role="dialog" aria-modal="true" aria-label="Size Chart" style="display:none;">
+    <div class="size-chart-modal__backdrop" id="size-chart-modal-backdrop"></div>
+    <div class="size-chart-modal__box">
+      <button type="button" class="size-chart-modal__close" id="size-chart-modal-close" aria-label="Close size chart">&times;</button>
+      <h2 class="size-chart-modal__title">Size & Fit Guide</h2>
+      <p class="size-chart-modal__subtitle">All measurements tailored for our signature relaxed & oversized drape.</p>
+      {%- if size_chart_img != blank -%}
+        <div class="size-chart-modal__img-wrap">
+          <img src="{{ size_chart_img | image_url: width: 900 }}" alt="Size Chart for {{ product.title | escape }}" class="size-chart-modal__img" loading="lazy">
+        </div>
+      {%- else -%}
+        <!-- Fit Switcher Tabs -->
+        <div class="size-chart-tabs" id="size-chart-tabs">
+          <button type="button" class="size-chart-tab-btn active" data-fit-tab="sign">Signature Fit</button>
+          <button type="button" class="size-chart-tab-btn" data-fit-tab="overs">Oversized Fit</button>
+        </div>
+
+        <div class="size-chart-modal__table-wrap">
+          <!-- SIGN SIZE CHART -->
+          <div class="size-chart-pane active" id="size-chart-pane-sign">
+            <table class="size-chart-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest Length</th>
+                  <th>Sleeve Length</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Sleeve Open</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>XL</strong></td><td>27 × 2 = 54"</td><td>19"</td><td>32"</td><td>27"</td><td>9.5"</td></tr>
+                <tr><td><strong>L</strong></td><td>25.5 × 2 = 51"</td><td>19"</td><td>31"</td><td>25"</td><td>9.5"</td></tr>
+                <tr><td><strong>M</strong></td><td>24.5 × 2 = 49"</td><td>18"</td><td>30"</td><td>24"</td><td>8.5"</td></tr>
+                <tr><td><strong>S</strong></td><td>23 × 2 = 46"</td><td>18"</td><td>29"</td><td>23"</td><td>8.5"</td></tr>
+                <tr><td><strong>XS</strong></td><td>22 × 2 = 44"</td><td>17"</td><td>29"</td><td>21.5"</td><td>8.5"</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- OVERS SIZE CHART -->
+          <div class="size-chart-pane" id="size-chart-pane-overs" style="display: none;">
+            <table class="size-chart-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest Length</th>
+                  <th>Sleeve Length</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Sleeve Open</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>XL</strong></td><td>28"</td><td>19.5"</td><td>29"</td><td>26"</td><td>8"</td></tr>
+                <tr><td><strong>L</strong></td><td>27"</td><td>19"</td><td>27"</td><td>26"</td><td>7.5"</td></tr>
+                <tr><td><strong>M</strong></td><td>25"</td><td>18"</td><td>28"</td><td>23"</td><td>7"</td></tr>
+                <tr><td><strong>S</strong></td><td>24"</td><td>18"</td><td>27"</td><td>22"</td><td>7"</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="size-chart-note">All measurements are in inches. For best fit, compare with a garment that fits you well.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var modal = document.getElementById('size-chart-modal');
+      var backdrop = document.getElementById('size-chart-modal-backdrop');
+      var closeBtn = document.getElementById('size-chart-modal-close');
+
+      document.body.addEventListener('click', function(e) {
+        var trigger = e.target.closest('#size-guide-trigger, [data-size-guide], .size-guide-trigger, a[href="#size-guide"], .size-guide-link, #sticky-size-guide-btn');
+        if (trigger && modal) {
+          e.preventDefault();
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
+      });
+
+      function closeModal() {
+        if (modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+      var tabBtns = document.querySelectorAll('.size-chart-tab-btn');
+      tabBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = this.getAttribute('data-fit-tab');
+          tabBtns.forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          document.querySelectorAll('.size-chart-pane').forEach(function(p) { p.style.display = 'none'; });
+          var pane = document.getElementById('size-chart-pane-' + targetId);
+          if (pane) pane.style.display = 'block';
+        });
+      });
+    })();
+  </script>
 
   <!-- Back in Stock / Restock Notification Modal -->
   <div class="restock-modal-backdrop" id="restock-modal-backdrop" style="display: none;">
