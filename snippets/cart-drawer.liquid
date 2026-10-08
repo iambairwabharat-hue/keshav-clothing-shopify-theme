@@ -13,32 +13,34 @@
     </button>
   </div>
 
-  <!-- 2. 3-Tier Gamified Rewards Meter -->
-  <div class="side-cart-rewards">
-    <div class="side-cart-rewards__header">
-      <span class="side-cart-rewards__message" id="side-cart-shipping-text">
-        Add <strong>Rs. 9900</strong> for <strong>FREE Global Shipping</strong>
-      </span>
-    </div>
-    <div class="side-cart-rewards__progress-wrap">
-      <div class="side-cart-rewards__bar" id="side-cart-shipping-bar" style="width: 0%;"></div>
-    </div>
-    <!-- 3 Milestone Checkpoints -->
-    <div class="side-cart-rewards__tiers">
-      <div class="reward-tier" data-tier="1" data-threshold="99">
-        <span class="reward-tier__dot"></span>
-        <span class="reward-tier__label">Free Ship (Rs. 9900)</span>
+  <!-- 2. 3-Tier Gamified Rewards Meter (Disabled for now - can re-enable anytime) -->
+  {%- if settings.enable_shipping_bar == true -%}
+    <div class="side-cart-rewards">
+      <div class="side-cart-rewards__header">
+        <span class="side-cart-rewards__message" id="side-cart-shipping-text">
+          Add <strong>Rs. 9900</strong> for <strong>FREE Global Shipping</strong>
+        </span>
       </div>
-      <div class="reward-tier" data-tier="2" data-threshold="150">
-        <span class="reward-tier__dot"></span>
-        <span class="reward-tier__label">Free Tote (Rs. 15000)</span>
+      <div class="side-cart-rewards__progress-wrap">
+        <div class="side-cart-rewards__bar" id="side-cart-shipping-bar" style="width: 0%;"></div>
       </div>
-      <div class="reward-tier" data-tier="3" data-threshold="250">
-        <span class="reward-tier__dot"></span>
-        <span class="reward-tier__label">VIP Key (Rs. 25000)</span>
+      <!-- 3 Milestone Checkpoints -->
+      <div class="side-cart-rewards__tiers">
+        <div class="reward-tier" data-tier="1" data-threshold="99">
+          <span class="reward-tier__dot"></span>
+          <span class="reward-tier__label">Free Ship (Rs. 9900)</span>
+        </div>
+        <div class="reward-tier" data-tier="2" data-threshold="150">
+          <span class="reward-tier__dot"></span>
+          <span class="reward-tier__label">Free Tote (Rs. 15000)</span>
+        </div>
+        <div class="reward-tier" data-tier="3" data-threshold="250">
+          <span class="reward-tier__dot"></span>
+          <span class="reward-tier__label">VIP Key (Rs. 25000)</span>
+        </div>
       </div>
     </div>
-  </div>
+  {%- endif -%}
 
   <!-- 3. Scrollable Body -->
   <div class="side-cart-body" id="side-cart-body">

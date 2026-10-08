@@ -84,7 +84,7 @@
         "type": "checkbox",
         "id": "enable_shipping_bar",
         "label": "Enable Gamified Rewards Bar",
-        "default": true
+        "default": false
       },
       {
         "type": "number",

@@ -22,6 +22,7 @@
     "social_twitter_link": "https://twitter.com",
     "color_accent": "#737373",
     "show_sale_badge": true,
+    "enable_shipping_bar": false,
     "cart_type": "drawer",
     "social_facebook_link": "https://facebook.com",
     "sections": {
