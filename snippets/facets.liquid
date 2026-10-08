@@ -17,66 +17,140 @@
   </div>
 
   <div class="filter-drawer-body">
-    {%- for filter in results.filters -%}
+    {%- comment -%}
+      Collect unique available Colors and Sizes across products in this collection
+    {%- endcomment -%}
+    {%- assign all_colors = '' -%}
+    {%- assign all_sizes = '' -%}
+    {%- for product in collection.products -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign opt_down = option.name | downcase -%}
+        {%- if opt_down contains 'color' or opt_down contains 'colour' -%}
+          {%- for val in option.values -%}
+            {%- assign val_clean = val | strip -%}
+            {%- unless all_colors contains val_clean -%}
+              {%- assign all_colors = all_colors | append: val_clean | append: ':::' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- elsif opt_down contains 'size' -%}
+          {%- for val in option.values -%}
+            {%- assign val_clean = val | strip -%}
+            {%- unless all_sizes contains val_clean -%}
+              {%- assign all_sizes = all_sizes | append: val_clean | append: ':::' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+
+    {%- assign color_list = all_colors | split: ':::' | uniq -%}
+    {%- assign size_list = all_sizes | split: ':::' | uniq -%}
+
+    <!-- 1. SIZE FILTER (Pills) -->
+    {%- if size_list.size > 0 -%}
       <div class="filter-group">
         <div class="filter-group__header" onclick="this.parentElement.classList.toggle('filter-group--collapsed')">
-          <span class="filter-group__title">{{ filter.label | escape }}</span>
+          <span class="filter-group__title">SIZE</span>
           <svg class="icon-chevron-down" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-
         <div class="filter-group__content">
-          {%- case filter.type -%}
-            {%- when 'boolean', 'list' -%}
-              {%- for value in filter.values -%}
-                <label class="filter-checkbox-label" for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
-                  <div class="filter-checkbox-left">
-                    <input
-                      type="checkbox"
-                      name="{{ value.param_name }}"
-                      value="{{ value.value }}"
-                      id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
-                      {% if value.active %}checked{% endif %}
-                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                      onchange="this.form.submit()"
-                    >
-                    <span>{{ value.label | escape }}</span>
-                  </div>
-                  <span class="filter-count">({{ value.count }})</span>
-                </label>
-              {%- endfor -%}
-
-            {%- when 'price_range' -%}
-              <div class="price-range-inputs">
-                <div class="price-field">
-                  <span class="currency-symbol">Rs.</span>
-                  <input
-                    type="number"
-                    name="{{ filter.min_value.param_name }}"
-                    class="price-range-input"
-                    placeholder="0"
-                    {% if filter.min_value.value %}value="{{ filter.min_value.value | divided_by: 100.0 }}"{% endif %}
-                    min="0"
-                    step="1"
-                  >
-                </div>
-                <span class="price-dash">—</span>
-                <div class="price-field">
-                  <span class="currency-symbol">Rs.</span>
-                  <input
-                    type="number"
-                    name="{{ filter.max_value.param_name }}"
-                    class="price-range-input"
-                    placeholder="{{ filter.range_max | divided_by: 100.0 | default: 9999 }}"
-                    {% if filter.max_value.value %}value="{{ filter.max_value.value | divided_by: 100.0 }}"{% endif %}
-                    min="0"
-                    step="1"
-                  >
-                </div>
-              </div>
-              <button type="submit" class="btn-apply-price">Apply Price</button>
-          {%- endcase -%}
+          <div class="filter-size-grid" id="filter-size-options">
+            {%- for size in size_list -%}
+              {%- if size != blank -%}
+                <button
+                  type="button"
+                  class="filter-size-chip"
+                  data-filter-size="{{ size | downcase | escape }}"
+                >
+                  {{ size | escape }}
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
         </div>
       </div>
+    {%- endif -%}
+
+    <!-- 2. COLOR FILTER (Swatches & Chips) -->
+    {%- if color_list.size > 0 -%}
+      <div class="filter-group">
+        <div class="filter-group__header" onclick="this.parentElement.classList.toggle('filter-group--collapsed')">
+          <span class="filter-group__title">COLOR</span>
+          <svg class="icon-chevron-down" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group__content">
+          <div class="filter-color-grid" id="filter-color-options">
+            {%- for color in color_list -%}
+              {%- if color != blank -%}
+                {%- assign c_handle = color | handleize -%}
+                {%- assign swatch_bg = '' -%}
+                {%- case c_handle -%}
+                  {%- when 'black' -%}
+                    {%- assign swatch_bg = 'background-color: #000000;' -%}
+                  {%- when 'white' -%}
+                    {%- assign swatch_bg = 'background-color: #ffffff; border-color: #d4d4d4;' -%}
+                  {%- when 'sage-green' or 'sage' or 'sagegreen' -%}
+                    {%- assign swatch_bg = 'background-color: #8A9A86;' -%}
+                  {%- when 'pista' -%}
+                    {%- assign swatch_bg = 'background-color: #93c572;' -%}
+                  {%- when 'beige' or 'binge' -%}
+                    {%- assign swatch_bg = 'background-color: #E6D7C3;' -%}
+                  {%- when 'cream' or 'creme' -%}
+                    {%- assign swatch_bg = 'background-color: #FFFDD0;' -%}
+                  {%- when 'gray' or 'grey' -%}
+                    {%- assign swatch_bg = 'background-color: #808080;' -%}
+                  {%- when 'blue' or 'navy' or 'marin-blue' -%}
+                    {%- assign swatch_bg = 'background-color: #0047AB;' -%}
+                  {%- when 'red' or 'maroon' or 'wine' -%}
+                    {%- assign swatch_bg = 'background-color: #800020;' -%}
+                  {%- when 'brown' or 'coffee' or 'mocha' -%}
+                    {%- assign swatch_bg = 'background-color: #4A2E2B;' -%}
+                  {%- else -%}
+                    {%- assign swatch_bg = 'background-color: ' | append: c_handle | append: ';' -%}
+                {%- endcase -%}
+                <div class="filter-color-chip" data-filter-color="{{ color | downcase | escape }}" title="{{ color | escape }}">
+                  <span class="filter-color-circle" style="{{ swatch_bg }}"></span>
+                  <span class="filter-color-name">{{ color | escape }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      Render Shopify native filters if they are Size or Color
+    {%- endcomment -%}
+    {%- for filter in results.filters -%}
+      {%- assign f_label_down = filter.label | downcase -%}
+      {%- if f_label_down contains 'color' or f_label_down contains 'colour' or f_label_down contains 'size' -%}
+        <div class="filter-group">
+          <div class="filter-group__header" onclick="this.parentElement.classList.toggle('filter-group--collapsed')">
+            <span class="filter-group__title">{{ filter.label | escape }}</span>
+            <svg class="icon-chevron-down" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="filter-group__content">
+            {%- for value in filter.values -%}
+              <label class="filter-checkbox-label" for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
+                <div class="filter-checkbox-left">
+                  <input
+                    type="checkbox"
+                    name="{{ value.param_name }}"
+                    value="{{ value.value }}"
+                    id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                    {% if value.active %}checked{% endif %}
+                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                    onchange="this.form.submit()"
+                  >
+                  <span>{{ value.label | escape }}</span>
+                </div>
+                <span class="filter-count">({{ value.count }})</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
     {%- endfor -%}
   </div>
 

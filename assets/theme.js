@@ -2418,6 +2418,90 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('btn-grid-view--active');
       });
     });
+
+    // Interactive Color & Size Filter Chips
+    const colorChips = document.querySelectorAll('[data-filter-color]');
+    const sizeChips = document.querySelectorAll('[data-filter-size]');
+    const productCards = document.querySelectorAll('#collection-grid .product-card');
+
+    let selectedColors = [];
+    let selectedSizes = [];
+
+    const applyClientFilters = () => {
+      let visibleCount = 0;
+      productCards.forEach((card) => {
+        const cardColors = (card.getAttribute('data-colors') || '').toLowerCase();
+        const cardSizes = (card.getAttribute('data-sizes') || '').toLowerCase();
+
+        let matchesColor = selectedColors.length === 0 || selectedColors.some(c => cardColors.includes(c));
+        let matchesSize = selectedSizes.length === 0 || selectedSizes.some(s => cardSizes.includes(s));
+
+        if (matchesColor && matchesSize) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Update empty state if no products match
+      let emptyMsg = document.getElementById('filter-empty-msg');
+      if (visibleCount === 0 && productCards.length > 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('div');
+          emptyMsg.id = 'filter-empty-msg';
+          emptyMsg.className = 'collection-empty';
+          emptyMsg.style.gridColumn = '1 / -1';
+          emptyMsg.style.textAlign = 'center';
+          emptyMsg.style.padding = '60px 20px';
+          emptyMsg.innerHTML = '<p style="font-size: 16px; color: #525252;">No products match the selected filters.</p>';
+          if (grid) grid.appendChild(emptyMsg);
+        }
+        emptyMsg.style.display = 'block';
+      } else if (emptyMsg) {
+        emptyMsg.style.display = 'none';
+      }
+    };
+
+    colorChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const color = chip.getAttribute('data-filter-color');
+        if (selectedColors.includes(color)) {
+          selectedColors = selectedColors.filter(c => c !== color);
+          chip.classList.remove('filter-color-chip--active');
+        } else {
+          selectedColors.push(color);
+          chip.classList.add('filter-color-chip--active');
+        }
+        applyClientFilters();
+      });
+    });
+
+    sizeChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const size = chip.getAttribute('data-filter-size');
+        if (selectedSizes.includes(size)) {
+          selectedSizes = selectedSizes.filter(s => s !== size);
+          chip.classList.remove('filter-size-chip--active');
+        } else {
+          selectedSizes.push(size);
+          chip.classList.add('filter-size-chip--active');
+        }
+        applyClientFilters();
+      });
+    });
+
+    // Clear All button resets Color & Size chips
+    const clearBtn = document.querySelector('.btn-clear-filters');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', (e) => {
+        selectedColors = [];
+        selectedSizes = [];
+        colorChips.forEach(c => c.classList.remove('filter-color-chip--active'));
+        sizeChips.forEach(s => s.classList.remove('filter-size-chip--active'));
+        applyClientFilters();
+      });
+    }
   };
 
   /* ==========================================================

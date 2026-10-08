@@ -26,9 +26,25 @@
   if secondary_media != blank
     assign secondary_src = secondary_media | image_url: width: 700
   endif
+  assign product_colors = ''
+  assign product_sizes = ''
+  for option in product.options_with_values
+    assign opt_name = option.name | downcase
+    if opt_name contains 'color' or opt_name contains 'colour'
+      for val in option.values
+        assign val_down = val | downcase | escape
+        assign product_colors = product_colors | append: val_down | append: ','
+      endfor
+    elsif opt_name contains 'size'
+      for val in option.values
+        assign val_down = val | downcase | escape
+        assign product_sizes = product_sizes | append: val_down | append: ','
+      endfor
+    endif
+  endfor
 -%}
 
-<div class="product-card scroll-reveal" data-product-id="{{ product.id }}" data-price="{{ product.price | divided_by: 100.0 }}">
+<div class="product-card scroll-reveal" data-product-id="{{ product.id }}" data-price="{{ product.price | divided_by: 100.0 }}" data-colors="{{ product_colors }}" data-sizes="{{ product_sizes }}">
   
   <div class="product-card__image-wrap">
     <a href="{{ product.url | default: '#' }}" class="product-card__image-link" aria-label="{{ product.title | escape }}">
