@@ -34,6 +34,10 @@
           "type": "variant_picker",
           "settings": {}
         },
+        "swatchfy_variant_images_product_groups_block_Pi669i": {
+          "type": "shopify://apps/swatchfy-variant-images/blocks/product-groups-block/01a0096a-0525-77bc-8685-b0be457b9dc0",
+          "settings": {}
+        },
         "model_specs": {
           "type": "model_specs",
           "settings": {
@@ -58,6 +62,7 @@
         "rating",
         "price",
         "variant_picker",
+        "swatchfy_variant_images_product_groups_block_Pi669i",
         "model_specs",
         "buy_buttons",
         "trust_badges"
