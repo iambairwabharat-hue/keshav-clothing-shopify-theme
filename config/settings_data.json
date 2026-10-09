@@ -20,11 +20,11 @@
     "gallery_image_fit": "cover",
     "social_instagram_link": "https://www.instagram.com/keshavclothing_?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
     "social_tiktok_link": "https://tiktok.com",
+    "social_facebook_link": "https://www.facebook.com/profile.php?id=61593941023571",
     "social_twitter_link": "https://twitter.com",
     "color_accent": "#737373",
     "show_sale_badge": true,
     "cart_type": "drawer",
-    "social_facebook_link": "https://facebook.com",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
