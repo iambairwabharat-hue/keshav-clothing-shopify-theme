@@ -315,6 +315,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (matchedVariant.featured_image && matchedVariant.featured_image.src && mainImg) {
           mainImg.src = matchedVariant.featured_image.src;
+          const thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+          const matchIdx = thumbs.findIndex((t) => {
+            const src = t.getAttribute('data-src') || '';
+            return src.includes(matchedVariant.featured_image.src.split('?')[0]);
+          });
+          if (matchIdx >= 0 && typeof window.galleryGoToSlide === 'function') {
+            window.galleryGoToSlide(matchIdx);
+          }
         }
       }
     }
@@ -332,11 +340,28 @@ document.addEventListener('DOMContentLoaded', () => {
   window.handleVariantClick = handleVariantClick;
 
   /* ==========================================================
-     7. PRODUCT GALLERY THUMBNAILS (INSTANT SWITCH & PRELOAD)
+     7. PRODUCT GALLERY CAROUSEL (SWIPE, ARROWS, THUMBNAILS & PRELOAD)
      ========================================================== */
-  const thumbs = document.querySelectorAll('.gallery-thumb');
-  const mainImg = document.getElementById('gallery-main-img');
-  if (thumbs.length > 0 && mainImg) {
+  const initProductGallery = () => {
+    const thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+    const mainImg = document.getElementById('gallery-main-img');
+    const galleryMain = document.getElementById('gallery-main');
+    const prevBtn = document.getElementById('gallery-prev-btn');
+    const nextBtn = document.getElementById('gallery-next-btn');
+    const counterCurrent = document.getElementById('gallery-counter-current');
+    const counterTotal = document.getElementById('gallery-counter-total');
+
+    if (!mainImg) return;
+
+    let currentIndex = 0;
+
+    // Find initial active index
+    if (thumbs.length > 0) {
+      const activeIdx = thumbs.findIndex((t) => t.classList.contains('gallery-thumb--active'));
+      if (activeIdx >= 0) currentIndex = activeIdx;
+      if (counterTotal) counterTotal.textContent = thumbs.length;
+    }
+
     // Preload full size images in browser memory immediately
     thumbs.forEach((thumb) => {
       const src = thumb.getAttribute('data-src');
@@ -346,18 +371,118 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    thumbs.forEach((thumb) => {
-      thumb.addEventListener('click', () => {
-        thumbs.forEach((t) => t.classList.remove('gallery-thumb--active'));
-        thumb.classList.add('gallery-thumb--active');
-        const newSrc = thumb.getAttribute('data-src') || (thumb.querySelector('img') ? thumb.querySelector('img').src : null);
-        if (newSrc && mainImg.src !== newSrc) {
-          // Instant swap without laggy 120ms timeout
-          mainImg.src = newSrc;
-        }
+    const goToSlide = (index, smooth = true) => {
+      if (thumbs.length === 0) return;
+      if (index < 0) index = thumbs.length - 1;
+      if (index >= thumbs.length) index = 0;
+
+      currentIndex = index;
+      const targetThumb = thumbs[currentIndex];
+      if (!targetThumb) return;
+
+      thumbs.forEach((t, i) => {
+        t.classList.toggle('gallery-thumb--active', i === currentIndex);
+      });
+
+      const newSrc = targetThumb.getAttribute('data-src') || (targetThumb.querySelector('img') ? targetThumb.querySelector('img').src : null);
+      if (newSrc && mainImg.src !== newSrc) {
+        mainImg.style.opacity = '0.7';
+        mainImg.src = newSrc;
+        setTimeout(() => {
+          mainImg.style.opacity = '1';
+        }, 120);
+      }
+
+      if (counterCurrent) {
+        counterCurrent.textContent = (currentIndex + 1);
+      }
+
+      // Smooth scroll the thumbnail row to center the active thumbnail
+      const galleryThumbs = document.getElementById('gallery-thumbs');
+      if (galleryThumbs && targetThumb) {
+        const thumbLeft = targetThumb.offsetLeft;
+        const thumbWidth = targetThumb.offsetWidth;
+        const containerWidth = galleryThumbs.clientWidth;
+        const scrollTarget = thumbLeft - (containerWidth / 2) + (thumbWidth / 2);
+        galleryThumbs.scrollTo({
+          left: Math.max(0, scrollTarget),
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+      }
+    };
+
+    // Attach click listener to thumbs
+    thumbs.forEach((thumb, idx) => {
+      thumb.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToSlide(idx);
       });
     });
-  }
+
+    // Arrow navigation
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentIndex - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentIndex + 1);
+      });
+    }
+
+    // Touch swipe gestures on main image container
+    if (galleryMain && thumbs.length > 1) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchEndX = 0;
+      let touchEndY = 0;
+      let isSwiping = false;
+
+      galleryMain.addEventListener('touchstart', (e) => {
+        if (!e.touches || e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchEndX = touchStartX;
+        touchEndY = touchStartY;
+        isSwiping = true;
+      }, { passive: true });
+
+      galleryMain.addEventListener('touchmove', (e) => {
+        if (!isSwiping || !e.touches || e.touches.length !== 1) return;
+        touchEndX = e.touches[0].clientX;
+        touchEndY = e.touches[0].clientY;
+      }, { passive: true });
+
+      galleryMain.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        // If horizontal swipe is dominant and exceeds threshold (35px)
+        if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY) * 1.2) {
+          if (diffX < 0) {
+            // Swiped left -> next
+            goToSlide(currentIndex + 1);
+          } else {
+            // Swiped right -> prev
+            goToSlide(currentIndex - 1);
+          }
+        }
+      }, { passive: true });
+    }
+
+    // Expose for external calls (e.g. variant change)
+    window.galleryGoToSlide = goToSlide;
+  };
+  initProductGallery();
 
   /* ==========================================================
      8. GALLERY ZOOM / LIGHTBOX MODAL
@@ -388,8 +513,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (zoomBtn) zoomBtn.addEventListener('click', openLightbox);
-    if (galleryMain) galleryMain.addEventListener('click', openLightbox);
-    galleryMain.style.cursor = 'zoom-in';
+    const mainWrap = document.getElementById('gallery-main');
+    if (mainWrap) {
+      mainWrap.addEventListener('click', (e) => {
+        if (e.target.closest('.gallery-nav-btn, .gallery-zoom, #gallery-prev-btn, #gallery-next-btn')) return;
+        if (window.innerWidth > 768) {
+          openLightbox();
+        }
+      });
+      if (window.innerWidth > 768) {
+        galleryMain.style.cursor = 'zoom-in';
+      }
+    }
   };
   initGalleryZoom();
 

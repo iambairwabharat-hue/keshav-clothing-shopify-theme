@@ -39,7 +39,7 @@
         </div>
       {%- endif -%}
   
-      <div class="gallery-main">
+      <div class="gallery-main" id="gallery-main">
         {%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
         {%- if featured_media != blank -%}
           <img
@@ -48,11 +48,28 @@
             class="gallery-main__image"
             id="gallery-main-img"
             loading="eager"
+            draggable="false"
           >
         {%- else -%}
           {{ 'product-1' | placeholder_svg_tag: 'gallery-main__image placeholder-svg' }}
         {%- endif -%}
-  
+
+        {%- if product.media.size > 1 -%}
+          <button type="button" class="gallery-nav-btn gallery-nav-btn--prev" id="gallery-prev-btn" aria-label="Previous Image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="gallery-nav-btn gallery-nav-btn--next" id="gallery-next-btn" aria-label="Next Image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+          <div class="gallery-counter" id="gallery-counter" aria-live="polite">
+            <span id="gallery-counter-current">1</span> / <span id="gallery-counter-total">{{ product.media.size }}</span>
+          </div>
+        {%- endif -%}
+
         <button type="button" class="gallery-zoom" aria-label="Zoom Image">
           {% render 'icon', icon: 'search' %}
         </button>
