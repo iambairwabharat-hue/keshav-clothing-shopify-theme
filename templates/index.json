@@ -16,7 +16,7 @@
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
             "banner_image": "shopify://shop_images/Palm_Shadows_on_a_Classic_Red_Convertible.png",
-            "banner_url": "shopify://collections/graphic-drop",
+            "banner_url": "shopify://products/costal-monica",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
@@ -29,7 +29,7 @@
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
             "banner_image": "shopify://shop_images/Skyward_Distorted_Tee_Look.webp",
-            "banner_url": "shopify://collections/stitch-drop-1",
+            "banner_url": "shopify://products/distorted",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
@@ -41,8 +41,8 @@
         "ai_gen_block_0e2ceb7_pxyQwA": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/BANNER_3.png",
-            "banner_url": "shopify://collections/stitch-drop",
+            "banner_image": "shopify://shop_images/Streetwear_Conversation_on_Faded_Pink_Stripes.png",
+            "banner_url": "shopify://products/break-the-rules",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
@@ -378,58 +378,6 @@
     },
     "ugc_gallery_4YPM9m": {
       "type": "ugc-gallery",
-      "blocks": {
-        "ugc_post_QpKQFU": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/15f7ea0f8cd8d67ef8214a8647532678_1.jpg",
-            "handle": "@keshavclothing_"
-          }
-        },
-        "ugc_post_xNDQXL": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/15f7ea0f8cd8d67ef8214a8647532678_1.png",
-            "handle": "@keshavclothing_"
-          }
-        },
-        "ugc_post_rrEdAa": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/15f7ea0f8cd8d67ef8214a8647532678_3.png",
-            "handle": "@keshavclothing_"
-          }
-        },
-        "ugc_post_hkDGHd": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/15f7ea0f8cd8d67ef8214a8647532678_2.png",
-            "handle": "@keshavclothing_"
-          }
-        },
-        "ugc_post_iiA446": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/6816842b0eb467439c657ec8a85d8d00_f1525a10-e464-4ac6-aa76-0fe59bd7562b.jpg",
-            "handle": "@keshavclothing_"
-          }
-        },
-        "ugc_post_wJj9jJ": {
-          "type": "ugc_post",
-          "settings": {
-            "image": "shopify://shop_images/15f7ea0f8cd8d67ef8214a8647532678_d0ac5984-4db3-4791-8e79-b0ccf3c83941.jpg",
-            "handle": "@keshavclothing_"
-          }
-        }
-      },
-      "block_order": [
-        "ugc_post_QpKQFU",
-        "ugc_post_xNDQXL",
-        "ugc_post_rrEdAa",
-        "ugc_post_hkDGHd",
-        "ugc_post_iiA446",
-        "ugc_post_wJj9jJ"
-      ],
       "name": "Community UGC Gallery",
       "settings": {
         "heading_alignment": "center",
@@ -442,10 +390,37 @@
         "bg_color": "#ffffff",
         "text_color": "#171717",
         "padding_top_desktop": 80,
-        "padding_bottom_desktop": 80,
+        "padding_bottom_desktop": 0,
         "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40
+        "padding_bottom_mobile": 0
       }
+    },
+    "1791535836c1b96cab": {
+      "type": "apps",
+      "blocks": {
+        "instafeed_app_block_CKwUgU": {
+          "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
+          "settings": {
+            "title": "",
+            "title_color": "",
+            "title_size_v2": 0,
+            "alignment": "center",
+            "instafeed_margin_top": 0,
+            "instafeed_margin_bottom": 0,
+            "instafeed_margin_sides": 0,
+            "show_instagram_link": false,
+            "link_alignment": "left",
+            "link_color": "#000000",
+            "background_color": "",
+            "feed_id": "",
+            "html_area": ""
+          }
+        }
+      },
+      "block_order": [
+        "instafeed_app_block_CKwUgU"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -457,6 +432,7 @@
     "17881720319bf6ffb2",
     "collection_tabs_z68UbY",
     "marquee_ticker_riFPxC",
-    "ugc_gallery_4YPM9m"
+    "ugc_gallery_4YPM9m",
+    "1791535836c1b96cab"
   ]
 }
