@@ -20,7 +20,119 @@
   }
 
   #ugc-{{ section.id }} .ugc-grid {
+    display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop | default: 6 }}, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 992px) {
+    #ugc-{{ section.id }} .ugc-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    #ugc-{{ section.id }} .ugc-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+  }
+
+  #ugc-{{ section.id }} .ugc-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f5f5f5;
+    border-radius: 4px;
+  }
+
+  #ugc-{{ section.id }} .ugc-card__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+  }
+
+  #ugc-{{ section.id }} .ugc-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  #ugc-{{ section.id }} .ugc-card:hover img {
+    transform: scale(1.06);
+  }
+
+  #ugc-{{ section.id }} .ugc-card__badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    z-index: 2;
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+
+  #ugc-{{ section.id }} .ugc-card__badge svg {
+    width: 15px;
+    height: 15px;
+    stroke: #ffffff;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  #ugc-{{ section.id }} .ugc-card:hover .ugc-card__badge {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  #ugc-{{ section.id }} .ugc-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.48);
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    color: #ffffff;
+    padding: 12px;
+    text-align: center;
+    z-index: 3;
+  }
+
+  #ugc-{{ section.id }} .ugc-card:hover .ugc-card__overlay {
+    opacity: 1;
+  }
+
+  #ugc-{{ section.id }} .ugc-card__overlay-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+    fill: none;
+    stroke-width: 1.8;
+  }
+
+  #ugc-{{ section.id }} .ugc-card__handle {
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
 {%- endstyle -%}
 
@@ -44,14 +156,26 @@
     {%- for block in section.blocks -%}
       <div class="ugc-card" {{ block.shopify_attributes }}>
         {%- if insta_link != blank -%}
-          <a href="{{ insta_link }}" target="_blank" rel="noopener" style="display:block; width:100%; height:100%; text-decoration:none; color:inherit;">
+          <a href="{{ insta_link }}" target="_blank" rel="noopener" class="ugc-card__link">
         {%- endif -%}
           {%- if block.settings.image != blank -%}
-            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.handle | escape }}" loading="lazy">
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.handle | default: '@keshavclothing_' | escape }}" loading="lazy">
           {%- else -%}
             <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop&q=80" alt="Community Post" loading="lazy">
           {%- endif -%}
+          <div class="ugc-card__badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
           <div class="ugc-card__overlay">
+            <svg class="ugc-card__overlay-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
             <span class="ugc-card__handle">{{ block.settings.handle | default: '@keshavclothing_' }}</span>
           </div>
         {%- if insta_link != blank -%}
