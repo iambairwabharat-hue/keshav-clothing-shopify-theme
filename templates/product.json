@@ -38,10 +38,17 @@
           "type": "shopify://apps/swatchfy-variant-images/blocks/product-groups-block/01a0096a-0525-77bc-8685-b0be457b9dc0",
           "settings": {}
         },
+        "fabric_highlight": {
+          "type": "fabric_highlight",
+          "settings": {
+            "text": "240 GSM Heavyweight Fabric",
+            "style": "black"
+          }
+        },
         "model_specs": {
           "type": "model_specs",
           "settings": {
-            "model_info": "Model is 6?1? (185 cm) / 175 lbs wearing Size Large"
+            "model_info": "Model is 6'1\" (185 cm) / 175 lbs wearing Size Large"
           }
         },
         "buy_buttons": {
@@ -63,6 +70,7 @@
         "price",
         "variant_picker",
         "swatchfy_variant_images_product_groups_block_Pi669i",
+        "fabric_highlight",
         "model_specs",
         "buy_buttons",
         "trust_badges"

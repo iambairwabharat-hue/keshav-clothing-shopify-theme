@@ -12,24 +12,11 @@
     "17878119536b2d41cd": {
       "type": "_blocks",
       "blocks": {
-        "ai_gen_block_0e2ceb7_wgTJVD": {
-          "type": "ai_gen_block_0e2ceb7",
-          "settings": {
-            "banner_image": "shopify://shop_images/Palm_Shadows_on_a_Classic_Red_Convertible.png",
-            "banner_url": "shopify://products/costal-monica",
-            "open_in_new_tab": false,
-            "desktop_width_percent": 100,
-            "banner_height": 800,
-            "mobile_banner_height": 300,
-            "border_radius": 0
-          },
-          "blocks": {}
-        },
         "ai_gen_block_0e2ceb7_yyRMmT": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/Skyward_Distorted_Tee_Look.webp",
-            "banner_url": "shopify://products/distorted",
+            "banner_image": "shopify://shop_images/banner_final_size.webp",
+            "banner_url": "shopify://collections/stitch-drop-1",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
@@ -50,12 +37,25 @@
             "border_radius": 0
           },
           "blocks": {}
+        },
+        "ai_gen_block_0e2ceb7_wgTJVD": {
+          "type": "ai_gen_block_0e2ceb7",
+          "settings": {
+            "banner_image": "shopify://shop_images/Palm_Shadows_on_a_Classic_Red_Convertible.png",
+            "banner_url": "shopify://products/costal-monica",
+            "open_in_new_tab": false,
+            "desktop_width_percent": 100,
+            "banner_height": 800,
+            "mobile_banner_height": 300,
+            "border_radius": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_0e2ceb7_wgTJVD",
         "ai_gen_block_0e2ceb7_yyRMmT",
-        "ai_gen_block_0e2ceb7_pxyQwA"
+        "ai_gen_block_0e2ceb7_pxyQwA",
+        "ai_gen_block_0e2ceb7_wgTJVD"
       ],
       "settings": {}
     },

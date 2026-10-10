@@ -6389,6 +6389,87 @@ body.mobile-nav-active .mobile-toggle {
   color: var(--color-black);
 }
 
+/* PDP Fabric Highlight Badge */
+.product-fabric-highlight {
+  margin: 16px 0 10px;
+  display: block;
+}
+
+.fabric-highlight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fabric-highlight-pill--black {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.fabric-highlight-pill--black .fabric-highlight-icon {
+  color: #f59e0b; /* warm gold accent */
+}
+
+.fabric-highlight-pill--highlight {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.fabric-highlight-pill--highlight .fabric-highlight-icon {
+  color: #d97706;
+}
+
+.fabric-highlight-pill--outline {
+  background: #ffffff;
+  color: #111111;
+  border: 1.5px solid #111111;
+}
+
+.fabric-highlight-pill--outline .fabric-highlight-icon {
+  color: #111111;
+}
+
+.fabric-highlight-pill--banner {
+  display: flex;
+  width: 100%;
+  border-radius: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #111111;
+  color: #0f172a;
+  padding: 10px 14px;
+}
+
+.fabric-highlight-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.fabric-highlight-text {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+@media (max-width: 480px) {
+  .fabric-highlight-pill {
+    font-size: 10.5px;
+    padding: 7px 14px;
+    letter-spacing: 0.8px;
+  }
+}
+
 /* 6. PDP Model Specs & Fit Spectrum Gauge */
 .model-specs-card {
   margin: 16px 0;

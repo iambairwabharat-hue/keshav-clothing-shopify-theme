@@ -314,11 +314,24 @@
             </div>
           </div>
 
+        {%- when 'fabric_highlight' -%}
+          {%- assign highlight_text = block.settings.text | default: '240 GSM Heavyweight Fabric' -%}
+          {%- assign highlight_style = block.settings.style | default: 'black' -%}
+          <div class="product-fabric-highlight" {{ block.shopify_attributes }}>
+            <div class="fabric-highlight-pill fabric-highlight-pill--{{ highlight_style }}">
+              <svg class="fabric-highlight-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span class="fabric-highlight-text">{{ highlight_text | escape }}</span>
+            </div>
+          </div>
+
         {%- when 'model_specs' -%}
           <div class="model-specs-card" {{ block.shopify_attributes }}>
             <div class="model-specs-header">
               <span class="model-specs-tag">FIT & SIZING SPECS</span>
-              <span class="model-specs-text">{{ block.settings.model_info | default: 'Model is 6’1” (185 cm) / 175 lbs wearing Size L' }}</span>
+              {%- assign model_display = block.settings.model_info | default: 'Model is 6’1” (185 cm) / 175 lbs wearing Size Large' | replace: '6?1?', '6’1”' -%}
+              <span class="model-specs-text">{{ model_display }}</span>
             </div>
             <!-- Interactive Fit Spectrum Gauge -->
             <div class="fit-gauge">
@@ -580,6 +593,30 @@
       "type": "variant_picker",
       "name": "Variant Picker",
       "limit": 1
+    },
+    {
+      "type": "fabric_highlight",
+      "name": "Fabric Highlight",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Highlight Text",
+          "default": "240 GSM Heavyweight Fabric"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Badge Style",
+          "options": [
+            { "value": "black", "label": "Luxury Black Pill" },
+            { "value": "highlight", "label": "Soft Amber Highlight" },
+            { "value": "outline", "label": "Clean Border" },
+            { "value": "banner", "label": "Full Width Banner" }
+          ],
+          "default": "black"
+        }
+      ]
     },
     {
       "type": "model_specs",
