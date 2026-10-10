@@ -56,10 +56,10 @@
         <button type="button" class="btn-grid-view" data-cols="2" aria-label="2 Columns">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="3" y="3" width="7" height="18" rx="1"></rect><rect x="14" y="3" width="7" height="18" rx="1"></rect></svg>
         </button>
-        <button type="button" class="btn-grid-view btn-grid-view--active" data-cols="3" aria-label="3 Columns">
+        <button type="button" class="btn-grid-view" data-cols="3" aria-label="3 Columns">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="3" width="5" height="18" rx="1"></rect><rect x="9.5" y="3" width="5" height="18" rx="1"></rect><rect x="17" y="3" width="5" height="18" rx="1"></rect></svg>
         </button>
-        <button type="button" class="btn-grid-view" data-cols="4" aria-label="4 Columns">
+        <button type="button" class="btn-grid-view btn-grid-view--active" data-cols="4" aria-label="4 Columns">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="3" width="3.5" height="18" rx="0.5"></rect><rect x="7.5" y="3" width="3.5" height="18" rx="0.5"></rect><rect x="13" y="3" width="3.5" height="18" rx="0.5"></rect><rect x="18.5" y="3" width="3.5" height="18" rx="0.5"></rect></svg>
         </button>
       </div>
@@ -93,7 +93,7 @@
   {%- endif -%}
 
   <main class="collection-main">
-    <div class="collection-grid grid--3-col" id="collection-grid">
+    <div class="collection-grid grid--4-col" id="collection-grid">
       {%- for product in collection.products -%}
         {% render 'product-card', product: product %}
       {%- else -%}

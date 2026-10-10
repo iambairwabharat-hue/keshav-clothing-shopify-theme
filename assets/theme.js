@@ -2565,11 +2565,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyClientFilters = () => {
       let visibleCount = 0;
       productCards.forEach((card) => {
-        const cardColors = (card.getAttribute('data-colors') || '').toLowerCase();
-        const cardSizes = (card.getAttribute('data-sizes') || '').toLowerCase();
+        const cardColorsList = (card.getAttribute('data-colors') || '').toLowerCase().split(',').map(x => x.trim()).filter(Boolean);
+        const cardSizesList = (card.getAttribute('data-sizes') || '').toLowerCase().split(',').map(x => x.trim()).filter(Boolean);
 
-        let matchesColor = selectedColors.length === 0 || selectedColors.some(c => cardColors.includes(c));
-        let matchesSize = selectedSizes.length === 0 || selectedSizes.some(s => cardSizes.includes(s));
+        let matchesColor = selectedColors.length === 0 || selectedColors.some(c => cardColorsList.includes(c));
+        let matchesSize = selectedSizes.length === 0 || selectedSizes.some(s => cardSizesList.includes(s));
 
         if (matchesColor && matchesSize) {
           card.style.display = '';

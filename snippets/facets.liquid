@@ -20,22 +20,24 @@
     {%- comment -%}
       Collect unique available Colors and Sizes across products in this collection
     {%- endcomment -%}
-    {%- assign all_colors = '' -%}
-    {%- assign all_sizes = '' -%}
+    {%- assign all_colors = ':::' -%}
+    {%- assign all_sizes = ':::' -%}
     {%- for product in collection.products -%}
       {%- for option in product.options_with_values -%}
         {%- assign opt_down = option.name | downcase -%}
         {%- if opt_down contains 'color' or opt_down contains 'colour' -%}
           {%- for val in option.values -%}
             {%- assign val_clean = val | strip -%}
-            {%- unless all_colors contains val_clean -%}
+            {%- assign check_color = ':::' | append: val_clean | append: ':::' -%}
+            {%- unless all_colors contains check_color -%}
               {%- assign all_colors = all_colors | append: val_clean | append: ':::' -%}
             {%- endunless -%}
           {%- endfor -%}
         {%- elsif opt_down contains 'size' -%}
           {%- for val in option.values -%}
             {%- assign val_clean = val | strip -%}
-            {%- unless all_sizes contains val_clean -%}
+            {%- assign check_size = ':::' | append: val_clean | append: ':::' -%}
+            {%- unless all_sizes contains check_size -%}
               {%- assign all_sizes = all_sizes | append: val_clean | append: ':::' -%}
             {%- endunless -%}
           {%- endfor -%}
@@ -44,7 +46,26 @@
     {%- endfor -%}
 
     {%- assign color_list = all_colors | split: ':::' | uniq -%}
-    {%- assign size_list = all_sizes | split: ':::' | uniq -%}
+    {%- assign raw_size_list = all_sizes | split: ':::' | uniq -%}
+    {%- assign standard_sizes = 'XXS,XS,S,M,L,XL,XXL,2XL,3XL,4XL,FREE SIZE,ONE SIZE' | split: ',' -%}
+    {%- assign sorted_sizes = ':::' -%}
+    {%- for std in standard_sizes -%}
+      {%- for sz in raw_size_list -%}
+        {%- assign sz_up = sz | upcase | strip -%}
+        {%- if sz_up == std and sz != blank -%}
+          {%- assign sorted_sizes = sorted_sizes | append: sz | append: ':::' -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- for sz in raw_size_list -%}
+      {%- if sz != blank -%}
+        {%- assign sz_check = ':::' | append: sz | append: ':::' -%}
+        {%- unless sorted_sizes contains sz_check -%}
+          {%- assign sorted_sizes = sorted_sizes | append: sz | append: ':::' -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign size_list = sorted_sizes | split: ':::' | uniq -%}
 
     <!-- 1. SIZE FILTER (Pills) -->
     {%- if size_list.size > 0 -%}
