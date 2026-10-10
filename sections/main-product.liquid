@@ -383,59 +383,55 @@
     {%- endfor -%}
   </div>
 
-  <!-- Size Chart Modal (Signature Fit / Oversized Fit based on Collection) -->
+  <!-- Size Chart Modal (Signature Fit vs Oversized Fit per Category) -->
   {%- assign is_signature_fit = false -%}
   {%- for collection in product.collections -%}
     {%- assign col_title_down = collection.title | downcase -%}
     {%- assign col_handle_down = collection.handle | downcase -%}
-    {%- if col_title_down contains 'signature' or col_handle_down contains 'signature' -%}
+    {%- if col_title_down contains 'signature' or col_handle_down contains 'signature' or col_handle_down contains 'stitch-drop' -%}
       {%- assign is_signature_fit = true -%}
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
   {%- for tag in product.tags -%}
     {%- assign tag_down = tag | downcase -%}
-    {%- if tag_down contains 'signature' -%}
+    {%- if tag_down contains 'signature' or tag_down contains 'stitch' -%}
       {%- assign is_signature_fit = true -%}
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
+  {%- assign prod_title_down = product.title | downcase -%}
+  {%- if prod_title_down contains 'signature' -%}
+    {%- assign is_signature_fit = true -%}
+  {%- endif -%}
 
   {%- assign size_chart_img = product.metafields.custom.size_chart_image | default: settings.global_size_chart_image -%}
   <div class="size-chart-modal-overlay" id="size-chart-modal" role="dialog" aria-modal="true" aria-label="Size Chart" style="display:none;">
     <div class="size-chart-modal__backdrop" id="size-chart-modal-backdrop"></div>
     <div class="size-chart-modal__box">
       <button type="button" class="size-chart-modal__close" id="size-chart-modal-close" aria-label="Close size chart">&times;</button>
-      <h2 class="size-chart-modal__title">Size & Fit Guide</h2>
-      <p class="size-chart-modal__subtitle">Select your preferred fit silhouette to view detailed model references and measurements.</p>
+      {%- if is_signature_fit -%}
+        <h2 class="size-chart-modal__title">Signature Fit Guide</h2>
+        <p class="size-chart-modal__subtitle">All measurements tailored for our <strong>Signature Fit</strong> silhouette.</p>
+      {%- else -%}
+        <h2 class="size-chart-modal__title">Oversized Fit Guide</h2>
+        <p class="size-chart-modal__subtitle">All measurements tailored for our <strong>Oversized Fit</strong> silhouette.</p>
+      {%- endif -%}
 
       <!-- Tabs Navigation -->
       <div class="size-chart-tabs">
-        <button type="button" class="size-chart-tab-btn active" data-fit-tab="signature">
-          Signature Fit
+        <button type="button" class="size-chart-tab-btn active" data-fit-tab="visual">
+          {% if is_signature_fit %}Signature Fit{% else %}Oversized Fit{% endif %}
         </button>
-        <button type="button" class="size-chart-tab-btn" data-fit-tab="size-chart">
+        <button type="button" class="size-chart-tab-btn" data-fit-tab="chart">
           Size Chart
         </button>
       </div>
 
       <div class="size-chart-scroll-hint">⇄ Scroll horizontally to view all sizes</div>
 
-      <!-- Tab 1: Signature Fit -->
-      <div class="size-chart-pane" id="size-chart-pane-signature" style="display: block;">
-        <div class="size-chart-modal__img-wrap">
-          <img
-            src="{{ 'signature-fit.png' | asset_url }}"
-            alt="Signature Fit Size Guide"
-            class="size-chart-modal__img"
-            loading="lazy"
-            width="1200"
-          >
-        </div>
-      </div>
-
-      <!-- Tab 2: Size Chart -->
-      <div class="size-chart-pane" id="size-chart-pane-size-chart" style="display: none;">
+      <!-- Tab 1: Visual Model Guide -->
+      <div class="size-chart-pane" id="size-chart-pane-visual" style="display: block;">
         <div class="size-chart-modal__img-wrap">
           {%- if size_chart_img != blank -%}
             <img
@@ -445,14 +441,70 @@
               loading="lazy"
               width="1200"
             >
-          {%- else -%}
+          {%- elsif is_signature_fit -%}
             <img
-              src="{{ 'size-chart.png' | asset_url }}"
-              alt="Size Chart Guide"
+              src="{{ 'signature-fit.png' | asset_url }}"
+              alt="Signature Fit Size Guide"
               class="size-chart-modal__img"
               loading="lazy"
               width="1200"
             >
+          {%- else -%}
+            <img
+              src="{{ 'size-chart.png' | asset_url }}"
+              alt="Oversized Fit Size Guide"
+              class="size-chart-modal__img"
+              loading="lazy"
+              width="1200"
+            >
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Tab 2: Measurement Table -->
+      <div class="size-chart-pane" id="size-chart-pane-chart" style="display: none;">
+        <div class="size-chart-modal__table-wrap">
+          {%- if is_signature_fit -%}
+            <!-- SIGNATURE FIT TABLE -->
+            <table class="size-chart-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest Length</th>
+                  <th>Sleeve Length</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Sleeve Open</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>XL</strong></td><td>27 × 2 = 54"</td><td>19"</td><td>32"</td><td>27"</td><td>9.5"</td></tr>
+                <tr><td><strong>L</strong></td><td>25.5 × 2 = 51"</td><td>19"</td><td>31"</td><td>25"</td><td>9.5"</td></tr>
+                <tr><td><strong>M</strong></td><td>24.5 × 2 = 49"</td><td>18"</td><td>30"</td><td>24"</td><td>8.5"</td></tr>
+                <tr><td><strong>S</strong></td><td>23 × 2 = 46"</td><td>18"</td><td>29"</td><td>23"</td><td>8.5"</td></tr>
+                <tr><td><strong>XS</strong></td><td>22 × 2 = 44"</td><td>17"</td><td>29"</td><td>21.5"</td><td>8.5"</td></tr>
+              </tbody>
+            </table>
+          {%- else -%}
+            <!-- OVERSIZED FIT TABLE -->
+            <table class="size-chart-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest Length</th>
+                  <th>Sleeve Length</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Sleeve Open</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>XL</strong></td><td>28"</td><td>19.5"</td><td>29"</td><td>26"</td><td>8"</td></tr>
+                <tr><td><strong>L</strong></td><td>27"</td><td>19"</td><td>27"</td><td>26"</td><td>7.5"</td></tr>
+                <tr><td><strong>M</strong></td><td>25"</td><td>18"</td><td>28"</td><td>23"</td><td>7"</td></tr>
+                <tr><td><strong>S</strong></td><td>24"</td><td>18"</td><td>27"</td><td>22"</td><td>7"</td></tr>
+              </tbody>
+            </table>
           {%- endif -%}
         </div>
       </div>
