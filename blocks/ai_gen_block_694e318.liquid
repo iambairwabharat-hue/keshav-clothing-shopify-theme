@@ -1,0 +1,133 @@
+{% doc %}
+  @prompt
+    Create a replacement Mobile image slider block. Show exactly one image at a time on mobile. Every swipe, next/previous button press, and autoplay transition must advance by exactly one image, never two. Show every configured image in order without skipping any, including the final image, and loop back to the first image only after the last. Provide editable image pickers and support four images. Keep the design simple and responsive, with touch swiping and accessible navigation controls., i want arrows above image left and right , and want to link all images
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-mobile-slider-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    position: relative;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__viewport { overflow: hidden; width: 100%; touch-action: pan-y; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__track { display: flex; width: 100%; transition: transform 280ms ease; will-change: transform; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__slide { flex: 0 0 100%; min-width: 100%; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__slide img,
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__placeholder svg { display: block; width: 100%; height: auto; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__slide a { display: block; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__placeholder { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #f8fafc; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__placeholder svg { height: 100%; object-fit: cover; color: #64748b; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__empty { position: absolute; inset: auto 12px 12px; text-align: center; color: #475569; font-size: 14px; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__controls { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 0 0 10px; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__button { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: 0 0 40px; border: 1px solid {{ block.settings.control_color }}; border-radius: 50%; background: {{ block.settings.control_background }}; color: {{ block.settings.control_color }}; cursor: pointer; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__button:hover { background: {{ block.settings.control_color }}; color: {{ block.settings.control_background }}; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__button:focus-visible { outline: 2px solid {{ block.settings.control_color }}; outline-offset: 3px; }
+  .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__count { min-width: 3.5em; text-align: center; font-size: 14px; }
+  @media (prefers-reduced-motion: reduce) { .ai-mobile-slider-{{ ai_gen_id }} .ai-mobile-slider__track { transition: none; } }
+{% endstyle %}
+
+<mobile-image-slider-{{ ai_gen_id }} class="ai-mobile-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% assign slide_count = 0 %}
+  {% for i in (1..4) %}
+    {% assign image_key = 'image_' | append: i %}
+    {% if block.settings[image_key] != blank %}{% assign slide_count = slide_count | plus: 1 %}{% endif %}
+  {% endfor %}
+  {% if slide_count > 1 %}
+    <div class="ai-mobile-slider__controls" aria-label="Image navigation">
+      <button class="ai-mobile-slider__button" type="button" data-direction="-1" aria-label="Previous image">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <span class="ai-mobile-slider__count" aria-live="polite">1 / {{ slide_count }}</span>
+      <button class="ai-mobile-slider__button" type="button" data-direction="1" aria-label="Next image">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  {% endif %}
+  <div class="ai-mobile-slider__viewport" aria-roledescription="carousel" aria-label="Image gallery">
+    <div class="ai-mobile-slider__track">
+      {% assign current_slide = 0 %}
+      {% for i in (1..4) %}
+        {% assign image_key = 'image_' | append: i %}
+        {% assign link_key = 'image_link_' | append: i %}
+        {% assign slide_image = block.settings[image_key] %}
+        {% assign slide_link = block.settings[link_key] %}
+        {% if slide_image != blank %}
+          {% assign current_slide = current_slide | plus: 1 %}
+          <div class="ai-mobile-slider__slide" role="group" aria-roledescription="slide" aria-label="{{ current_slide }} of {{ slide_count }}" {% if current_slide > 1 %}aria-hidden="true"{% endif %}>
+            {% if slide_link != blank %}<a href="{{ slide_link }}" aria-label="Open link for image {{ current_slide }}">{% endif %}
+              <img src="{{ slide_image | image_url: width: 1800 }}" alt="{{ slide_image.alt | escape }}" width="{{ slide_image.width }}" height="{{ slide_image.height }}" loading="lazy">
+            {% if slide_link != blank %}</a>{% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% if slide_count == 0 %}
+        <div class="ai-mobile-slider__slide"><div class="ai-mobile-slider__placeholder">{{ 'image' | placeholder_svg_tag }}<div class="ai-mobile-slider__empty">Add images to build your slider</div></div></div>
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    (() => {
+      const tagName = 'mobile-image-slider-{{ ai_gen_id }}';
+      if (customElements.get(tagName)) return;
+      class MobileImageSlider extends HTMLElement {
+        connectedCallback() {
+          this.track = this.querySelector('.ai-mobile-slider__track');
+          this.slides = Array.from(this.querySelectorAll('.ai-mobile-slider__slide[role="group"]'));
+          this.count = this.querySelector('.ai-mobile-slider__count');
+          this.index = 0;
+          this.startX = null;
+          this.querySelectorAll('[data-direction]').forEach((button) => button.addEventListener('click', () => this.go(this.index + Number(button.dataset.direction))));
+          const viewport = this.querySelector('.ai-mobile-slider__viewport');
+          viewport.addEventListener('touchstart', (event) => { if (event.touches.length === 1) this.startX = event.touches[0].clientX; }, { passive: true });
+          viewport.addEventListener('touchend', (event) => {
+            if (this.startX === null || !event.changedTouches.length) return;
+            const delta = event.changedTouches[0].clientX - this.startX;
+            this.startX = null;
+            if (Math.abs(delta) > 40) this.go(this.index + (delta < 0 ? 1 : -1));
+          }, { passive: true });
+        }
+        go(nextIndex) {
+          if (this.slides.length < 2) return;
+          this.index = (nextIndex + this.slides.length) % this.slides.length;
+          this.track.style.transform = `translateX(-${this.index * 100}%)`;
+          this.slides.forEach((slide, index) => {
+            const active = index === this.index;
+            slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+            slide.querySelectorAll('a').forEach((link) => { link.tabIndex = active ? 0 : -1; });
+          });
+          if (this.count) this.count.textContent = `${this.index + 1} / ${this.slides.length}`;
+        }
+      }
+      customElements.define(tagName, MobileImageSlider);
+    })();
+  </script>
+</mobile-image-slider-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Mobile image slider",
+  "settings": [
+    { "type": "header", "content": "Images and links" },
+    { "type": "image_picker", "id": "image_1", "label": "Image 1" },
+    { "type": "url", "id": "image_link_1", "label": "Image 1 link" },
+    { "type": "image_picker", "id": "image_2", "label": "Image 2" },
+    { "type": "url", "id": "image_link_2", "label": "Image 2 link" },
+    { "type": "image_picker", "id": "image_3", "label": "Image 3" },
+    { "type": "url", "id": "image_link_3", "label": "Image 3 link" },
+    { "type": "image_picker", "id": "image_4", "label": "Image 4" },
+    { "type": "url", "id": "image_link_4", "label": "Image 4 link" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "header", "content": "Controls" },
+    { "type": "color", "id": "control_background", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "control_color", "label": "Control color", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" }
+  ],
+  "presets": [{ "name": "Mobile image slider" }],
+  "tag": null,
+  "class": "mobile-image-slider-block"
+}
+{% endschema %}

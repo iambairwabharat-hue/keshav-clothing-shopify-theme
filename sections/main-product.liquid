@@ -229,11 +229,19 @@
                           {%- endcase -%}
                         {%- endif -%}
 
+                        {%- assign matched_variant = nil -%}
+                        {%- for v in product.variants -%}
+                          {%- if v.options[option_index] == value -%}
+                            {%- assign matched_variant = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
                         <button
                           type="button"
                           class="color-swatch variant-option-btn{% if option.selected_value == value %} color-swatch--active is-active{% endif %}"
                           data-value="{{ value | escape }}"
                           data-option-index="{{ option_index }}"
+                          {% if matched_variant %}data-variant-id="{{ matched_variant.id }}"{% endif %}
                           style="{{ swatch_bg }}"
                           aria-label="{{ value | escape }}"
                           title="{{ value | escape }}"
@@ -243,11 +251,19 @@
                   {%- else -%}
                     <div class="size-options">
                       {%- for value in option.values -%}
+                        {%- assign matched_variant = nil -%}
+                        {%- for v in product.variants -%}
+                          {%- if v.options[option_index] == value -%}
+                            {%- assign matched_variant = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
                         <button
                           type="button"
                           class="size-btn variant-option-btn{% if option.selected_value == value %} size-btn--active is-active{% endif %}"
                           data-value="{{ value | escape }}"
                           data-option-index="{{ option_index }}"
+                          {% if matched_variant %}data-variant-id="{{ matched_variant.id }}"{% endif %}
                         >{{ value }}</button>
                       {%- endfor -%}
                     </div>
@@ -587,6 +603,11 @@
       <span>→</span>
     </button>
   </div>
+
+  <!-- Product JSON Data for dynamic variant switching -->
+  <script id="ProductJson-{{ section.id }}" type="application/json">
+    {{ product | json }}
+  </script>
 </section>
 
 {% schema %}

@@ -131,10 +131,15 @@
   }
 {% endstyle %}
 
+{% assign max_images = 4 %}
+{% if block.settings.show_second_slide %}
+  {% assign max_images = 8 %}
+{% endif %}
+
 <image-slider-{{ ai_gen_id }} class="ai-image-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
   <div class="ai-image-slider-container-{{ ai_gen_id }}">
     <div class="ai-image-slider-track-{{ ai_gen_id }}" data-track>
-      {% for i in (1..8) %}
+      {% for i in (1..max_images) %}
         {% assign image_key = 'image_' | append: i %}
         {% assign link_key = 'link_' | append: i %}
         {% assign image = block.settings[image_key] %}
@@ -179,32 +184,34 @@
     </div>
   </div>
 
-  <div class="ai-image-slider-controls-{{ ai_gen_id }}">
-    <button
-      class="ai-image-slider-button-{{ ai_gen_id }}"
-      data-prev
-      aria-label="Previous slide"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
+  {% if block.settings.show_second_slide %}
+    <div class="ai-image-slider-controls-{{ ai_gen_id }}">
+      <button
+        class="ai-image-slider-button-{{ ai_gen_id }}"
+        data-prev
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
 
-    <div class="ai-image-slider-dots-{{ ai_gen_id }}" data-dots>
-      <button class="ai-image-slider-dot-{{ ai_gen_id }} active" data-dot="0" aria-label="Go to slide 1"></button>
-      <button class="ai-image-slider-dot-{{ ai_gen_id }}" data-dot="1" aria-label="Go to slide 2"></button>
+      <div class="ai-image-slider-dots-{{ ai_gen_id }}" data-dots>
+        <button class="ai-image-slider-dot-{{ ai_gen_id }} active" data-dot="0" aria-label="Go to slide 1"></button>
+        <button class="ai-image-slider-dot-{{ ai_gen_id }}" data-dot="1" aria-label="Go to slide 2"></button>
+      </div>
+
+      <button
+        class="ai-image-slider-button-{{ ai_gen_id }}"
+        data-next
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
-
-    <button
-      class="ai-image-slider-button-{{ ai_gen_id }}"
-      data-next
-      aria-label="Next slide"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
-  </div>
+  {% endif %}
 </image-slider-{{ ai_gen_id }}>
 
 <script>
@@ -213,7 +220,7 @@
       constructor() {
         super();
         this.currentSlide = 0;
-        this.totalSlides = 2;
+        this.totalSlides = {{ block.settings.show_second_slide | default: false | json }} ? 2 : 1;
       }
 
       connectedCallback() {
@@ -222,8 +229,10 @@
         this.nextButton = this.querySelector('[data-next]');
         this.dots = this.querySelectorAll('[data-dot]');
 
-        this.setupEventListeners();
-        this.updateSlider();
+        if (this.totalSlides > 1 && this.prevButton && this.nextButton) {
+          this.setupEventListeners();
+          this.updateSlider();
+        }
       }
 
       setupEventListeners() {
@@ -288,16 +297,20 @@
         const slideWidth = 100;
         this.track.style.transform = `translateX(-${this.currentSlide * slideWidth}%)`;
 
-        this.prevButton.disabled = this.currentSlide === 0;
-        this.nextButton.disabled = this.currentSlide === this.totalSlides - 1;
+        if (this.prevButton && this.nextButton) {
+          this.prevButton.disabled = this.currentSlide === 0;
+          this.nextButton.disabled = this.currentSlide === this.totalSlides - 1;
+        }
 
-        this.dots.forEach((dot, index) => {
-          if (index === this.currentSlide) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
+        if (this.dots) {
+          this.dots.forEach((dot, index) => {
+            if (index === this.currentSlide) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        }
       }
     }
 
@@ -309,6 +322,13 @@
 {
   "name": "Image slider",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_second_slide",
+      "label": "Show second slide (Images 5-8)",
+      "default": false,
+      "info": "Uncheck to temporarily hide slide 2 while working on images 5 to 8."
+    },
     {
       "type": "header",
       "content": "Image 1"

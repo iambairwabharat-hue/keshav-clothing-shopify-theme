@@ -15,8 +15,8 @@
         "ai_gen_block_0e2ceb7_yyRMmT": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/banner_final_size.webp",
-            "banner_url": "shopify://collections/stitch-drop-1",
+            "banner_image": "shopify://shop_images/Cracked_but_unbroken_streetwear_trio_Fitted.png",
+            "banner_url": "shopify://collections/stitch-drop",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
@@ -33,7 +33,7 @@
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
             "banner_height": 800,
-            "mobile_banner_height": 300,
+            "mobile_banner_height": 200,
             "border_radius": 0
           },
           "blocks": {}
@@ -41,12 +41,12 @@
         "ai_gen_block_0e2ceb7_wgTJVD": {
           "type": "ai_gen_block_0e2ceb7",
           "settings": {
-            "banner_image": "shopify://shop_images/Palm_Shadows_on_a_Classic_Red_Convertible.png",
+            "banner_image": "shopify://shop_images/Red_Shirt_Vintage_Convertible_Palm_Shadows.png",
             "banner_url": "shopify://products/costal-monica",
             "open_in_new_tab": false,
             "desktop_width_percent": 100,
-            "banner_height": 800,
-            "mobile_banner_height": 300,
+            "banner_height": 700,
+            "mobile_banner_height": 200,
             "border_radius": 0
           },
           "blocks": {}
@@ -98,6 +98,13 @@
         "padding_bottom_mobile": 12
       }
     },
+    "custom_liquid_RYJKJi": {
+      "type": "custom-liquid",
+      "name": "Custom Liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"kc-gallery\" id=\"kc-gallery\">\n  <div class=\"kc-gallery-track\">\n\n    <a class=\"kc-gallery-slide\" href=\"https://keshavclothing.com/products/classic-india-wine\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/Minimalist_Full-Body_Streetwear_Portrait.png?v=1791634283\"\n           alt=\"Classic India Wine\" loading=\"eager\">\n    </a>\n\n    <a class=\"kc-gallery-slide\" href=\"https://keshavclothing.com/products/urban-nomad\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/ChatGPT_Image_Oct_9_2026_04_55_24_PM-2.png?v=1791634261\"\n           alt=\"Urban Nomad\" loading=\"lazy\">\n    </a>\n\n    <a class=\"kc-gallery-slide\" href=\"https://keshavclothing.com/products/flyhigh-street-navy\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/ChatGPT_Image_Oct_9_2026_04_55_26_PM-3.png?v=1791634239\"\n           alt=\"Flyhigh Street Navy\" loading=\"lazy\">\n    </a>\n\n    <a class=\"kc-gallery-slide\" href=\"https://keshavclothing.com/products/break-the-rules-pista\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0763/8758/2109/files/ChatGPT_Image_Oct_9_2026_04_55_23_PM-1.png?v=1791634214\"\n           alt=\"Break the Rules Pista\" loading=\"lazy\">\n    </a>\n\n  </div>\n\n  <button type=\"button\" class=\"kc-gallery-arrow kc-gallery-prev\" aria-label=\"Previous image\">\n    &#10094;\n  </button>\n\n  <button type=\"button\" class=\"kc-gallery-arrow kc-gallery-next\" aria-label=\"Next image\">\n    &#10095;\n  </button>\n\n  <div class=\"kc-gallery-dots\">\n    <button type=\"button\" class=\"kc-gallery-dot active\" aria-label=\"Go to image 1\"></button>\n    <button type=\"button\" class=\"kc-gallery-dot\" aria-label=\"Go to image 2\"></button>\n    <button type=\"button\" class=\"kc-gallery-dot\" aria-label=\"Go to image 3\"></button>\n    <button type=\"button\" class=\"kc-gallery-dot\" aria-label=\"Go to image 4\"></button>\n  </div>\n</div>\n\n<style>\n  /* Main gallery */\n  #kc-gallery {\n    position: relative;\n    width: 100%;\n    overflow: hidden;\n    background: #fff;\n    box-sizing: border-box;\n  }\n\n  #kc-gallery * {\n    box-sizing: border-box;\n  }\n\n  /* Desktop: all four images */\n  #kc-gallery .kc-gallery-track {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(0, 1fr));\n    gap: 10px;\n    width: 100%;\n  }\n\n  #kc-gallery .kc-gallery-slide {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    min-width: 0;\n    overflow: hidden;\n    background: #fff;\n  }\n\n  #kc-gallery .kc-gallery-slide img {\n    display: block;\n    width: 100%;\n    height: auto;\n    max-width: 100%;\n    object-fit: contain;\n    object-position: center;\n  }\n\n  /* Hide mobile navigation on desktop */\n  #kc-gallery .kc-gallery-arrow,\n  #kc-gallery .kc-gallery-dots {\n    display: none;\n  }\n\n  /* Mobile slider */\n  @media screen and (max-width: 749px) {\n    #kc-gallery {\n      width: 100%;\n      overflow: hidden;\n    }\n\n    #kc-gallery .kc-gallery-track {\n      display: flex;\n      gap: 0;\n      width: 100%;\n      transition: transform 0.35s ease;\n      touch-action: pan-y;\n    }\n\n    #kc-gallery .kc-gallery-slide {\n      flex: 0 0 100%;\n      width: 100%;\n      min-width: 100%;\n      overflow: visible;\n    }\n\n    #kc-gallery .kc-gallery-slide img {\n      display: block;\n      width: 100%;\n      height: auto;\n      max-width: 100%;\n      object-fit: contain;\n      object-position: center;\n    }\n\n    /* Navigation positioned over the image */\n    #kc-gallery .kc-gallery-arrow {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      position: absolute;\n      top: 50%;\n      transform: translateY(-50%);\n      z-index: 5;\n      width: 36px;\n      height: 36px;\n      padding: 0;\n      border: none;\n      border-radius: 50%;\n      background: rgba(255, 255, 255, 0.88);\n      color: #111;\n      font-size: 17px;\n      line-height: 1;\n      cursor: pointer;\n    }\n\n    #kc-gallery .kc-gallery-prev {\n      left: 10px;\n    }\n\n    #kc-gallery .kc-gallery-next {\n      right: 10px;\n    }\n\n    /* Dots over the bottom of the image */\n    #kc-gallery .kc-gallery-dots {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      gap: 8px;\n      position: absolute;\n      z-index: 5;\n      bottom: 12px;\n      left: 50%;\n      transform: translateX(-50%);\n    }\n\n    #kc-gallery .kc-gallery-dot {\n      width: 7px;\n      height: 7px;\n      min-width: 7px;\n      padding: 0;\n      border: none;\n      border-radius: 50%;\n      background: rgba(255, 255, 255, 0.7);\n      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);\n      cursor: pointer;\n    }\n\n    #kc-gallery .kc-gallery-dot.active {\n      background: #111;\n      outline: 1px solid #fff;\n    }\n  }\n</style>\n\n<script>\n(function () {\n  const gallery = document.getElementById('kc-gallery');\n  if (!gallery || gallery.dataset.ready === 'true') return;\n  gallery.dataset.ready = 'true';\n\n  const track = gallery.querySelector('.kc-gallery-track');\n  const slides = Array.from(gallery.querySelectorAll('.kc-gallery-slide'));\n  const dots = Array.from(gallery.querySelectorAll('.kc-gallery-dot'));\n  const prev = gallery.querySelector('.kc-gallery-prev');\n  const next = gallery.querySelector('.kc-gallery-next');\n\n  let current = 0;\n  let startX = 0;\n  let endX = 0;\n\n  function mobile() {\n    return window.matchMedia('(max-width: 749px)').matches;\n  }\n\n  function render() {\n    if (mobile()) {\n      track.style.transform =\n        'translateX(-' + (current * 100) + '%)';\n    } else {\n      track.style.transform = 'none';\n    }\n\n    dots.forEach(function (dot, i) {\n      dot.classList.toggle('active', i === current);\n      dot.setAttribute('aria-current', i === current ? 'true' : 'false');\n    });\n\n    prev.style.display = mobile() ? 'flex' : 'none';\n    next.style.display = mobile() ? 'flex' : 'none';\n  }\n\n  function goTo(index) {\n    current = (index + slides.length) % slides.length;\n    render();\n  }\n\n  prev.addEventListener('click', function () {\n    goTo(current - 1);\n  });\n\n  next.addEventListener('click', function () {\n    goTo(current + 1);\n  });\n\n  dots.forEach(function (dot, i) {\n    dot.addEventListener('click', function () {\n      goTo(i);\n    });\n  });\n\n  gallery.addEventListener('touchstart', function (event) {\n    if (!mobile()) return;\n    startX = event.touches[0].clientX;\n    endX = startX;\n  }, { passive: true });\n\n  gallery.addEventListener('touchmove', function (event) {\n    if (!mobile()) return;\n    endX = event.touches[0].clientX;\n  }, { passive: true });\n\n  gallery.addEventListener('touchend', function () {\n    const distance = endX - startX;\n\n    if (mobile() && Math.abs(distance) > 45) {\n      goTo(current + (distance < 0 ? 1 : -1));\n    }\n\n    startX = 0;\n    endX = 0;\n  });\n\n  window.addEventListener('resize', render);\n  render();\n})();\n</script>"
+      }
+    },
     "featured_collection_8rMa6H": {
       "type": "featured-collection",
       "disabled": true,
@@ -134,15 +141,17 @@
       "blocks": {
         "ai_gen_block_1389863_6ciCpB": {
           "type": "ai_gen_block_1389863",
+          "disabled": true,
           "settings": {
-            "image_1": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_8.webp",
-            "link_1": "shopify://products/brake-the-rules-green",
-            "image_2": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_5.webp",
-            "link_2": "shopify://products/memory-tee-black",
-            "image_3": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_1.webp",
-            "link_3": "",
-            "image_4": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_7.webp",
-            "link_4": "shopify://products/chase-freedom",
+            "show_second_slide": true,
+            "image_1": "shopify://shop_images/ChatGPT_Image_Oct_9_2026_04_55_23_PM-1.png",
+            "link_1": "shopify://products/break-the-rules-pista",
+            "image_2": "shopify://shop_images/ChatGPT_Image_Oct_9_2026_04_55_26_PM-3.png",
+            "link_2": "shopify://products/flyhigh-street-navy",
+            "image_3": "shopify://shop_images/ChatGPT_Image_Oct_9_2026_04_55_24_PM-2.png",
+            "link_3": "shopify://products/urban-nomad",
+            "image_4": "shopify://shop_images/Minimalist_Full-Body_Streetwear_Portrait.png",
+            "link_4": "shopify://products/classic-india-wine",
             "image_5": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_6.webp",
             "link_5": "shopify://products/skate-more",
             "image_6": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_2.webp",
@@ -165,6 +174,7 @@
         },
         "ai_gen_block_f751617_KnRL6i": {
           "type": "ai_gen_block_f751617",
+          "disabled": true,
           "settings": {
             "image_1": "shopify://shop_images/2ND_VARIATION_9TH_LOOK_c6e40bbc-733d-4452-abbb-b6c9286448b6_2.webp",
             "link_1": "",
@@ -245,6 +255,7 @@
         "reel_yxeMB8",
         "reel_weJjPq"
       ],
+      "disabled": true,
       "custom_css": [
         ".video-reels-track {place-content: center !important;}"
       ],
@@ -421,11 +432,16 @@
         "instafeed_app_block_CKwUgU"
       ],
       "settings": {}
+    },
+    "17916935651cac8492": {
+      "type": "_blocks",
+      "settings": {}
     }
   },
   "order": [
     "17878119536b2d41cd",
     "marquee_ticker_BjFXjt",
+    "custom_liquid_RYJKJi",
     "featured_collection_8rMa6H",
     "178782168788a2c7f7",
     "video_reels_wcULUt",
@@ -433,6 +449,7 @@
     "collection_tabs_z68UbY",
     "marquee_ticker_riFPxC",
     "ugc_gallery_4YPM9m",
-    "1791535836c1b96cab"
+    "1791535836c1b96cab",
+    "17916935651cac8492"
   ]
 }
