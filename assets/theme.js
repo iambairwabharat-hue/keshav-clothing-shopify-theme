@@ -1257,8 +1257,13 @@ document.addEventListener('DOMContentLoaded', () => {
                   size = i.variant_title;
                 }
 
+                var prodUrl = i.url || (i.handle ? '/products/' + i.handle : '');
+
                 return {
                   id: i.variant_id || i.id,
+                  prodId: i.product_id || '',
+                  handle: i.handle || '',
+                  url: prodUrl,
                   key: i.key,
                   title: i.product_title || i.title,
                   price: (i.price / 100).toFixed(2),
@@ -1303,9 +1308,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const existing = this.items.find(i => String(i.id) === String(newItem.id) && i.color === newItem.color && i.size === newItem.size);
       if (existing) {
         existing.quantity = (existing.quantity || 1) + (newItem.quantity || 1);
+        if (newItem.url && !existing.url) existing.url = newItem.url;
       } else {
         this.items.push({
           id: newItem.id,
+          prodId: newItem.prodId || '',
+          handle: newItem.handle || '',
+          url: newItem.url || (newItem.handle ? '/products/' + newItem.handle : ''),
           title: newItem.title,
           price: newItem.price,
           image: newItem.image,
@@ -1323,6 +1332,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // 1. Instant optimistic add to local drawer
       this.addItem({
         id: variantId || details.id || Date.now(),
+        prodId: details.prodId || '',
+        handle: details.handle || '',
+        url: details.url || (details.handle ? '/products/' + details.handle : ''),
         title: details.title || 'Streetwear Piece',
         price: details.price || 59.99,
         image: details.image || '',
@@ -1438,13 +1450,29 @@ document.addEventListener('DOMContentLoaded', () => {
               variantDisplay = item.color;
             }
 
+            // Resolve safe product URL — NEVER link to numeric variant ID like /products/48862448025757!
+            let itemUrl = item.url || '';
+            if (itemUrl && /\/products\/\d+(\?.*)?$/.test(itemUrl)) {
+              itemUrl = item.handle ? `/products/${item.handle}` : '';
+            }
+            if (!itemUrl && item.handle) {
+              itemUrl = `/products/${item.handle}`;
+            }
+            if (!itemUrl && item.title) {
+              const handleFallback = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              itemUrl = `/products/${handleFallback}`;
+            }
+            if (itemUrl && item.id && !itemUrl.includes('variant=')) {
+              itemUrl += (itemUrl.includes('?') ? '&' : '?') + 'variant=' + item.id;
+            }
+
             return `
             <div class="side-cart-item">
-              <div class="side-cart-item__thumb"><img src="${item.image}" alt="${item.title}"></div>
+              <a href="${itemUrl || '#'}" class="side-cart-item__thumb"><img src="${item.image}" alt="${item.title}"></a>
               <div class="side-cart-item__info">
                 <div>
                   <div class="side-cart-item__top">
-                    <a href="${item.url || '/products/' + (item.prodId || item.id)}" class="side-cart-item__title">${item.title}</a>
+                    <a href="${itemUrl || '#'}" class="side-cart-item__title">${item.title}</a>
                     <button type="button" class="side-cart-item-remove" onclick="window.SideCart.removeItem(${idx})" aria-label="Remove">Remove</button>
                   </div>
                   ${variantDisplay ? `<div class="side-cart-item__variant">${variantDisplay}</div>` : ''}
@@ -1526,8 +1554,17 @@ document.addEventListener('DOMContentLoaded', () => {
           const qtyInput = document.querySelector('[data-qty-value]');
           const qty = qtyInput ? (parseInt(qtyInput.value || qtyInput.textContent) || 1) : 1;
 
+          const prodUrl = window.location.pathname.startsWith('/products/')
+            ? (window.location.pathname + (variantId ? '?variant=' + variantId : ''))
+            : '';
+          const prodHandle = window.location.pathname.startsWith('/products/')
+            ? window.location.pathname.split('/').pop().split('?')[0]
+            : '';
+
           this.addShopifyItem(variantId, {
             id: variantId || 1,
+            url: prodUrl,
+            handle: prodHandle,
             title,
             price,
             image,
@@ -1696,8 +1733,13 @@ document.addEventListener('DOMContentLoaded', () => {
                   size = i.variant_title;
                 }
 
+                var prodUrl = i.url || (i.handle ? '/products/' + i.handle : '');
+
                 return {
                   id: i.variant_id || i.id,
+                  prodId: i.product_id || '',
+                  handle: i.handle || '',
+                  url: prodUrl,
                   key: i.key,
                   title: i.product_title || i.title,
                   price: (i.price / 100).toFixed(2),
@@ -1916,6 +1958,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const prodTitle = sizeBtn.getAttribute('data-product-title') || 'Luxury Streetwear';
         const price = parseFloat(sizeBtn.getAttribute('data-price')) || 59.99;
         const image = sizeBtn.getAttribute('data-image') || '';
+        const cardEl = sizeBtn.closest('.product-card, .farak-card, [data-product-id]');
+        const cardLink = cardEl ? (cardEl.querySelector('a[href*="/products/"]')?.getAttribute('href') || '') : '';
 
         // Close overlay immediately
         const overlay = sizeBtn.closest('.card-quick-overlay');
@@ -1925,6 +1969,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.SideCart) {
           window.SideCart.addShopifyItem(variantId, {
             id: prodId || variantId,
+            url: cardLink,
             title: prodTitle,
             price: price,
             image: image,
@@ -2158,10 +2203,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = addPieceBtn.getAttribute('data-product-title') || 'Archival Streetwear';
         const price = parseFloat(addPieceBtn.getAttribute('data-price')) || 59.99;
         const image = addPieceBtn.getAttribute('data-image');
+        const cardLink = card ? (card.querySelector('a[href*="/products/"]')?.getAttribute('href') || '') : '';
 
         if (window.SideCart) {
           window.SideCart.addShopifyItem(variantId, {
             id: prodId || variantId,
+            url: cardLink,
             title,
             price,
             image,
@@ -2494,6 +2541,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addBtn.disabled = true;
 
             window.SideCart.addShopifyItem(variantId, {
+              url: recentUrl || '',
               title: title,
               price: price,
               image: image,
