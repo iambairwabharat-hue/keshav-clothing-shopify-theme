@@ -142,10 +142,17 @@
     <p style="font-size: 15px; color: #737373; margin-bottom: 32px;">No results found for "{{ search.terms | escape }}". Check your spelling or explore popular categories below.</p>
     
     <div class="search-trending__pills" style="justify-content: center; margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 10px;">
-      <a href="{{ routes.collections_url }}/hoodies" class="search-pill" style="text-decoration: none;">Heavyweight Hoodies</a>
-      <a href="{{ routes.collections_url }}/jackets" class="search-pill" style="text-decoration: none;">Statement Jackets</a>
-      <a href="{{ routes.collections_url }}/tees" class="search-pill" style="text-decoration: none;">Graphic Tees</a>
-      <a href="{{ routes.all_products_collection_url }}" class="search-pill" style="text-decoration: none;">All Releases</a>
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' or collection.handle == 'all' -%}
+          <a href="{{ collection.url }}" class="search-pill" style="text-decoration: none;">{{ collection.title | escape }}</a>
+        {%- endunless -%}
+        {%- if forloop.index >= 5 -%}{%- break -%}{%- endif -%}
+      {%- else -%}
+        <a href="{{ routes.collections_url }}/graphic-drop" class="search-pill" style="text-decoration: none;">Graphic Drop</a>
+        <a href="{{ routes.collections_url }}/stitch-drop" class="search-pill" style="text-decoration: none;">Stitch Drop</a>
+        <a href="{{ routes.collections_url }}/hybrid-drop" class="search-pill" style="text-decoration: none;">Hybrid Drop</a>
+        <a href="{{ routes.all_products_collection_url }}" class="search-pill" style="text-decoration: none;">All Drops</a>
+      {%- endfor -%}
     </div>
 
     <a href="{{ routes.all_products_collection_url }}" class="btn-search-view-all" style="display: inline-block;">Browse Full Collection &rarr;</a>

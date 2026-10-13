@@ -381,15 +381,35 @@
     <!-- Live Predictive Search Dropdown attached directly beneath Header -->
     <div class="header-search-dropdown" id="header-search-dropdown" style="display: none;">
       <div class="header-search-dropdown__inner">
-        <!-- Trending Searches -->
+        <!-- Popular Categories & Drops -->
         <div class="header-search-trending" id="header-search-trending">
-          <span class="header-search-dropdown__title">Trending Searches</span>
+          <span class="header-search-dropdown__title">Popular Collections & Categories</span>
           <div class="header-search-trending__pills">
-            <button type="button" class="header-search-pill" data-query="450GSM Hoodie">450GSM Hoodie</button>
-            <button type="button" class="header-search-pill" data-query="Heavyweight Tee">Heavyweight Tee</button>
-            <button type="button" class="header-search-pill" data-query="Cargo Pants">Cargo Pants</button>
-            <button type="button" class="header-search-pill" data-query="Oversized Fit">Oversized Fit</button>
-            <button type="button" class="header-search-pill" data-query="Vintage Black">Vintage Black</button>
+            {%- if section.settings.search_trending_keywords != blank -%}
+              {%- assign trending_tags = section.settings.search_trending_keywords | split: ',' -%}
+              {%- for tag in trending_tags -%}
+                {%- assign tag_clean = tag | strip -%}
+                {%- if tag_clean != blank -%}
+                  <button type="button" class="header-search-pill" data-query="{{ tag_clean | escape }}">{{ tag_clean | escape }}</button>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- assign pills_count = 0 -%}
+              {%- for collection in collections -%}
+                {%- unless collection.handle == 'frontpage' or collection.handle == 'all' -%}
+                  <button type="button" class="header-search-pill" data-query="{{ collection.title | escape }}">{{ collection.title | escape }}</button>
+                  {%- assign pills_count = pills_count | plus: 1 -%}
+                {%- endunless -%}
+                {%- if pills_count >= 8 -%}{%- break -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if pills_count == 0 -%}
+                <button type="button" class="header-search-pill" data-query="Graphic Drop">Graphic Drop</button>
+                <button type="button" class="header-search-pill" data-query="Stitch Drop">Stitch Drop</button>
+                <button type="button" class="header-search-pill" data-query="Hybrid Drop">Hybrid Drop</button>
+                <button type="button" class="header-search-pill" data-query="New Drops">New Drops</button>
+                <button type="button" class="header-search-pill" data-query="Tee">Tee</button>
+              {%- endif -%}
+            {%- endif -%}
           </div>
         </div>
 
@@ -404,7 +424,7 @@
         <!-- Zero Results Empty State -->
         <div class="header-search-empty" id="header-search-empty" style="display: none;">
           <p class="header-search-empty__text">No garments found matching "<span id="header-search-query-display"></span>".</p>
-          <p class="header-search-empty__sub">Try searching for keywords like "Hoodie", "Fleece", "Cargo", or "Black".</p>
+          <p class="header-search-empty__sub">Try searching for keywords like "Graphic", "Stitch", "Tee", or "Drop".</p>
         </div>
       </div>
     </div>
@@ -792,6 +812,17 @@
       "id": "account_link",
       "label": "Account Link Override (Optional)",
       "info": "Leave blank for Shopify default, or set to /account to open theme portal."
+    },
+    {
+      "type": "header",
+      "content": "Header Search Settings"
+    },
+    {
+      "type": "text",
+      "id": "search_trending_keywords",
+      "label": "Trending Search Keywords / Categories",
+      "default": "Graphic Drop, Stitch Drop, Hybrid Drop, New Drops, Oversized Tee",
+      "info": "Comma-separated list of categories / search terms. Leave blank to automatically pull from store collections."
     }
   ]
 }

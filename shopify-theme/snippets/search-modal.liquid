@@ -31,23 +31,38 @@
       <!-- Default Trending Suggestions (Shown before typing) -->
       <div class="search-trending" id="search-trending">
         <div class="search-trending__section">
-          <span class="search-trending__title">Trending Searches</span>
+          <span class="search-trending__title">Popular Categories</span>
           <div class="search-trending__pills">
-            <button type="button" class="search-pill" data-query="450GSM Hoodie">450GSM Hoodie</button>
-            <button type="button" class="search-pill" data-query="Heavyweight Tee">Heavyweight Tee</button>
-            <button type="button" class="search-pill" data-query="Cargo Pants">Cargo Pants</button>
-            <button type="button" class="search-pill" data-query="Oversized Fit">Oversized Fit</button>
-            <button type="button" class="search-pill" data-query="Vintage Black">Vintage Black</button>
+            {%- assign p_count = 0 -%}
+            {%- for collection in collections -%}
+              {%- unless collection.handle == 'frontpage' or collection.handle == 'all' -%}
+                <button type="button" class="search-pill" data-query="{{ collection.title | escape }}">{{ collection.title | escape }}</button>
+                {%- assign p_count = p_count | plus: 1 -%}
+              {%- endunless -%}
+              {%- if p_count >= 6 -%}{%- break -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if p_count == 0 -%}
+              <button type="button" class="search-pill" data-query="Graphic Drop">Graphic Drop</button>
+              <button type="button" class="search-pill" data-query="Stitch Drop">Stitch Drop</button>
+              <button type="button" class="search-pill" data-query="Hybrid Drop">Hybrid Drop</button>
+              <button type="button" class="search-pill" data-query="New Drops">New Drops</button>
+            {%- endif -%}
           </div>
         </div>
 
         <div class="search-trending__section">
           <span class="search-trending__title">Quick Collections</span>
           <div class="search-trending__collections">
-            <a href="{{ routes.collections_url }}/hoodies" class="search-collection-link">Heavyweight Hoodies →</a>
-            <a href="{{ routes.collections_url }}/jackets" class="search-collection-link">Statement Jackets →</a>
-            <a href="{{ routes.collections_url }}/tees" class="search-collection-link">Graphic & Boxy Tees →</a>
-            <a href="{{ routes.all_products_collection_url }}" class="search-collection-link">Archive Vault Releases →</a>
+            {%- for collection in collections -%}
+              {%- unless collection.handle == 'frontpage' or collection.handle == 'all' -%}
+                <a href="{{ collection.url }}" class="search-collection-link">{{ collection.title | escape }} →</a>
+              {%- endunless -%}
+              {%- if forloop.index >= 5 -%}{%- break -%}{%- endif -%}
+            {%- else -%}
+              <a href="{{ routes.collections_url }}/graphic-drop" class="search-collection-link">Graphic Drop →</a>
+              <a href="{{ routes.collections_url }}/stitch-drop" class="search-collection-link">Stitch Drop →</a>
+              <a href="{{ routes.all_products_collection_url }}" class="search-collection-link">All Collections →</a>
+            {%- endfor -%}
           </div>
         </div>
       </div>
