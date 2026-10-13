@@ -37,6 +37,256 @@
       color: #000000 !important;
     }
   {%- endif -%}
+
+  /* Header Search Bar Styles */
+  .header-search-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 64px;
+    background: inherit;
+    z-index: 100005;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    display: none;
+    align-items: center;
+  }
+  .header--theme-light .header-search-bar {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .header--theme-dark .header-search-bar {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+  .header-search-bar__inner {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .header-search-bar__form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+  }
+  .header-search-bar__icon {
+    display: flex;
+    align-items: center;
+    color: inherit;
+    flex-shrink: 0;
+  }
+  .header-search-bar__input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    color: inherit;
+    outline: none;
+    padding: 10px 0;
+  }
+  .header-search-bar__input::placeholder {
+    color: #888888;
+  }
+  .header-search-bar__clear {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #737373;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+  }
+  .header-search-bar__close {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid currentColor;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: inherit;
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+  }
+  .header-search-bar__close:hover {
+    opacity: 0.7;
+  }
+
+  /* Header Live Dropdown */
+  .header-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 100004;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .header--theme-light .header-search-dropdown {
+    background: #ffffff !important;
+    color: #171717 !important;
+    border-color: #e5e5e5 !important;
+  }
+  .header--theme-dark .header-search-dropdown {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #262626 !important;
+  }
+  .header-search-dropdown__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 24px 32px;
+  }
+  .header-search-dropdown__title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #737373;
+    margin-bottom: 14px;
+  }
+  .header-search-trending__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .header-search-pill {
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #171717;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .header--theme-dark .header-search-pill {
+    background: #1c1c1c;
+    border-color: #333333;
+    color: #ffffff;
+  }
+  .header-search-pill:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+  .header--theme-dark .header-search-pill:hover {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .header-search-results__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .header-search-card {
+    display: flex;
+    gap: 12px;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+  .header--theme-dark .header-search-card {
+    background: #171717;
+    border-color: #262626;
+    color: #ffffff;
+  }
+  .header-search-card:hover {
+    border-color: currentColor;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+  .header-search-card__img {
+    width: 60px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #e5e5e5;
+    flex-shrink: 0;
+  }
+  .header-search-card__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+  .header-search-card__title {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+  }
+  .header-search-card__price {
+    font-size: 13px;
+    font-weight: 700;
+    color: inherit;
+  }
+  .header-search-results__footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .header-search-view-all {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 24px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+  .header-search-view-all:hover {
+    background: currentColor;
+    color: #ffffff;
+  }
+  .header-search-empty {
+    padding: 30px 0;
+    text-align: center;
+  }
+  .header-search-empty__text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .header-search-empty__sub {
+    font-size: 13px;
+    color: #737373;
+  }
+  .header-search-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99990;
+  }
 </style>
 
 <header class="header header--theme-{{ section.settings.header_color_scheme | default: 'light' }} header--desktop-{{ section.settings.desktop_menu_type }}{% if section.settings.enable_sticky_header %} header--sticky{% endif %}" id="header">
@@ -81,9 +331,9 @@
     </a>
 
     <div class="header-icons">
-      <a href="{{ routes.search_url }}" class="header-icon" aria-label="Search">
+      <button type="button" class="header-icon header-icon--search" id="header-search-btn" aria-label="Search products" data-search-trigger style="background: transparent; border: none; cursor: pointer;">
         {% render 'icon', icon: 'search' %}
-      </a>
+      </button>
       {%- if customer -%}
         {%- assign account_target = routes.account_url -%}
       {%- else -%}
@@ -101,7 +351,67 @@
       </button>
     </div>
   </div>
+
+  <!-- Integrated Header Search Bar -->
+  <div class="header-search-bar" id="header-search-bar" style="display: none;">
+    <div class="header-search-bar__inner">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="header-search-bar__form" id="header-search-bar-form">
+        <span class="header-search-bar__icon">
+          {% render 'icon', icon: 'search' %}
+        </span>
+        <input
+          type="search"
+          name="q"
+          id="header-search-bar-input"
+          class="header-search-bar__input"
+          placeholder="Search collections, heavyweights, silhouettes..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+        <button type="button" class="header-search-bar__clear" id="header-search-bar-clear" aria-label="Clear search input" style="display: none;">&times;</button>
+        <button type="button" class="header-search-bar__close" id="header-search-bar-close" aria-label="Close search">
+          {% render 'icon', icon: 'close' %}
+          <span>Close</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Live Predictive Search Dropdown attached directly beneath Header -->
+    <div class="header-search-dropdown" id="header-search-dropdown" style="display: none;">
+      <div class="header-search-dropdown__inner">
+        <!-- Trending Searches -->
+        <div class="header-search-trending" id="header-search-trending">
+          <span class="header-search-dropdown__title">Trending Searches</span>
+          <div class="header-search-trending__pills">
+            <button type="button" class="header-search-pill" data-query="450GSM Hoodie">450GSM Hoodie</button>
+            <button type="button" class="header-search-pill" data-query="Heavyweight Tee">Heavyweight Tee</button>
+            <button type="button" class="header-search-pill" data-query="Cargo Pants">Cargo Pants</button>
+            <button type="button" class="header-search-pill" data-query="Oversized Fit">Oversized Fit</button>
+            <button type="button" class="header-search-pill" data-query="Vintage Black">Vintage Black</button>
+          </div>
+        </div>
+
+        <!-- Live Dynamic Results Grid -->
+        <div class="header-search-results" id="header-search-results" style="display: none;">
+          <div class="header-search-results__grid" id="header-search-results-grid"></div>
+          <div class="header-search-results__footer">
+            <a href="#" class="header-search-view-all" id="header-search-view-all">View all matching pieces &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Zero Results Empty State -->
+        <div class="header-search-empty" id="header-search-empty" style="display: none;">
+          <p class="header-search-empty__text">No garments found matching "<span id="header-search-query-display"></span>".</p>
+          <p class="header-search-empty__sub">Try searching for keywords like "Hoodie", "Fleece", "Cargo", or "Black".</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
+
+<div class="header-search-backdrop" id="header-search-backdrop" style="display: none;"></div>
 
 <!-- Mobile Nav Drawer -->
 <div class="mobile-backdrop" id="mobile-backdrop"></div>
@@ -113,6 +423,12 @@
     </button>
   </div>
   <div class="mobile-nav__links">
+    <div class="mobile-nav__search" style="padding: 10px 0 16px; border-bottom: 1px solid var(--color-gray-200, #e5e5e5);">
+      <button type="button" class="mobile-search-btn" data-search-trigger style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 6px; font-size: 13px; font-weight: 600; color: #737373; cursor: pointer; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;">
+        {% render 'icon', icon: 'search' %}
+        <span>Search products...</span>
+      </button>
+    </div>
     {%- for link in section.settings.menu_linklist.links -%}
       <a href="{{ link.url }}" class="mobile-nav__link" style="color: #171717 !important;">{{ link.title | escape }}</a>
       {%- if link.links.size > 0 -%}
@@ -129,6 +445,263 @@
     <a href="{{ account_target }}" class="mobile-nav__link" style="color: #171717 !important;">My Account / Portal</a>
   </div>
 </nav>
+
+<script>
+(function() {
+  function setupHeaderSearch() {
+    var searchBtn = document.getElementById('header-search-btn');
+    var searchBar = document.getElementById('header-search-bar');
+    var searchBackdrop = document.getElementById('header-search-backdrop');
+    var searchInput = document.getElementById('header-search-bar-input');
+    var searchForm = document.getElementById('header-search-bar-form');
+    var searchClear = document.getElementById('header-search-bar-clear');
+    var searchClose = document.getElementById('header-search-bar-close');
+    var trendingBox = document.getElementById('header-search-trending');
+    var dropdown = document.getElementById('header-search-dropdown');
+    var resultsBox = document.getElementById('header-search-results');
+    var resultsGrid = document.getElementById('header-search-results-grid');
+    var emptyState = document.getElementById('header-search-empty');
+    var queryDisplay = document.getElementById('header-search-query-display');
+    var viewAllBtn = document.getElementById('header-search-view-all');
+
+    if (!searchBar) return;
+
+    function openHeaderSearch() {
+      searchBar.classList.add('header-search-bar--active');
+      searchBar.style.display = 'flex';
+      if (searchBackdrop) searchBackdrop.style.display = 'block';
+      if (dropdown) dropdown.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() {
+        if (searchInput) {
+          searchInput.focus();
+          if (searchInput.value.trim().length >= 2) {
+            performHeaderSearch(searchInput.value.trim());
+          }
+        }
+      }, 100);
+    }
+
+    function closeHeaderSearch() {
+      searchBar.classList.remove('header-search-bar--active');
+      searchBar.style.display = 'none';
+      if (searchBackdrop) searchBackdrop.style.display = 'none';
+      if (dropdown) dropdown.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    window.openHeaderSearch = openHeaderSearch;
+    window.closeHeaderSearch = closeHeaderSearch;
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (searchBar.classList.contains('header-search-bar--active') || searchBar.style.display === 'flex' || searchBar.style.display === 'block') {
+          closeHeaderSearch();
+        } else {
+          openHeaderSearch();
+        }
+      });
+    }
+
+    // Attach to any search triggers across header, mobile drawer, etc.
+    document.querySelectorAll('[data-search-trigger]').forEach(function(el) {
+      if (el === searchBtn) return;
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        var mobileNav = document.getElementById('mobile-nav');
+        var mobileBackdrop = document.getElementById('mobile-backdrop');
+        if (mobileNav) mobileNav.classList.remove('mobile-nav--open');
+        if (mobileBackdrop) mobileBackdrop.classList.remove('mobile-backdrop--active');
+        openHeaderSearch();
+      });
+    });
+
+    if (searchClose) {
+      searchClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeHeaderSearch();
+      });
+    }
+
+    if (searchBackdrop) {
+      searchBackdrop.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeHeaderSearch();
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && (searchBar.classList.contains('header-search-bar--active') || searchBar.style.display === 'flex' || searchBar.style.display === 'block')) {
+        closeHeaderSearch();
+      }
+      if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement && document.activeElement.tagName)) {
+        e.preventDefault();
+        openHeaderSearch();
+      }
+    });
+
+    if (searchClear && searchInput) {
+      searchClear.addEventListener('click', function(e) {
+        e.preventDefault();
+        searchInput.value = '';
+        searchClear.style.display = 'none';
+        if (trendingBox) trendingBox.style.display = 'block';
+        if (resultsBox) resultsBox.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
+        searchInput.focus();
+      });
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', function(e) {
+        if (!searchInput || !searchInput.value.trim()) {
+          e.preventDefault();
+        }
+      });
+    }
+
+    document.querySelectorAll('.header-search-pill').forEach(function(pill) {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        var q = pill.getAttribute('data-query') || pill.textContent.trim();
+        if (searchInput) {
+          searchInput.value = q;
+          performHeaderSearch(q);
+          searchInput.focus();
+        }
+      });
+    });
+
+    var timer;
+    function performHeaderSearch(rawQuery) {
+      var query = (rawQuery || '').trim();
+      if (searchClear) searchClear.style.display = query.length > 0 ? 'block' : 'none';
+
+      if (query.length < 2) {
+        if (trendingBox) trendingBox.style.display = 'block';
+        if (resultsBox) resultsBox.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
+        return;
+      }
+
+      if (trendingBox) trendingBox.style.display = 'none';
+
+      var url = '/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product&resources[limit]=8&resources[options][unavailable_products]=show';
+
+      fetch(url)
+        .then(function(res) {
+          if (!res.ok) throw new Error('Status: ' + res.status);
+          return res.json();
+        })
+        .then(function(data) {
+          var products = (data && data.resources && data.resources.results && data.resources.results.products) || [];
+          renderResults(products, query);
+        })
+        .catch(function() {
+          var results = [];
+          var allProducts = [];
+          if (window.StoreData && typeof StoreData.getProducts === 'function') {
+            allProducts = StoreData.getProducts();
+          } else if (window.StoreData && Array.isArray(StoreData.products)) {
+            allProducts = StoreData.products;
+          }
+          if (allProducts && allProducts.length > 0) {
+            results = allProducts.filter(function(p) {
+              return (p.title && p.title.toLowerCase().indexOf(query.toLowerCase()) !== -1) ||
+                     (p.category && p.category.toLowerCase().indexOf(query.toLowerCase()) !== -1) ||
+                     (p.tags && p.tags.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+            });
+          }
+          renderResults(results, query);
+        });
+    }
+
+    function renderResults(products, query) {
+      if (viewAllBtn) {
+        viewAllBtn.href = '/search?q=' + encodeURIComponent(query);
+        viewAllBtn.textContent = 'View all matching pieces (' + products.length + ') →';
+      }
+
+      if (!products || products.length === 0) {
+        if (resultsBox) resultsBox.style.display = 'none';
+        if (emptyState) {
+          emptyState.style.display = 'block';
+          if (queryDisplay) queryDisplay.textContent = query;
+        }
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+      if (resultsBox) resultsBox.style.display = 'block';
+
+      if (resultsGrid) {
+        resultsGrid.innerHTML = products.slice(0, 8).map(function(p) {
+          var img = (typeof p.image === 'string' ? p.image : p.image && p.image.url) ||
+                    (typeof p.featured_image === 'string' ? p.featured_image : p.featured_image && p.featured_image.url) ||
+                    (p.images && p.images[0] && (typeof p.images[0] === 'string' ? p.images[0] : p.images[0].url || p.images[0].src)) ||
+                    (p.featured_media && p.featured_media.url) ||
+                    'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300';
+          var title = p.title || 'Streetwear Garment';
+
+          var price = '';
+          if (p.price_current) {
+            price = typeof p.price_current === 'number' ? 'Rs. ' + p.price_current.toFixed(2) : p.price_current;
+          } else if (p.price != null) {
+            if (typeof p.price === 'number') {
+              price = 'Rs. ' + (p.price > 1000 ? p.price / 100 : p.price).toFixed(2);
+            } else if (typeof p.price === 'string') {
+              var s = p.price.trim();
+              if (s.startsWith('Rs') || s.startsWith('₹') || s.startsWith('$')) {
+                price = s;
+              } else {
+                var num = parseFloat(s);
+                price = !isNaN(num) ? ('Rs. ' + (num > 1000 ? num / 100 : num).toFixed(2)) : s;
+              }
+            }
+          }
+          if (!price) price = 'Rs. 2,999.00';
+
+          var pUrl = p.url || (p.handle ? '/products/' + p.handle : (p.id ? 'product.html?id=' + p.id : '#'));
+
+          return '<a href="' + pUrl + '" class="header-search-card">' +
+            '<img src="' + img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="header-search-card__img" loading="lazy">' +
+            '<div class="header-search-card__info">' +
+              '<h4 class="header-search-card__title">' + title + '</h4>' +
+              '<span class="header-search-card__price">' + price + '</span>' +
+            '</div>' +
+          '</a>';
+        }).join('');
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function(e) {
+        clearTimeout(timer);
+        var val = e.target.value;
+        timer = setTimeout(function() {
+          performHeaderSearch(val);
+        }, 220);
+      });
+      searchInput.addEventListener('focus', function() {
+        if (!searchInput.value.trim()) {
+          if (trendingBox) trendingBox.style.display = 'block';
+          if (resultsBox) resultsBox.style.display = 'none';
+          if (emptyState) emptyState.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupHeaderSearch);
+  } else {
+    setupHeaderSearch();
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -223,3 +796,4 @@
   ]
 }
 {% endschema %}
+

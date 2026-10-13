@@ -4925,7 +4925,7 @@ body.mobile-nav-active .mobile-toggle {
 /* ========================================
    LIVE SEARCH MODAL
    ======================================== */
-.search-modal {
+.legacy-search-modal {
   position: fixed;
   inset: 0;
   z-index: 99997;
@@ -4933,8 +4933,8 @@ body.mobile-nav-active .mobile-toggle {
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.search-modal--active { opacity: 1; visibility: visible; }
-.search-modal__backdrop {
+.legacy-search-modal--active { opacity: 1; visibility: visible; }
+.legacy-search-modal__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.6);
@@ -5617,10 +5617,21 @@ body.mobile-nav-active .mobile-toggle {
 .search-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  z-index: 9998;
+  z-index: 999998 !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.search-modal-backdrop.search-modal-backdrop--active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  display: block !important;
 }
 
 .search-modal {
@@ -5628,12 +5639,26 @@ body.mobile-nav-active .mobile-toggle {
   top: 0;
   left: 0;
   right: 0;
-  max-height: 85vh;
+  width: 100%;
+  max-height: 88vh;
   background: #ffffff;
-  z-index: 9999;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  z-index: 999999 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
-  border-bottom: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--color-gray-200, #e5e5e5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+}
+
+.search-modal.search-modal--active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+  display: block !important;
 }
 
 .search-modal__inner {

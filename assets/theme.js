@@ -994,75 +994,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initCollectionManager();
 
   /* ==========================================================
-     14. LIVE SEARCH MODAL
+     14. LIVE SEARCH MODAL (UNIFIED IN SECTION 20)
      ========================================================== */
-  const initSearchModal = () => {
-    const searchBtns = document.querySelectorAll('.header-icon[aria-label="Search"], button[aria-label="Search"]');
-    if (searchBtns.length === 0 || !window.StoreData) return;
+  // Unified with Flagship Predictive Live Search system in Section 20
 
-    // Create search modal
-    let searchModal = document.getElementById('search-modal');
-    if (!searchModal) {
-      searchModal = document.createElement('div');
-      searchModal.id = 'search-modal';
-      searchModal.className = 'search-modal';
-      searchModal.innerHTML = `
-        <div class="search-modal__backdrop"></div>
-        <div class="search-modal__container">
-          <div class="search-modal__header">
-            <input type="text" class="search-modal__input" placeholder="Search products..." autocomplete="off" id="search-input">
-            <button class="search-modal__close" aria-label="Close search">&times;</button>
-          </div>
-          <div class="search-modal__results" id="search-results"></div>
-        </div>
-      `;
-      document.body.appendChild(searchModal);
-    }
-
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-
-    const openSearch = () => {
-      searchModal.classList.add('search-modal--active');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => searchInput.focus(), 100);
-    };
-    const closeSearch = () => {
-      searchModal.classList.remove('search-modal--active');
-      document.body.style.overflow = '';
-      searchInput.value = '';
-      searchResults.innerHTML = '';
-    };
-
-    searchBtns.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openSearch(); }));
-    searchModal.querySelector('.search-modal__backdrop').addEventListener('click', closeSearch);
-    searchModal.querySelector('.search-modal__close').addEventListener('click', closeSearch);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchModal.classList.contains('search-modal--active')) closeSearch(); });
-
-    let debounce;
-    searchInput.addEventListener('input', () => {
-      clearTimeout(debounce);
-      debounce = setTimeout(() => {
-        const q = searchInput.value.trim();
-        if (!q) { searchResults.innerHTML = '<p class="search-modal__empty">Start typing to search...</p>'; return; }
-        const results = StoreData.searchProducts(q);
-        if (results.length === 0) {
-          searchResults.innerHTML = `<p class="search-modal__empty">No products found for "${q}"</p>`;
-        } else {
-          searchResults.innerHTML = results.map(p => `
-            <a href="product.html?id=${p.id}" class="search-result-item">
-              <img src="${p.image}" alt="${p.title}" class="search-result-item__img">
-              <div class="search-result-item__info">
-                <div class="search-result-item__title">${p.title}</div>
-                <div class="search-result-item__price">Rs. ${Number(p.price).toFixed(2)}</div>
-              </div>
-            </a>
-          `).join('');
-        }
-      }, 200);
-    });
-  };
-  initSearchModal();
 
   /* ==========================================================
   /* ==========================================================
@@ -2008,38 +1943,83 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewAllBtn = document.getElementById('btn-search-view-all');
     const queryDisplay = document.getElementById('search-query-display');
 
-    if (!searchModal) return;
+    if (!searchModal && !document.getElementById('header-search-bar')) return;
 
     const openSearch = () => {
+      const headerSearchBar = document.getElementById('header-search-bar');
+      if (headerSearchBar && typeof window.openHeaderSearch === 'function') {
+        window.openHeaderSearch();
+        return;
+      }
+
+      if (!searchModal) return;
+
       searchModal.style.display = 'block';
       if (searchBackdrop) searchBackdrop.style.display = 'block';
+
+      // Force frame render for smooth CSS transition
+      requestAnimationFrame(() => {
+        searchModal.classList.add('search-modal--active');
+        if (searchBackdrop) searchBackdrop.classList.add('search-modal-backdrop--active');
+      });
+
       document.body.style.overflow = 'hidden';
-      setTimeout(() => { if (searchInput) searchInput.focus(); }, 100);
+
+      setTimeout(() => {
+        if (searchInput) {
+          searchInput.focus();
+          if (searchInput.value.trim().length >= 2) {
+            performSearch(searchInput.value.trim());
+          }
+        }
+      }, 120);
     };
 
     const closeSearch = () => {
-      searchModal.style.display = 'none';
-      if (searchBackdrop) searchBackdrop.style.display = 'none';
+      const headerSearchBar = document.getElementById('header-search-bar');
+      if (headerSearchBar && typeof window.closeHeaderSearch === 'function') {
+        window.closeHeaderSearch();
+        return;
+      }
+
+      if (!searchModal) return;
+
+      searchModal.classList.remove('search-modal--active');
+      if (searchBackdrop) searchBackdrop.classList.remove('search-modal-backdrop--active');
+
+      setTimeout(() => {
+        if (!searchModal.classList.contains('search-modal--active')) {
+          searchModal.style.display = 'none';
+          if (searchBackdrop) searchBackdrop.style.display = 'none';
+        }
+      }, 300);
+
       document.body.style.overflow = '';
     };
 
-    // Open triggers
-    document.querySelectorAll('a[href*="/search"], .header-icon[aria-label="Search"]').forEach((el) => {
+    // Global handles
+    window.openSearch = openSearch;
+    window.closeSearch = closeSearch;
+
+    // Open triggers across header, mobile drawer, buttons, and search icons
+    document.querySelectorAll('[data-search-trigger], a[href*="/search"], .header-icon[aria-label="Search"], button[aria-label="Search"]').forEach((el) => {
+      if (el.id === 'btn-search-view-all' || el.closest('#search-modal') || el.closest('#header-search-bar') || el.id === 'header-search-btn') return;
+
       el.addEventListener('click', (e) => {
         e.preventDefault();
         openSearch();
       });
     });
 
-    if (searchClose) searchClose.addEventListener('click', closeSearch);
+    if (searchClose) searchClose.addEventListener('click', (e) => { e.preventDefault(); closeSearch(); });
     if (searchBackdrop) searchBackdrop.addEventListener('click', closeSearch);
 
-    // Keyboard shortcuts (Esc, Cmd+K, /)
+    // Keyboard shortcuts (Esc, Cmd+K, Ctrl+K, /)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && searchModal.style.display === 'block') {
+      if (e.key === 'Escape' && (searchModal.classList.contains('search-modal--active') || searchModal.style.display === 'block')) {
         closeSearch();
       }
-      if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+      if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
         e.preventDefault();
         openSearch();
       }
@@ -2048,10 +2028,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trending Search Pills Click
     document.querySelectorAll('.search-pill').forEach((pill) => {
       pill.addEventListener('click', () => {
-        const query = pill.getAttribute('data-query');
+        const query = pill.getAttribute('data-query') || pill.textContent.trim();
         if (searchInput) {
           searchInput.value = query;
           performSearch(query);
+          searchInput.focus();
         }
       });
     });
@@ -2061,9 +2042,9 @@ document.addEventListener('DOMContentLoaded', () => {
       searchClear.addEventListener('click', () => {
         searchInput.value = '';
         searchClear.style.display = 'none';
-        trendingBox.style.display = 'block';
-        liveResultsBox.style.display = 'none';
-        emptyState.style.display = 'none';
+        if (trendingBox) trendingBox.style.display = 'block';
+        if (liveResultsBox) liveResultsBox.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
         searchInput.focus();
       });
     }
@@ -2071,7 +2052,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Debounced Live Query Handler
     let debounceTimer;
     const performSearch = (rawQuery) => {
-      const query = rawQuery.trim();
+      const query = (rawQuery || '').trim();
       if (searchClear) searchClear.style.display = query.length > 0 ? 'block' : 'none';
 
       if (query.length < 2) {
@@ -2083,23 +2064,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (trendingBox) trendingBox.style.display = 'none';
 
-      // 1. Fetch from Shopify Predictive Search API
-      fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[options][unavailable_products]=show&resources[options][fields]=title,product_type,variants.title,vendor`)
+      // 1. Fetch from Shopify Predictive Search API with clean standard params
+      const searchUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[limit]=8&resources[options][unavailable_products]=show`;
+
+      fetch(searchUrl)
         .then(res => {
-          if (!res.ok) throw new Error('Not Shopify Search Endpoint');
+          if (!res.ok) throw new Error('Shopify search request status: ' + res.status);
           return res.json();
         })
         .then(data => {
-          const products = data.resources?.results?.products || [];
+          const products = data?.resources?.results?.products || [];
           renderSearchResults(products, query);
         })
-        .catch(() => {
-          // 2. Fallback to Local Catalog Search
+        .catch((err) => {
+          console.warn('Predictive search fallback triggered:', err);
+          // 2. Fallback to Local Catalog Search if StoreData is loaded
           let results = [];
           if (window.StoreData && StoreData.products) {
             results = StoreData.products.filter(p => 
-              p.title.toLowerCase().includes(query.toLowerCase()) || 
-              (p.category && p.category.toLowerCase().includes(query.toLowerCase()))
+              (p.title && p.title.toLowerCase().includes(query.toLowerCase())) || 
+              (p.category && p.category.toLowerCase().includes(query.toLowerCase())) ||
+              (p.tags && p.tags.toLowerCase().includes(query.toLowerCase()))
             );
           }
           renderSearchResults(results, query);
@@ -2109,7 +2094,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderSearchResults = (products, query) => {
       if (viewAllBtn) {
         viewAllBtn.href = `/search?q=${encodeURIComponent(query)}`;
-        viewAllBtn.textContent = `View all matching results (${products.length}) ?`;
+        viewAllBtn.textContent = `View all matching results (${products.length}) →`;
       }
 
       if (!products || products.length === 0) {
@@ -2125,21 +2110,45 @@ document.addEventListener('DOMContentLoaded', () => {
       if (liveResultsBox) liveResultsBox.style.display = 'block';
 
       if (liveProductsContainer) {
-        liveProductsContainer.innerHTML = products.slice(0, 6).map(p => {
-          const img = p.featured_image?.url || p.image || p.featured_media || 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300';
-          const title = p.title;
-          const price = p.price ? (typeof p.price === 'number' ? `Rs. ${(p.price > 1000 ? p.price/100 : p.price).toFixed(2)}` : p.price) : 'Rs. 5999';
-          const url = p.url || `product.html?id=${p.id}`;
+        liveProductsContainer.innerHTML = products.slice(0, 8).map(p => {
+          const img = (typeof p.image === 'string' ? p.image : p.image?.url) ||
+                      (typeof p.featured_image === 'string' ? p.featured_image : p.featured_image?.url) ||
+                      p.featured_media?.url ||
+                      p.featured_media?.preview_image?.src ||
+                      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300';
+          const title = p.title || 'Streetwear Garment';
+
+          let priceFormatted = '';
+          if (p.price != null) {
+            if (typeof p.price === 'number') {
+              priceFormatted = `Rs. ${(p.price > 1000 ? p.price / 100 : p.price).toFixed(2)}`;
+            } else if (typeof p.price === 'string') {
+              const cleaned = p.price.trim();
+              if (cleaned.startsWith('Rs') || cleaned.startsWith('₹') || cleaned.startsWith('$')) {
+                priceFormatted = cleaned;
+              } else {
+                const num = parseFloat(cleaned);
+                if (!isNaN(num)) {
+                  priceFormatted = `Rs. ${(num > 1000 ? num / 100 : num).toFixed(2)}`;
+                } else {
+                  priceFormatted = cleaned;
+                }
+              }
+            }
+          }
+          if (!priceFormatted) priceFormatted = 'Rs. 2,999.00';
+
+          const url = p.url || (p.handle ? `/products/${p.handle}` : (p.id ? `product.html?id=${p.id}` : '#'));
 
           return `
             <a href="${url}" class="search-product-card">
               <div class="search-product-card__thumb">
-                <img src="${img}" alt="${title}" loading="lazy">
+                <img src="${img}" alt="${title.replace(/"/g, '&quot;')}" loading="lazy">
               </div>
               <div class="search-product-card__info">
                 <span class="search-product-card__tag">Ready to Dispatch</span>
                 <h4 class="search-product-card__title">${title}</h4>
-                <span class="search-product-card__price">${price}</span>
+                <span class="search-product-card__price">${priceFormatted}</span>
               </div>
             </a>
           `;

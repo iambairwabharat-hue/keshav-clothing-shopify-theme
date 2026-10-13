@@ -876,75 +876,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initCollectionManager();
 
   /* ==========================================================
-     14. LIVE SEARCH MODAL
+     14. LIVE SEARCH MODAL (UNIFIED IN SECTION 20)
      ========================================================== */
-  const initSearchModal = () => {
-    const searchBtns = document.querySelectorAll('.header-icon[aria-label="Search"], button[aria-label="Search"]');
-    if (searchBtns.length === 0 || !window.StoreData) return;
+  // Unified with Flagship Predictive Live Search system in Section 20
 
-    // Create search modal
-    let searchModal = document.getElementById('search-modal');
-    if (!searchModal) {
-      searchModal = document.createElement('div');
-      searchModal.id = 'search-modal';
-      searchModal.className = 'search-modal';
-      searchModal.innerHTML = `
-        <div class="search-modal__backdrop"></div>
-        <div class="search-modal__container">
-          <div class="search-modal__header">
-            <input type="text" class="search-modal__input" placeholder="Search products..." autocomplete="off" id="search-input">
-            <button class="search-modal__close" aria-label="Close search">&times;</button>
-          </div>
-          <div class="search-modal__results" id="search-results"></div>
-        </div>
-      `;
-      document.body.appendChild(searchModal);
-    }
-
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-
-    const openSearch = () => {
-      searchModal.classList.add('search-modal--active');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => searchInput.focus(), 100);
-    };
-    const closeSearch = () => {
-      searchModal.classList.remove('search-modal--active');
-      document.body.style.overflow = '';
-      searchInput.value = '';
-      searchResults.innerHTML = '';
-    };
-
-    searchBtns.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openSearch(); }));
-    searchModal.querySelector('.search-modal__backdrop').addEventListener('click', closeSearch);
-    searchModal.querySelector('.search-modal__close').addEventListener('click', closeSearch);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchModal.classList.contains('search-modal--active')) closeSearch(); });
-
-    let debounce;
-    searchInput.addEventListener('input', () => {
-      clearTimeout(debounce);
-      debounce = setTimeout(() => {
-        const q = searchInput.value.trim();
-        if (!q) { searchResults.innerHTML = '<p class="search-modal__empty">Start typing to search...</p>'; return; }
-        const results = StoreData.searchProducts(q);
-        if (results.length === 0) {
-          searchResults.innerHTML = `<p class="search-modal__empty">No products found for "${q}"</p>`;
-        } else {
-          searchResults.innerHTML = results.map(p => `
-            <a href="product.html?id=${p.id}" class="search-result-item">
-              <img src="${p.image}" alt="${p.title}" class="search-result-item__img">
-              <div class="search-result-item__info">
-                <div class="search-result-item__title">${p.title}</div>
-                <div class="search-result-item__price">$${Number(p.price).toFixed(2)}</div>
-              </div>
-            </a>
-          `).join('');
-        }
-      }, 200);
-    });
-  };
-  initSearchModal();
 
   /* ==========================================================
   /* ==========================================================
@@ -1604,8 +1539,64 @@ document.addEventListener('DOMContentLoaded', () => {
      20. PREDICTIVE AJAX LIVE SEARCH WITH INSTANT THUMBNAILS
      ========================================================== */
   const initLiveSearch = () => {
-    const searchModal = document.getElementById('search-modal');
-    const searchBackdrop = document.getElementById('search-modal-backdrop');
+    let searchModal = document.getElementById('search-modal');
+    let searchBackdrop = document.getElementById('search-modal-backdrop');
+
+    // Create modal dynamically if not already in markup (e.g. static html pages)
+    if (!searchModal) {
+      searchBackdrop = document.createElement('div');
+      searchBackdrop.id = 'search-modal-backdrop';
+      searchBackdrop.className = 'search-modal-backdrop';
+      searchBackdrop.style.display = 'none';
+
+      searchModal = document.createElement('div');
+      searchModal.id = 'search-modal';
+      searchModal.className = 'search-modal';
+      searchModal.setAttribute('role', 'dialog');
+      searchModal.setAttribute('aria-modal', 'true');
+      searchModal.setAttribute('aria-label', 'Search Store');
+      searchModal.style.display = 'none';
+      searchModal.innerHTML = `
+        <div class="search-modal__inner">
+          <div class="search-modal__header">
+            <form action="collection.html" method="get" role="search" class="search-modal__form" id="live-search-form">
+              <span class="search-modal__icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.8" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </span>
+              <input type="search" name="q" id="live-search-input" class="search-modal__input" placeholder="Search collections, silhouettes, drops..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <button type="button" class="search-modal__clear" id="live-search-clear" aria-label="Clear search input" style="display: none;">&times;</button>
+              <button type="button" class="search-modal__close" id="search-modal-close" aria-label="Close search (Esc)">&times;</button>
+            </form>
+          </div>
+          <div class="search-modal__body" id="search-modal-body">
+            <div class="search-trending" id="search-trending">
+              <div class="search-trending__section">
+                <span class="search-trending__title">Trending Searches</span>
+                <div class="search-trending__pills">
+                  <button type="button" class="search-pill" data-query="Hoodie">Hoodie</button>
+                  <button type="button" class="search-pill" data-query="Tee">Tee</button>
+                  <button type="button" class="search-pill" data-query="Cargo">Cargo</button>
+                  <button type="button" class="search-pill" data-query="Black">Black</button>
+                </div>
+              </div>
+            </div>
+            <div class="search-live-results" id="search-live-results" style="display: none;">
+              <div class="search-live-products" id="search-live-products"></div>
+              <div class="search-live-footer" id="search-live-footer">
+                <a href="#" class="btn-search-view-all" id="btn-search-view-all">View all matching pieces &rarr;</a>
+              </div>
+            </div>
+            <div class="search-empty-state" id="search-empty-state" style="display: none;">
+              <p class="search-empty-text">No garments found matching "<span id="search-query-display"></span>".</p>
+              <p class="search-empty-sub">Try searching for keywords like "Hoodie", "Shirt", or "Black".</p>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(searchBackdrop);
+      document.body.appendChild(searchModal);
+    }
+
     const searchClose = document.getElementById('search-modal-close');
     const searchInput = document.getElementById('live-search-input');
     const searchClear = document.getElementById('live-search-clear');
@@ -1616,70 +1607,107 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewAllBtn = document.getElementById('btn-search-view-all');
     const queryDisplay = document.getElementById('search-query-display');
 
-    if (!searchModal) return;
-
     const openSearch = () => {
+      const headerSearchBar = document.getElementById('header-search-bar');
+      if (headerSearchBar && typeof window.openHeaderSearch === 'function') {
+        window.openHeaderSearch();
+        return;
+      }
+
+      if (!searchModal) return;
+
       searchModal.style.display = 'block';
       if (searchBackdrop) searchBackdrop.style.display = 'block';
+
+      requestAnimationFrame(() => {
+        searchModal.classList.add('search-modal--active');
+        if (searchBackdrop) searchBackdrop.classList.add('search-modal-backdrop--active');
+      });
+
       document.body.style.overflow = 'hidden';
-      setTimeout(() => { if (searchInput) searchInput.focus(); }, 100);
+
+      setTimeout(() => {
+        if (searchInput) {
+          searchInput.focus();
+          if (searchInput.value.trim().length >= 2) {
+            performSearch(searchInput.value.trim());
+          }
+        }
+      }, 120);
     };
 
     const closeSearch = () => {
-      searchModal.style.display = 'none';
-      if (searchBackdrop) searchBackdrop.style.display = 'none';
+      const headerSearchBar = document.getElementById('header-search-bar');
+      if (headerSearchBar && typeof window.closeHeaderSearch === 'function') {
+        window.closeHeaderSearch();
+        return;
+      }
+
+      if (!searchModal) return;
+
+      searchModal.classList.remove('search-modal--active');
+      if (searchBackdrop) searchBackdrop.classList.remove('search-modal-backdrop--active');
+
+      setTimeout(() => {
+        if (!searchModal.classList.contains('search-modal--active')) {
+          searchModal.style.display = 'none';
+          if (searchBackdrop) searchBackdrop.style.display = 'none';
+        }
+      }, 300);
+
       document.body.style.overflow = '';
     };
 
-    // Open triggers
-    document.querySelectorAll('a[href*="/search"], .header-icon[aria-label="Search"]').forEach((el) => {
+    window.openSearch = openSearch;
+    window.closeSearch = closeSearch;
+
+    document.querySelectorAll('[data-search-trigger], a[href*="/search"], .header-icon[aria-label="Search"], button[aria-label="Search"]').forEach((el) => {
+      if (el.id === 'btn-search-view-all' || el.closest('#search-modal') || el.closest('#header-search-bar') || el.id === 'header-search-btn') return;
+
       el.addEventListener('click', (e) => {
         e.preventDefault();
         openSearch();
       });
     });
 
-    if (searchClose) searchClose.addEventListener('click', closeSearch);
+    if (searchClose) searchClose.addEventListener('click', (e) => { e.preventDefault(); closeSearch(); });
     if (searchBackdrop) searchBackdrop.addEventListener('click', closeSearch);
 
-    // Keyboard shortcuts (Esc, Cmd+K, /)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && searchModal.style.display === 'block') {
+      if (e.key === 'Escape' && (searchModal.classList.contains('search-modal--active') || searchModal.style.display === 'block')) {
         closeSearch();
       }
-      if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+      if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
         e.preventDefault();
         openSearch();
       }
     });
 
-    // Trending Search Pills Click
     document.querySelectorAll('.search-pill').forEach((pill) => {
       pill.addEventListener('click', () => {
-        const query = pill.getAttribute('data-query');
+        const query = pill.getAttribute('data-query') || pill.textContent.trim();
         if (searchInput) {
           searchInput.value = query;
           performSearch(query);
+          searchInput.focus();
         }
       });
     });
 
-    // Clear Search Input
     if (searchClear && searchInput) {
       searchClear.addEventListener('click', () => {
         searchInput.value = '';
         searchClear.style.display = 'none';
-        trendingBox.style.display = 'block';
-        liveResultsBox.style.display = 'none';
-        emptyState.style.display = 'none';
+        if (trendingBox) trendingBox.style.display = 'block';
+        if (liveResultsBox) liveResultsBox.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
         searchInput.focus();
       });
     }
 
-    // Debounced Live Query Handler
     let debounceTimer;
     const performSearch = (rawQuery) => {
-      const query = rawQuery.trim();
+      const query = (rawQuery || '').trim();
       if (searchClear) searchClear.style.display = query.length > 0 ? 'block' : 'none';
 
       if (query.length < 2) {
@@ -1691,23 +1719,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (trendingBox) trendingBox.style.display = 'none';
 
-      // 1. Fetch from Shopify Predictive Search API
-      fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[options][unavailable_products]=show&resources[options][fields]=title,product_type,variants.title,vendor`)
+      const searchUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[limit]=8&resources[options][unavailable_products]=show`;
+
+      fetch(searchUrl)
         .then(res => {
-          if (!res.ok) throw new Error('Not Shopify Search Endpoint');
+          if (!res.ok) throw new Error('Search API status: ' + res.status);
           return res.json();
         })
         .then(data => {
-          const products = data.resources?.results?.products || [];
+          const products = data?.resources?.results?.products || [];
           renderSearchResults(products, query);
         })
         .catch(() => {
-          // 2. Fallback to Local Catalog Search
           let results = [];
           if (window.StoreData && StoreData.products) {
             results = StoreData.products.filter(p => 
-              p.title.toLowerCase().includes(query.toLowerCase()) || 
-              (p.category && p.category.toLowerCase().includes(query.toLowerCase()))
+              (p.title && p.title.toLowerCase().includes(query.toLowerCase())) || 
+              (p.category && p.category.toLowerCase().includes(query.toLowerCase())) ||
+              (p.tags && p.tags.toLowerCase().includes(query.toLowerCase()))
             );
           }
           renderSearchResults(results, query);
@@ -1717,7 +1746,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderSearchResults = (products, query) => {
       if (viewAllBtn) {
         viewAllBtn.href = `/search?q=${encodeURIComponent(query)}`;
-        viewAllBtn.textContent = `View all matching results (${products.length}) ?`;
+        viewAllBtn.textContent = `View all matching results (${products.length}) →`;
       }
 
       if (!products || products.length === 0) {
@@ -1733,21 +1762,34 @@ document.addEventListener('DOMContentLoaded', () => {
       if (liveResultsBox) liveResultsBox.style.display = 'block';
 
       if (liveProductsContainer) {
-        liveProductsContainer.innerHTML = products.slice(0, 6).map(p => {
-          const img = p.featured_image?.url || p.image || p.featured_media || 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300';
-          const title = p.title;
-          const price = p.price ? (typeof p.price === 'number' ? `$${(p.price > 1000 ? p.price/100 : p.price).toFixed(2)}` : p.price) : '$59.99';
+        liveProductsContainer.innerHTML = products.slice(0, 8).map(p => {
+          const img = (typeof p.image === 'string' ? p.image : p.image?.url) ||
+                      (typeof p.featured_image === 'string' ? p.featured_image : p.featured_image?.url) ||
+                      p.featured_media?.url ||
+                      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300';
+          const title = p.title || 'Streetwear Garment';
+
+          let priceFormatted = '';
+          if (p.price != null) {
+            if (typeof p.price === 'number') {
+              priceFormatted = `$${Number(p.price).toFixed(2)}`;
+            } else if (typeof p.price === 'string') {
+              priceFormatted = p.price;
+            }
+          }
+          if (!priceFormatted) priceFormatted = '$59.99';
+
           const url = p.url || `product.html?id=${p.id}`;
 
           return `
             <a href="${url}" class="search-product-card">
               <div class="search-product-card__thumb">
-                <img src="${img}" alt="${title}" loading="lazy">
+                <img src="${img}" alt="${title.replace(/"/g, '&quot;')}" loading="lazy">
               </div>
               <div class="search-product-card__info">
                 <span class="search-product-card__tag">Ready to Dispatch</span>
                 <h4 class="search-product-card__title">${title}</h4>
-                <span class="search-product-card__price">${price}</span>
+                <span class="search-product-card__price">${priceFormatted}</span>
               </div>
             </a>
           `;
